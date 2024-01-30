@@ -1,0 +1,81 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<c:set var="path" value="${pageContext.request.contextPath }" />
+<!DOCTYPE html>
+<html lang="ko">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="${path }/resources/css/normalize.css">
+    <link rel="stylesheet" href="${path }/resources/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<style>
+        .content
+        {    
+            margin: 0 auto;
+            margin: 30px 0 30px 0;
+        } 
+        .content h2
+        {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            padding-left: 5px;
+        }
+        .content h2 i:hover
+        {
+            color: #222;
+        } 
+        .content h2 i
+        {
+            margin-right: 5px;
+        }
+        .content table th, td
+        {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+	<%@ include file="../include/header.jsp" %>
+	<div class="content">
+        <h2><a href="${path }/admin/admin.do"><i class="xi-arrow-left"></i></a>회원 목록</h2>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr onclick="">
+                	<th>구분</th>
+	                <th>아이디</th>
+	                <th>이름</th>
+	                <th>이메일</th>
+	                <th>전화번호</th>
+	                <th>회원가입일</th>
+	                <th>회원탈퇴일</th>
+                </tr>
+            </thead>
+            <tbody>
+           	 	<c:forEach items="${allMemberList }" var="list">
+	                <tr>
+	                	<td>${list.code }</td>
+	                    <td>${list.mem_id }</td>
+	                    <td>${list.mem_name }</td>
+	                    <td>${list.email }</td>
+	                    <td>${list.phone }</td> 
+	                    <td><fmt:formatDate value="${list.join_date }" pattern="yyyy-MM-dd" /></td>
+	                    <td><fmt:formatDate value="${list.del_date }" pattern="yyyy-MM-dd" /></td>
+	                </tr>    
+                </c:forEach>     
+            </tbody>
+        </table>
+    </div>
+    <%@ include file="../include/footer.jsp" %>
+    
+ 
+    
+</body>
+</html>

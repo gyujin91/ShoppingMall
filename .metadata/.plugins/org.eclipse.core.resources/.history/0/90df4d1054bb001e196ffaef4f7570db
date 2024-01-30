@@ -1,0 +1,30 @@
+package com.shopping.dto;
+
+import java.util.Date;
+
+public class CartDTO {
+	
+	private int cart_id;		// 카트 고유식별 아이디(PK)
+	private String mem_id;		// 사용자 아이디(FK)
+	private int prod_no;		// 상품 고유 번호(FK)
+	private String prod_name;	// 상품명
+	private int price;			// 가격
+	private int quantity;		// 수량	
+	private String prod_img;	// 상품 이미지
+	private Date created_date;	// 장바구니 생성일
+	private Date updated_date;	// 장바구니 업데이트 날짜
+
+	
+	cart_id INT AUTO_INCREMENT PRIMARY KEY,
+	  mem_id varchar(30) not null,
+	  prod_no int not null,
+	  prod_name varchar(100) not null,
+	  price int not null,
+	  quantity int default 0,
+	  prod_img varchar(50),
+	  created_date DATETIME not null,
+	  updated_date DATETIME
+	
+	
+	
+}

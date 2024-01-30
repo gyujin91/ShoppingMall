@@ -1,0 +1,477 @@
+/* 공통 */
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+html a 
+{
+    text-decoration: none;
+    color: inherit;
+}
+ul, li 
+{
+    list-style: none;
+}
+/* body
+{
+    
+}     */
+/* 헤더 시작 */
+section
+{
+    position: relative;
+    width: 100%;
+    height: 10vh;
+    overflow: hidden;
+    background: #000200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+section h2
+{
+    color: transparent;
+    font-weight: 300;
+    font-size: 4em;
+    -webkit-text-stroke: 2px #fff;
+    text-transform: uppercase;
+}
+section .star
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    animation: animate 8s ease-in-out infinite,
+                backgroundmove 16s linear infinite;
+}
+section .star.star1
+{
+    animation-delay: 0s;
+    background: url(../img/star1.png);
+}
+section .star.star2
+{
+    animation-delay: -1s;
+    background: url(../img/star2.png);
+}
+section .star.star3
+{
+    animation-delay: -2s;
+    background: url(../img/star3.png);
+}
+section .star.star4
+{
+    animation-delay: -3s;
+    background: url(../img/star4.png);
+}
+section .star.star5
+{
+    animation-delay: -4s;
+    background: url(../img/star5.png);
+}
+section .star.star6
+{
+    animation-delay: -5s;
+    background: url(../img/star6.png);
+}
+@keyframes animate
+{
+    0%, 20%, 40%, 60%, 80%, 100%
+    {
+        opacity: 0;
+    }
+    10%, 30%, 50%, 70%, 90%, 100%
+    {
+        opacity: 1;
+    }
+}
+@keyframes backgroundmove
+{
+    0%
+    {
+        transform: scale(1);
+    }
+    100%
+    {
+        transform: scale(2);
+    }
+}
+.headerContent 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: bisque;
+    padding: 15px;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 1500px;
+    border-radius: 25px;
+}
+.left a:hover
+{
+    color: #000200;
+}
+.left h2 {
+font-weight: bold;
+padding: 5px 0 0 25px;
+}
+
+.center ul,
+.right ul 
+{
+list-style: none;
+padding: 0;
+margin: 0;
+display: flex;
+}
+
+.center ul li,
+.right ul li 
+{
+margin-right: 35px;
+font-weight: bold;
+}
+
+.center ul li a,
+.right ul li a 
+{
+color: #333;
+text-decoration: none;
+}
+
+.center ul li a:hover,
+.right ul li a:hover 
+{
+color: #000;
+}
+/* 헤더 끝 */
+
+/* 컨텐츠 영역 시작 */
+.bg
+{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url(../img/woman-1919143_1920.jpg);
+    background-size: 100%;
+    background-position: center;
+    background-attachment: fixed;
+}
+.content
+{
+    padding: 100px;
+    background-color: #fff;
+}
+.content .container
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.content .container h2
+{
+    color: #000;
+    font-weight: bold;
+    margin: 0;
+    font-size: 4.5em;
+}
+.content .container p
+{
+    font-size: 1.2em;
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+}
+.content .container button
+{
+    border-radius: 25px;
+    background-color: blanchedalmond;
+    border: 1px solid;
+    width: 150px;
+    height: 50px;
+    border: none;
+    margin: 0;
+    justify-self: flex-end;
+}
+.content .container button a:hover
+{
+    color: #000;
+}
+.content .empty
+{
+        text-align: center;
+        height: 150px;
+        font-size: 2.0em;
+        padding-top: 50px;
+        background: #ececec;  
+}
+.content .itemCard
+{
+    display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 5px;
+}
+.content .itemCard .card
+{
+    border: none;
+    border-radius: 8px;
+    height: 520px;
+    box-shadow: 5px 5px 5px 5px gray;
+
+    -webkit-transform: scale(1/.5);
+    transform: scale(0.9);
+    -webkit-transition: .3s ease-in-out;
+    transition: .6s ease-in-out;
+    
+}
+.content .itemCard .card:hover
+{
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+.content .itemCard .card img
+{
+  width: 100%;
+  height: 375px;
+  border-radius: 8px;
+}
+.content .itemCard .card .productName
+{
+    padding: 15px 0 0 10px;
+}
+.content .itemCard .card .productName h4
+{
+    font-size: 16px;
+    font-weight: bold;
+}
+.content .itemCard .card .price,
+.content .itemCard .card .stars
+{
+    padding: 5px 0 0 10px;
+}
+
+.content .itemCard .card .stars i
+{
+    color: #fecb00;
+}
+.content .container2
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-top: 50px;
+}
+.content .container2 h2
+{
+    color: #000;
+    font-weight: bold;
+    margin: 0;
+    font-size: 4.5em;
+}
+.content .container2 p
+{
+    font-size: 1.2em;
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+}
+.content .container2 button
+{
+    border-radius: 25px;
+    background-color: blanchedalmond;
+    border: 1px solid;
+    width: 150px;
+    height: 50px;
+    border: none;
+    margin: 0;
+    justify-self: flex-end;
+}
+.content .container2 button a:hover
+{
+    color: #000;
+}
+.content .bg2
+{
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    /* background: url(img/catwalk-1840941_1920.jpg); */
+    /* background-size: 100%;
+    background-position: center; */
+    z-index: 1;
+    /* opacity: 0.8 ; */
+}
+.content .bg2::after
+{
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    content: "";
+    background: url(../img/catwalk-1840941_1920.jpg);
+    background-size: 100%;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.8 ;
+}
+
+.content .bg2 span
+{
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50% );
+}
+.content .bg2 span h2
+{
+    color: rgba(255, 255, 255);
+    font-size: 3.6em;
+}
+.content .bg2 span p
+{
+    color: rgba(255, 255, 255);
+    font-size: 1.6em;
+    margin: 40px 0 40px 0;
+}
+.content .bg2 span button
+{
+    border-radius: 25px;
+    background-color: blanchedalmond;
+    border: 1px solid;
+    width: 150px;
+    height: 50px;
+    border: none;
+    margin: 0;
+    justify-self: flex-end;
+}
+.content .bg2 span button a:hover
+{
+    color: #000;
+}
+/* 컨텐츠 영역 끝 */
+/* 푸터 시작 */
+.footer .container h2
+{
+    color: #000;
+    font-weight: bold;
+    font-size: 144px;
+    display: inline;
+    margin-right: 20px;
+}
+.footer .container h2::after
+{
+    content: "©";
+    font-size: 64px;
+    font-weight: bold;
+}
+.footer .container span
+{
+    display: inline;
+    margin-left: 250px;
+}
+.footer .container span a:hover
+{
+    color: #000;
+}
+.footer .container2
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    width: 1300px;
+    padding-bottom: 30px;
+}
+.footer .container2 .address
+{
+    margin: 0;
+}
+.footer .container2 .address strong
+{
+    margin-top: 10px;
+}
+.footer .container2 .address a:hover
+{
+    color: #000;
+}
+.footer .container2 .sitePolicy
+{
+    margin: 0;
+    text-align: center;
+}
+.footer .container2 .sitePolicy a:hover
+{
+    color: #000;
+}
+.footer .container2 .service
+{
+    margin: 0;  
+    justify-self: flex-end;
+}
+#modal.modal-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    display: none;
+}
+#modal .modal-window {
+    background: rgba( 69, 139, 197, 0.70 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    width: 400px;
+    height: 500px;
+    position: relative;
+    top: -100px;
+    padding: 10px;
+}
+#modal .title {
+    padding-left: 10px;
+    display: inline;
+    text-shadow: 1px 1px 2px gray;
+    color: white;
+    
+}
+#modal .title h2 {
+    display: inline;
+}
+#modal .close-area {
+    display: inline;
+    float: right;
+    padding-right: 10px;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px gray;
+    color: white;
+}
+
+#modal #content {
+    margin-top: 20px;
+    padding: 0px 10px;
+    text-shadow: 1px 1px 2px gray;
+    color: #fff;
+}
+/* 푸터 끝 */

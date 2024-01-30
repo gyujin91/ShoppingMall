@@ -1,0 +1,12 @@
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/ HTTP/1.1" 200 9049
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/css/normalize.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/css/style.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/img/nike_shose1.png HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/img/nike_shose2.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/img/nike_shose3.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/img/nike_shose4.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/img/nike_shose5.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/img/nike_shose6.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/img/nike_shose7.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/resources/img/nike_shose8.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [23/Nov/2023:15:10:14 +0900] "GET /myapp/ HTTP/1.1" 200 9049

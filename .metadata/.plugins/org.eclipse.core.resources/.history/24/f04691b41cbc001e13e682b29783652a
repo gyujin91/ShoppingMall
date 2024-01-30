@@ -1,0 +1,67 @@
+package com.shopping.controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.shopping.dto.CartDTO;
+import com.shopping.dto.MemberDTO;
+import com.shopping.service.CartService;
+
+
+@Controller
+@RequestMapping("/cart/*")
+public class CartController {
+	
+	@Autowired
+	CartService cartService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(CartController.class);
+	
+	// 장바구니 페이지 이동
+	@RequestMapping("cart.do")
+	public String cart(HttpSession session, Model model, @RequestParam Map<String, Object> map) throws Exception {
+		// 세션으로 로그인 여부 체크
+		map.put("loginMap", session.getAttribute("loginMap"));
+		if(map.get("loginMap") != null) {
+			// 로그인 상태
+			System.out.println("로그인한 상태.. 사용자 아이디 : " + map);
+			return "cart/cart";
+		} else {
+			// 로그인 하지 않은 상태 
+			System.out.println("로그인하지 않은 상태..");
+			// 로그인 페이지로 리다이렉트
+			model.addAttribute("loginChk", "chkFail");
+			return "cart/cart";
+		}
+	}
+	
+	@RequestMapping("addToCart.do")
+	public String addToCart(Model model, CartDTO dto, HttpSession session) throws Exception {
+		// 세션으로부터 로그인된 사용자 정보를 가져옴
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginMap");
+		
+		// 로그인된 사용자인 경우
+		if(memberDTO != null) {
+			// 사용자의 mem_id를 DTO에 설정
+			dto.setMem_id(memberDTO.getMem_id());
+			System.out.println("dto :: " + dto.toString());
+			System.out.println("mem_id :: " + dto.getMem_id());
+			cartService.addToCart(dto);
+		} else {
+			
+		}
+
+		return "redirect:cart.do";
+	}
+	
+	
+}

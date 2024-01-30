@@ -1,0 +1,12 @@
+package com.shopping.dao;
+
+import com.shopping.dto.CartDTO;
+
+public interface CartDAO {
+	
+	// 장바구니 담기
+	public void addToCart(CartDTO dto) throws Exception;
+	
+	// 장바구니 목록 조회
+	List<CartDTO> cartList() throws Exception;
+}

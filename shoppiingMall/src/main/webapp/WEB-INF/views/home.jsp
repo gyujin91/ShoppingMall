@@ -23,13 +23,15 @@
     <div class="contentWrap">
         <div class="bg" id="bg"></div>
         <div class="content">
+        <input type="hidden" name="cate_no" value="10">
             <div class="container">
                 <h2>READY TO WEAR</h2>
                 <p>
                    	 새로움이 가져다주는 설렘은 어디에나 존재합니다.
                     <br>트렌디한 뉴 아이템과 스타일링으로 새로운 취향을 찾아보세요.
                 </p>
-                <button type="button"><a href="${path }/product/items.do">SHOP ALL ITEMS</a></button>
+                <button><a href="${path}/product/itemList.do?cate_no=10">SHOP ALL ITEMS</a></button>
+                
             </div>
             
 	            <c:choose>
@@ -71,7 +73,7 @@
                    	 존재 자체로 가치 있는 것들은 어디서든 빛나곤 합니다.
                     <br>심도 있는 과정을 거쳐 셀렉한 빈티지 아이템들을 만나보세요.
                 </p>
-                <button type="button"><a href="${path }/product/items.do">SHOP ALL ITEMS</a></button>
+                <button type="button"><a href="${path}/product/itemList.do?cate_no=10">SHOP ALL ITEMS</a></button>
             </div> 												
 
             <div class="bg2" id="bg2">

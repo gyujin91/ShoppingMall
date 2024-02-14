@@ -148,109 +148,93 @@
      <%@ include file ="../include/footer.jsp" %>
      
     <script>	
-	$(function() {				
+	    $(function() {				
 			$("#join").click(function() {
 				var mem_id = $("#mem_id").val();
-                var mem_pw = $("#mem_pw").val();
-                var mem_pw2 = $("#mem_pw2").val();
-                var mem_name = $("#mem_name").val();
-                var email = $("#email").val();
-                var phone = $("#phone").val();
-
-                // 아이디 유효성 검사 패턴
-                var idPattern = /^[a-zA-Z0-9]+$/;
-                // 아이디 최소 길이
-                var minIdLength = 4;
-                // 아이디 최대 길이
-                var maxIdLength = 10;
-                
-                // 비밀번호 유효성 검사 패턴
-                var pwPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-                // 비밀번호 최소 길이
-                var minPwLength = 8;
-
-                // 이름 유효성 검사 패턴
-                var namePattern = /^[가-힣a-zA-Z]+$/;
-                // 이름 최소 길이
-                var minNameLength = 2;
-
-                // 이메일 유효성 검사 패턴
-                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-                // 전화번호 유효성 검사 패턴
-                var phonePattern = /^\d{2,3}\d{3,4}\d{4}$/;  
-
+	            var mem_pw = $("#mem_pw").val();
+	            var mem_pw2 = $("#mem_pw2").val();
+	            var mem_name = $("#mem_name").val();
+	            var email = $("#email").val();
+	            var phone = $("#phone").val();
+	
+	            // 아이디 유효성 검사 패턴
+	            var idPattern = /^[a-zA-Z0-9]+$/;
+	            // 아이디 최소 길이
+	            var minIdLength = 4;
+	            // 아이디 최대 길이
+	            var maxIdLength = 10;
+	            
+	            // 비밀번호 유효성 검사 패턴
+	            var pwPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+	            // 비밀번호 최소 길이
+	            var minPwLength = 8;
+	
+	            // 이름 유효성 검사 패턴
+	            var namePattern = /^[가-힣a-zA-Z]+$/;
+	            // 이름 최소 길이
+	            var minNameLength = 2;
+	
+	            // 이메일 유효성 검사 패턴
+	            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	
+	            // 전화번호 유효성 검사 패턴
+	            var phonePattern = /^\d{2,3}\d{3,4}\d{4}$/;  
+	
 				if(mem_id == "") {
 					alert("아이디를 입력 하세요.");
 					$("#mem_id").focus();
 				} else if(!idPattern.test(mem_id)) {
-                    alert("아이디는 영문자와 숫자로만 이루어져야 합니다.");
-                    $("#mem_id").focus();
-                } else if(mem_id.length < minIdLength || mem_id.length > maxIdLength) {
-                    alert("아이디는" + minIdLength + "자 이상" + maxIdLength + "자 이하 여야 합니다.");
-                    $("#mem_id").focus();
-                } else if(mem_pw == "") {
+	                alert("아이디는 영문자와 숫자로만 이루어져야 합니다.");
+	                $("#mem_id").focus();
+	            } else if(mem_id.length < minIdLength || mem_id.length > maxIdLength) {
+	                alert("아이디는" + minIdLength + "자 이상" + maxIdLength + "자 이하 여야 합니다.");
+	                $("#mem_id").focus();
+	            } else if(mem_pw == "") {
 					alert("비밀번호를 입력 하세요.");
 					$("#mem_pw").focus();
 				} else if(!pwPattern.test(mem_pw)) {
-                    alert("비밀번호는 최소 8자 이상이어야 하며, 영문 대소문자, 숫자, 특수문자를 포함해야 합니다.");
-                    $("#mem_pw").focus();
-                }  else if(mem_pw2 == "") {
+	                alert("비밀번호는 최소 8자 이상이어야 하며, 영문 대소문자, 숫자, 특수문자를 포함해야 합니다.");
+	                $("#mem_pw").focus();
+	            }  else if(mem_pw2 == "") {
 					alert("비밀번호 확인을 입력 하세요.");
 					$("#mem_pw2").focus();
 				} else if(mem_name == "") {
 					alert("이름를 입력 하세요.");
 					$("#mem_name").focus();
 				} else if(!namePattern.test(mem_name)) {
-                    alert("이름은 한글 또는 영문 대소문자로만 이루어져야 합니다.");
-                    $("#mem_name").focus();
-                } else if(mem_name.length < minNameLength) {
-                    alert("이름은 최소" + minNameLength + "자 이상 이여야 합니다.");
-                } else if(email == "") {
-                    alert("이메일을 입력 하세요");
-                    $("#email").focus();
-                } else if(!emailPattern.test(email)) {
-                    alert("유효한 이메일 주소를 입력하세요.");
-                    $("#email").focus();
-                } else if(phone == "") {
+	                alert("이름은 한글 또는 영문 대소문자로만 이루어져야 합니다.");
+	                $("#mem_name").focus();
+	            } else if(mem_name.length < minNameLength) {
+	                alert("이름은 최소" + minNameLength + "자 이상 이여야 합니다.");
+	            } else if(email == "") {
+	                alert("이메일을 입력 하세요");
+	                $("#email").focus();
+	            } else if(!emailPattern.test(email)) {
+	                alert("유효한 이메일 주소를 입력하세요.");
+	                $("#email").focus();
+	            } else if(phone == "") {
 					alert("전화번호를 입력 하세요.");
 					$("#phone").focus();
 				} else if(!phonePattern.test(phone)) {
-                    alert("유효한 전화번호 형식을 입력하세요. (예: 01012345678)");
-                    $("#phone").focus();
-                } else if(mem_pw != mem_pw2) {
-                    alert("비밀번호가 일치 하지 않습니다.");
-                    $("#mem_pw2").focus();
-                } else {
+	                alert("유효한 전화번호 형식을 입력하세요. (예: 01012345678)");
+	                $("#phone").focus();
+	            } else if(mem_pw != mem_pw2) {
+	                alert("비밀번호가 일치 하지 않습니다.");
+	                $("#mem_pw2").focus();
+	            } else {
 					/* $("#fr").attr("action", "join.do").attr("method", "post").submit(); */
-                	$("#fr").attr("action", "join.do").submit();
+	            	$("#fr").attr("action", "join.do").submit();
 					alert("회원가입을 환영합니다.");
 				}     
 			});
 		});
-	
+	    
+	    // 아이디 중복 체크
+
+
     </script>
     
-   <!-- <script> 
-		$("#join").click(function(){
-		 
-		 var query = {mem_id : $("#mem_id").val()};
-		 
-		 $.ajax({
-		  url : "/member/idCheck.do",
-		  type : "post",
-		  data : query,
-		  success : function(data) {
-		  
-		   if(data == 1) {
-		    alert("중복된 아이디 입니다.");   
-		   } else {
-		    alert("사용 가능한 아이디 입니다.");                                   
-		   }
-		  }
-		 });  // ajax 끝
-		});
-	</script> -->
+   
     
 </body>
 </html>

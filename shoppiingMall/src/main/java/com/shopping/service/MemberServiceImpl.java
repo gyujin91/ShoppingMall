@@ -21,9 +21,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MemberDTO idCheck(String mem_id) throws Exception {
-		return memberDao.idCheck(mem_id);
-		
+	public int idCheck(String mem_id) throws Exception {
+		return memberDao.idCheck(mem_id);		
 	}
 
 	@Override
@@ -31,5 +30,19 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.login(mem_id);
 	}
 
+	@Override
+	public MemberDTO myPage(String mem_id) throws Exception {
+		return memberDao.myPage(mem_id);
+	}
+
+	@Override
+	public void memberUpdate(MemberDTO dto) throws Exception {
+		memberDao.memberUpdate(dto);
+	}
+
+	@Override
+	public void memberDelete(String mem_id) throws Exception {
+		memberDao.memberDelete(mem_id);
+	}
 	
 }

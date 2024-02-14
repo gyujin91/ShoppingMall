@@ -1,8 +1,0 @@
-package com.shopping.dao;
-
-import com.shopping.dto.CartDTO;
-
-public interface CartDAO {
-	
-	public void addToCart(CartDTO dto) throws Exception;
-}

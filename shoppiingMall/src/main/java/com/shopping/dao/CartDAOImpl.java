@@ -11,7 +11,7 @@ import com.shopping.dto.CartDTO;
 
 @Repository
 public class CartDAOImpl implements CartDAO {
-	
+
 	@Autowired
 	SqlSession sqlSession;
 
@@ -39,11 +39,6 @@ public class CartDAOImpl implements CartDAO {
 	public void cartDelete(int cart_id) throws Exception {
 		sqlSession.delete("cart.cartDelete", cart_id);
 	}
-
-	
-	
-	
-	
 	
 
 }

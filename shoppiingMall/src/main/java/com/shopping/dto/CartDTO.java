@@ -9,6 +9,7 @@ public class CartDTO {
 	private int prod_no;			// 상품 고유 번호(FK)
 	private String prod_name;		// 상품명
 	private int price;				// 가격
+	private String size;			// 사이즈
 	private int MONEY;				// 합계(가격 * 수량)
 	private int quantity;			// 수량	
 	private String prod_image;		// 상품 이미지
@@ -16,7 +17,7 @@ public class CartDTO {
 	private Date updated_date;		// 장바구니 업데이트 날짜
 	private String deliveryFee;		// 배송비
 	private String deliveryMethod;	// 배송수단
-	
+	private int discount ;			// 할인 금액
 	public int getCart_id() {
 		return cart_id;
 	}
@@ -46,6 +47,18 @@ public class CartDTO {
 	}
 	public void setPrice(int price) {
 		this.price = price;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
+	public int getMONEY() {
+		return MONEY;
+	}
+	public void setMONEY(int mONEY) {
+		MONEY = mONEY;
 	}
 	public int getQuantity() {
 		return quantity;
@@ -83,11 +96,11 @@ public class CartDTO {
 	public void setDeliveryMethod(String deliveryMethod) {
 		this.deliveryMethod = deliveryMethod;
 	}
-	public int getMONEY() {
-		return MONEY;
+	public int getDiscount() {
+		return discount;
 	}
-	public void setMONEY(int mONEY) {
-		MONEY = mONEY;
+	public void setDiscount(int discount) {
+		this.discount = discount;
 	}
 	
 	

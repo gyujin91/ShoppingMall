@@ -7,16 +7,14 @@ public class ProductDTO {
 	private int prod_no;		// 제품번호
 	private String prod_name;	// 제품명
 	private String prod_kind;	// 제품 종류
-	private int cate_no;		// 카테고리 번호
+	private String cate_no;		// 카테고리 번호
 	private int price;			// 가격
 	private String prod_content;// 제품 설명
 	private String prod_image;	// 제품 이미지
 	private boolean useyn;		// 사용 여부
-	private Date regdate;		// 등록일
-	
+	private Date regdate;		// 등록일	
 	private String brand;		// 브랜드
 	private String deliveryFee;	// 배송비
-	
 	public int getProd_no() {
 		return prod_no;
 	}
@@ -35,10 +33,10 @@ public class ProductDTO {
 	public void setProd_kind(String prod_kind) {
 		this.prod_kind = prod_kind;
 	}
-	public int getCate_no() {
+	public String getCate_no() {
 		return cate_no;
 	}
-	public void setCate_no(int cate_no) {
+	public void setCate_no(String cate_no) {
 		this.cate_no = cate_no;
 	}
 	public int getPrice() {
@@ -83,8 +81,5 @@ public class ProductDTO {
 	public void setDeliveryFee(String deliveryFee) {
 		this.deliveryFee = deliveryFee;
 	}
-	
-	
-	
 	
 }

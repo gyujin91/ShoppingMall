@@ -1,0 +1,22 @@
+package com.shopping.dto;
+
+import java.util.Date;
+
+public class PaymentDTO {
+	private int payment_no;
+	private int order_no;
+	private String mem_id;
+	private int prod_no;
+	private int price;
+	private int quantity;
+	private String order_state;
+	private String post;
+	private String addr1;
+	private String addr2;
+	private String payment_method;
+	private String payment_state;
+	private Date order_date;
+	
+	
+	
+}

@@ -15,8 +15,13 @@ public class ProductServiceImpl implements ProductService{
 	ProductDAO productDao;
 	
 	@Override
-	public List<ProductDTO> productList() throws Exception {
-		return productDao.productList();
+	public List<ProductDTO> productList(String cate_no) throws Exception {
+		return productDao.productList(cate_no);
+	}
+
+	@Override
+	public ProductDTO productDetail(int prod_no) throws Exception {
+		return productDao.productDetail(prod_no);
 	}
 
 	@Override
@@ -25,9 +30,12 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ProductDTO productDetail(int prod_no) throws Exception {
-		return productDao.productDetail(prod_no);
+	public List<ProductDTO> itemListByCategory(String cate_no) throws Exception {
+		return productDao.itemListByCategory(cate_no);
 	}
+
+	
+	
 	
 	
 }

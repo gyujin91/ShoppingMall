@@ -9,11 +9,13 @@ public class MemberDTO {
 	private String mem_name;	// 이름
 	private String email;		// 이메일
 	private String phone;		// 전화번호
+	private String addr1;		// 기본 주소
+	private String addr2;		// 상세주소
+	private String post;		// 지번
 	private boolean useyn;		// 가입탈퇴여부 가입(Y), 탈퇴(N)
 	private int code;			// 회원코드  관리자(1), 일반회원(2)
 	private Date join_date;		// 회원가입일
 	private Date del_date;		// 회원탈퇴일
-	
 	public String getMem_id() {
 		return mem_id;
 	}
@@ -44,6 +46,24 @@ public class MemberDTO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public String getAddr1() {
+		return addr1;
+	}
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
+	}
+	public String getAddr2() {
+		return addr2;
+	}
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
+	}
+	public String getPost() {
+		return post;
+	}
+	public void setPost(String post) {
+		this.post = post;
+	}
 	public boolean isUseyn() {
 		return useyn;
 	}
@@ -68,6 +88,7 @@ public class MemberDTO {
 	public void setDel_date(Date del_date) {
 		this.del_date = del_date;
 	}
+		
 	
 	
 }

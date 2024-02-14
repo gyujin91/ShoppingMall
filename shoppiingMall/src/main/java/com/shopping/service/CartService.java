@@ -21,4 +21,6 @@ public interface CartService {
 	
 	// 장바구니 상품 삭제
 	public void cartDelete(int cart_id) throws Exception;
+	
+
 }

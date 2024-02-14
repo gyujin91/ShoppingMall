@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<!-- mapper - mybatis, sqlMap - ibatis -->
+<mapper namespace="order">
+	<insert id="insertOrder" parameterType="map">
+		
+	    INSERT INTO TRANSACTION 
+		    (MEM_ID, 
+		    PROD_NO, 
+		    PROD_NAME, 
+		    PRICE, SIZE, 
+		    QUANTITY, 
+		    PROD_IMAGE, 
+		    ORDER_DATE, 
+		    POST, 
+		    ADDR1, 
+		    ADDR2)
+	    SELECT 
+	        C.MEM_ID, 
+	        C.PROD_NO, 
+	        P.PROD_NAME, 
+	        P.PRICE, 
+	        C.SIZE, 
+	        C.QUANTITY, 
+	        P.PROD_IMAGE, 
+	        NOW(), 
+	        M.POST, 
+	        M.ADDR1, 
+	        M.ADDR2
+	    FROM 
+	        CART C
+	    JOIN 
+	        PRODUCT P ON C.PROD_NO = P.PROD_NO
+	    JOIN 
+	        MEMBER M ON C.MEM_ID = M.MEM_ID
+	    WHERE 
+	        C.MEM_ID = #{MEMID}
+	</insert>
+
+
+	
+</mapper> 

@@ -1,6 +1,10 @@
 package com.shopping.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,18 +29,16 @@ public class ProductController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
-	// items 페이지 이동
-	@RequestMapping("items.do")
-	public String items() throws Exception {
-		return "product/items";
-	}
-	
-	// item 리스트
 	@RequestMapping("itemList.do")
-	public String itemList(Model model) throws Exception {
-		List<ProductDTO> itemList = productService.itemList();
+	public String itemListByCategory(Model model, @RequestParam String cate_no) throws Exception {
+		List<ProductDTO> itemList;
+		if(cate_no != null && !cate_no.isEmpty()) {
+			itemList = productService.itemListByCategory(cate_no);
+		} else {
+			itemList = productService.itemList();
+		}
 		model.addAttribute("itemList", itemList);
-		return "product/items";
+		return "product/itemList";
 	}
 	 	
 	// 제품 상세보기 페이지 이동
@@ -47,10 +49,15 @@ public class ProductController {
 	
 	// 제품 상세보기
 	@RequestMapping(value="productDetail.do", method = RequestMethod.GET)
-	public String productDetailForm(Model model, @RequestParam int prod_no) throws Exception {
+	public String productDetailForm(Model model, @RequestParam int prod_no, HttpSession session) throws Exception {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+		
 		ProductDTO dto = productService.productDetail(prod_no);
 		dto.setBrand("자체 브랜드");
 		dto.setDeliveryFee("무료");
+		
+		model.addAttribute("loginMap", loginMap);
 		model.addAttribute("dto", dto);
 		return "product/productDetail";
 	}

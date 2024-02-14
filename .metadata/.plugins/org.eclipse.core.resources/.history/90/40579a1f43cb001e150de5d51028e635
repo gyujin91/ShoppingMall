@@ -1,0 +1,7 @@
+package com.shopping.dao;
+
+public class OrderDAO {
+	
+	// 주문 목록 담기
+	public void orderInsert(Map<String, Object>) throws Exception;
+}

@@ -81,7 +81,12 @@
         	width: 10%;
             padding-left: 10px;
         }
-        .content .basket .table1 td:nth-child(4), td:nth-child(5),
+        .content .basket .table1 td:nth-child(4)
+        {
+        	width: 10%;
+            padding-left: 25px;
+        }
+        .content .basket .table1 td:nth-child(5),
         td:nth-child(6), td:nth-child(7)
         {
             width: 10%;
@@ -226,13 +231,16 @@
     <%@ include file="../include/header.jsp" %>
     <div class="content">
         <h2>장바구니</h2>
+        <form class="frm2">
+        <input type="hidden" name="mem_id" id="mem_id" value="${mem_id }">
         <div class="basket">
             <table class="table1">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="allCheck" name="allCheck" onclick="allCheck(this)"></th>
+                        <th><input type="checkbox" name="allCheck" onclick="allCheckFunc(this)"></th>
                         <th>item</th>
                         <th>수량</th>
+                        <th>사이즈</th>
                         <th>가격</th>
                         <th>합계</th>
                         <th>배송수단</th>
@@ -247,15 +255,17 @@
                     	<c:otherwise>
                     		<c:forEach items="${cartList }" var="list">
 	                    		<tr>
-			                        <td><input type="checkbox" id="selectCheck" name="selectCheck" onclick="selectCheck()"></td>
+			                        <td><input type="checkbox" name="selectCheck" onclick="selectCheck()"></td>
 			                        <td><img src="${path }/resources/img/${list.prod_image }" alt=""><p>${list.prod_name }</p></td>
 			                        <td>${list.quantity }</td>
+			                        <td>${list.size }</td>
 			                        <td><fmt:formatNumber pattern="###,###,###" value="${list.price}"/></td>  
 			                       	<td><fmt:formatNumber pattern="###,###,###" value="${list.MONEY}"/></td>
 			                       	<td>${list.deliveryMethod }</td>
 			                        <td>${list.deliveryFee }</td>
 			                        <td><button type="button">주문</button></td>
-			                        <td><button type="button" onclick="cartDelete(${list.cart_id})"><i class="xi-trash-o"></i></button></td>
+			                        <td><button type="button" class="delBtn"><i class="xi-trash-o"></i></button></td>
+			                        <td><input type="hidden" name="cart_id" value="${list.cart_id }"></td>
 	                    		</tr>  
                     		</c:forEach>
                     	</c:otherwise>
@@ -299,75 +309,76 @@
                 </table>
             </div>
             <div class="payment">
-                <button type="button">주문하기</button><br>
+                <button type="button" id="order">주문하기</button><br>
                 <a href="${path }/">계속 쇼핑하기</a>
             </div>
         </div>
+        </form>
     </div>
     <%@ include file="../include/footer.jsp" %>
     
     <script type="text/javascript">
-    	// 로그인 여부 체크
-    	var loginChk = '${loginChk}';
-    	
-    	if(loginChk == 'chkFail') {
-    		alert("로그인 후 이용 가능합니다.");
-    		window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
-    	} 
-
+    $(document).ready(function() {
         // 체크박스 선택, 삭제
         function selectCheck() {
-            const checkboxes 
-            = document.querySelectorAll('input[name="selectCheck"]');
+            const checkboxes = document.querySelectorAll('input[name="selectCheck"]');
+            const checked = document.querySelectorAll('input[name="selectCheck"]:checked');
+            const allCheck = document.querySelector('input[name="allCheck"]');
 
-            const checked
-            = document.querySelectorAll('input[name="selectCheck"]:checked');
-
-            const allCheck
-            = document.querySelector('input[name="allCheck"]');
-
-            if(checkboxes.length === checked.length) {
-	            allCheck.checked = true;
-	        } else {
-	            allCheck.checked = false;
-	        }
+            if (checkboxes.length === checked.length) {
+                allCheck.checked = true;
+            } else {
+                allCheck.checked = false;
+            }
         }
-		
+
         //체크 박스 전체 선택, 삭제
-        function allCheck(allCheck) {
+        function allCheckFunc(allCheck) {
             const checkboxes = document.getElementsByName('selectCheck');
 
             for (let i = 0; i < checkboxes.length; i++) {
                 checkboxes[i].checked = allCheck.checked;
             }
         }
-		
-        function cartDelete(cart_id) {
-            if (confirm('해당 상품을 삭제하시겠습니까?')) {
-                // XMLHttpRequest 객체 생성
-                var xhr = new XMLHttpRequest();
 
-                // 비동기 방식으로 요청을 처리하는 이벤트 핸들러 등록
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4) {
-                        if (xhr.status == 200) {
-                            // 요청이 완료되면 리다이렉트된 페이지로 이동
-                            window.location.href = '/cart/cart.do';
-                        } else {
-                            // 에러 처리 등을 수행
-                            console.error('Error:', xhr.status, xhr.statusText);
-                        }
+        // 상품 단건 삭제
+        $(document).on("click", ".delBtn", function() {
+            // 확인 메시지
+            var confirmed = confirm("해당 상품을 삭제 하시겠습니까?");
+
+            if (confirmed) {
+                var form = $(this).closest(".frm2");
+                var cartId = form.find("input[name='cart_id']").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "cartDelete.do",
+                    data: { cart_id: cartId },
+                    success: function(data) {
+                        alert("해당 상품을 삭제 하였습니다.");
+                        // 페이지 새로고침 또는 필요한 동작 수행
+                        location.reload();
+                    },
+                    error: function(error) {
+                        alert("해당 상품을 삭제 중 오류가 발생 하였습니다.");
                     }
-                };
-
-                // DELETE 메소드와 URL 설정
-                xhr.open('DELETE', '/cart/cartDelete.do?cart_id=' + cart_id, true);
-
-                // 요청 전송
-                xhr.send();
+                });
             }
-        }
+        });
 
+        // 주문하기 버튼 클릭 시
+        $("#order").click(function() {
+            var loginChk = '${loginChk}';
+
+            if (loginChk == 'fail') {
+                alert("로그인 후 이용 가능합니다.");
+                window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
+            } else {
+                alert("주문 화면으로 이동 합니다.");
+                window.location.href = "${path}/cart/orderForm.do";
+            }
+        });
+    });
     </script>
 </body>
 </html>

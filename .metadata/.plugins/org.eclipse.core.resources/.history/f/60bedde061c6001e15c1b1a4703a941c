@@ -1,0 +1,23 @@
+package com.shopping.dto;
+
+import java.sql.Date;
+
+public class ProductDTO {
+	
+	private int prod_no;		// 제품번호
+	private String prod_name;	// 제품명
+	private String prod_kind;	// 제품 종류
+	private Integer cate_no;		// 카테고리 번호
+	private int price;			// 가격
+	private String prod_content;// 제품 설명
+	private String prod_image;	// 제품 이미지
+	private boolean useyn;		// 사용 여부
+	private Date regdate;		// 등록일
+	
+	private String brand;		// 브랜드
+	private String deliveryFee;	// 배송비
+	
+	
+	
+	
+}

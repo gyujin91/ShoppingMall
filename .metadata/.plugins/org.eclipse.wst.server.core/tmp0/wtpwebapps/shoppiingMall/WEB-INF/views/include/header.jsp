@@ -41,13 +41,13 @@
                         </a>
                     </div>
                     <div class="center">
-                        <ul>
-                            <li><a href="${path }/product/items.do?cate_no=50&&prod_kind=mantoman">맨투맨</a></li>
-                            <li><a href="#">후드티</a></li>
-                            <li><a href="#">후드집업</a></li>
-                            <li><a href="#">아우터</a></li>                            
-                            <li><a href="#">코트</a></li> 
-                            <li><a href="#">바지</a></li>                          
+                        <ul id="categoryList">
+                            <li><a href="#" data-category="50">맨투맨</a></li>
+                            <li><a href="#" data-category="40">후드티</a></li>
+                            <li><a href="#" data-category="30">후드집업</a></li>
+                            <li><a href="#" data-category="60">아우터</a></li>                            
+                            <li><a href="#" data-category="20">코트</a></li> 
+                            <li><a href="#" data-category="10">바지</a></li>                          
                         </ul>
                     </div>
                     <div class="right">
@@ -62,7 +62,7 @@
                      <c:if test="${!empty loginMap && loginMap.CODE == '2'}">
                         <ul>
                         	<li><p>${loginMap.MEM_NAME }  (${loginMap.CK})님 환영합니다.</p>      
-                            <li><a href="${path }/member/myPaeg.do">마이페이지</a></li>
+                            <li><a href="${path }/member/myPage.do">마이페이지</a></li>
                             <li><a href="${path }/cart/cart.do?mem_id=${mem_id}">장바구니</a></li>
                             <li><a href="${path }/member/logOut.do">로그아웃</a></li>
                         </ul>
@@ -83,7 +83,19 @@
         </div>
     </header>
       
-   
+   	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+		    var categoryLinks = document.querySelectorAll("#categoryList a");
+		
+		    categoryLinks.forEach(function(link) {
+		        link.addEventListener("click", function(event) {
+		            event.preventDefault();
+		            var categoryNumber = link.getAttribute("data-category");
+		            window.location.href = "/your-page-url?category=" + categoryNumber;
+		        });
+		    });
+		});
+	</script>
 
 </body>
 </html>

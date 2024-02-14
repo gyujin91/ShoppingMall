@@ -206,12 +206,15 @@
 	        </div>
     	</div>
     	
-    	<%-- <input type="hidden" name="prod_id" value="${dto.prod_id }">
-    	<input type="hidden" name="prod_name" value="${dot.prod_name }">
-    	<input type="hidden" name="prod_img" value="${dot.prod_img }">
-    	<input type="hidden" name="price" value="${dot.price }">
-    	<input type="hidden" name="mem_id" value="${sessionScope.mem_id }">
-    	<input type="number" name="quantity" value="1" min="1"> --%>
+    	<input type="hidden" name="loginMap" value="${sessionScope.loginMap }">
+    	<input type="hidden" name="loginMap" value="${sessionScope.loginMap.MEM_ID }">
+    	<input type="hidden" name="prod_no" value="${dto.prod_no }">
+    	<input type="hidden" name="prod_name" value="${dto.prod_name }">
+    	<input type="hidden" name="prod_image" value="${dto.prod_image }">
+    	<input type="hidden" name="price" value="${dto.price }">
+    	<input type="hidden" name="quantity" id="quantity" value="">
+		<input type="hidden" name="size" id="size" value="">
+    	
 	</form>
    
     <%@ include file="../include/footer.jsp" %>
@@ -249,13 +252,47 @@
     }
  	// 초기 실행
  	updateValue();
+ 	// ------------------------------------------------------------ //	
  	
-    $("#cart").click(function() {
-   		var addToCartUrl = '<c:url value="/cart/addToCart.do"/>';  // JSTL c:url 태그 사용
-        $("#frm").attr("action", addToCartUrl).attr("method", "post").submit();
-       	alert("장바구니에 상품을 담았습니다.");
-    });
+   	/* var loginChk = '${loginChk}';
+	
+   	$("#cart").click(function() {
+        if(msg) {
+            alert(msg);
+            window.location.href = '${path}/member/loginForm.do'; // 리다이렉트 
+        } else if(!msg) {
+            alert("장바구니에 상품을 담았습니다.");
+            $("#frm").attr("action", "/myapp/cart/addToCart.do").attr("method", "post").submit();
+        }
+       
+    }); */
+
+    var loginMap = '${sessionScope.loginMap}';
     
+    if(loginMap != null && loginMap != '') {
+    	$("#cart").click(function() {
+    		var selectedQuantity = $("#quantitySelect").val();
+    	    var selectedSize = $("#sizeSelect").val();
+    	    
+    	    if(selectedSize === 'option') {
+    	    	alert("옵션을 선택 해주세요.");
+    	    	return;
+    	    }
+    	    
+    		 // 폼 데이터 설정
+    	    $("#quantity").val(selectedQuantity);
+    	    $("#size").val(selectedSize);
+            
+       		alert("장바구니에 상품을 담았습니다.");
+    	    $("#frm").attr("action", "/myapp/cart/addToCart.do").attr("method", "post").submit();
+       	});	
+    } else {
+    	$("#cart").click(function() {
+    		alert("로그인 후 이용 가능합니다.");
+            window.location.href = '${path}/member/loginForm.do'; // 리다이렉트 
+    	});
+    }
+ 
  	
 	</script>
 </body>

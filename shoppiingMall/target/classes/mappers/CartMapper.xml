@@ -15,16 +15,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		PROD_NO,			<!-- 상품 고유 번호(FK) -->
   		PROD_NAME,			<!-- 상품명 -->
   		PRICE,				<!-- 상품 가격 -->
+  		SIZE,				<!-- 상품 사이즈 -->
   		QUANTITY,			<!-- 상품 수량 -->
-  		PROD_IMG,			<!-- 상품 이미지 -->
+  		PROD_IMAGE,			<!-- 상품 이미지 -->
   		CREATED_DATE		<!-- 장비구나 생성일 -->
   		) VALUES (
   		#{mem_id},
   		#{prod_no},
   		#{prod_name},
   		#{price},
+  		#{size},
   		#{quantity},
-  		#{prod_img},
+  		#{prod_image},
   		DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'))
   	</insert>
 
@@ -36,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             P.PROD_NO,
             P.PROD_NAME,
             C.QUANTITY,
+            C.SIZE,
             P.PROD_IMAGE,
             C.CREATED_DATE,
             P.PRICE,
@@ -59,19 +62,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		WHERE MEM_ID = #{mem_id}
 		]]>
   	</select>
-  	
-  	<!-- 장바구니 총 수량, 합계 가격 -->
-  	<!-- <select id="totalData" resultType="com.shopping.dto.CartDTO">
-		<![CDATA[
-		SELECT 
-		    SUM(QUANTITY) AS TOTAL_QUANTITY,
-		    SUM(PRICE) AS TOTAL_PRICE,
-		    MEM_ID
-		FROM  CART
-		WHERE MEM_ID = #{mem_id}
-		GROUP BY MEM_ID;
-		]]>
-	</select> -->
 	
 	<!-- 장바구니 합계 가격, 택배비 -->
     <select id="totalData" resultType="java.util.Map">
@@ -90,9 +80,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	
   	<!-- 장바구니 상품 삭제 -->
 	<delete id="cartDelete">
-		DELTE FROM CART
+		DELETE FROM CART
 		WHERE CART_ID = #{cart_id}
 	</delete>
+	
+	 <!-- 주문 화면 정보 -->
+	<!-- <select id="order" resultType="com.shopping.dto.CartDTO">
+		SELECT
+		    M.MEM_ID,
+		    M.MEM_NAME,
+		    M.EMAIL,
+		    M.PHONE,
+		    M.POST,
+		    M.ADDR1,
+		    M.ADDR2,
+		    P.PROD_NO,
+		    P.PROD_NAME,
+		    P.PROD_IMAGE,
+		    C.SIZE,
+		    P.PRICE,
+		    C.QUANTITY,
+		    SUM(P.PRICE * C.QUANTITY) AS TOTAL_PRICE,
+		    '0' AS DELIVERYFEE,
+		    SUM(P.PRICE * C.QUANTITY) + 0 AS TOTAL_DATA
+		FROM
+		    MEMBER M
+		INNER JOIN
+		    CART C ON M.MEM_ID = C.MEM_ID
+		INNER JOIN
+		    PRODUCT P ON C.PROD_NO = P.PROD_NO
+		WHERE
+		    M.MEM_ID = #{mem_id}  
+		GROUP BY
+		    M.MEM_ID, M.EMAIL, M.PHONE, M.POST, M.ADDR1, M.ADDR2,
+		    P.PROD_NO, P.PROD_NAME, C.SIZE, P.PRICE, C.QUANTITY;		
+	</select> -->
 	
 	
 </mapper> 

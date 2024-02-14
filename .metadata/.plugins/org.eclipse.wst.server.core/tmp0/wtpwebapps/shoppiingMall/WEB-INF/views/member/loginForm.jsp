@@ -174,6 +174,9 @@
      		} else if(loginCheck == 'pwFail') {
 				alert("비밀번호가 틀렸습니다.");
      			$("#mem_pw").focus();
+     		} else if(loginCheck == 'suspended') {
+     			alert("정지된 회원 입니다.");
+     			$("#mem_id").focus();
      		}
      		
      		// enter 로그인

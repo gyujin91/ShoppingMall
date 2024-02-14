@@ -1,0 +1,18 @@
+package com.shopping.dto;
+
+public class transaction {
+	order_no INT AUTO_INCREMENT PRIMARY KEY,
+    mem_id VARCHAR(30),
+    FOREIGN KEY (mem_id) REFERENCES member(mem_id),
+    prod_no INT,
+    FOREIGN KEY (prod_no) REFERENCES product(prod_no),
+    price INT,
+    quantity INT,
+    deliveryFee int,
+    post VARCHAR(50),
+    addr1 VARCHAR(200),
+    addr2 VARCHAR(100),
+    order_date DATE,
+    order_state VARCHAR(20),
+    del_date Date
+}

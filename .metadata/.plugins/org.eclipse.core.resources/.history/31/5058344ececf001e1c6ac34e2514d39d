@@ -1,0 +1,14 @@
+package com.shopping.service;
+
+import java.util.Map;
+
+import com.shopping.dto.OrderDTO;
+
+public interface OrderService {
+	
+	// 주문 목록 담기
+	public void insertOrder(OrderDTO dto) throws Exception;
+	
+	// 주문 목록 상세 조회
+	public OrderDTO orderDetail(String mem_id) throws Exception;
+}

@@ -4,7 +4,10 @@ import java.util.Date;
 
 public class OrderDTO {
 	private int order_no;		// 주문 번호
-	private String mem_id;		// 주문자
+	private String mem_id;		// 주문자 아이디
+	private String mem_name;		// 주문자 이름
+	private String phone;		// 전화번호
+	private String email;		// 이메일
 	private int prod_no;		// 상품 번호
 	private String prod_name;	// 상품명
 	private String prod_image;	// 상품 이미지
@@ -29,6 +32,24 @@ public class OrderDTO {
 	}
 	public void setMem_id(String mem_id) {
 		this.mem_id = mem_id;
+	}
+	public String getMem_name() {
+		return mem_name;
+	}
+	public void setMem_name(String mem_name) {
+		this.mem_name = mem_name;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public int getProd_no() {
 		return prod_no;
@@ -108,5 +129,7 @@ public class OrderDTO {
 	public void setDel_date(Date del_date) {
 		this.del_date = del_date;
 	}
+	
+	
 	
 }

@@ -402,8 +402,8 @@
             } else if(errorMsg == 'error') {
             	alert("회원 정보를 수정 하던 중 에러가 발생 했습니다.");         	
 			} else {
-				$("#updateFrm").attr("action", "memberUpdate.do").attr("method", "post").submit();
 				alert("회원 정보를 수정 하였습니다.");
+				$("#updateFrm").attr("action", "memberUpdate.do").attr("method", "post").submit();
 			}
 		});
 	});

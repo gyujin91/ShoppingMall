@@ -1,0 +1,9 @@
+package com.shopping.dao;
+
+import com.shopping.dto.PaymentDTO;
+
+public interface PaymentDAO {
+	
+	// 주문 목록 담기
+	public void insertPayment(PaymentDTO dto) throws Exception; 
+}

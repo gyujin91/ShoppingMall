@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="orderProduct"/>
+		<item key="selection" value="selectedOption"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="orderProduct"/>
-			<item value="mem_id"/>
-			<item value="efefef"/>
-			<item value="quantity"/>
-			<item value="sizeSelect"/>
-			<item value="quantitySelect"/>
-			<item value="selectedSize "/>
-			<item value="selectedQuantity "/>
-			<item value="frm"/>
-			<item value="selectCheck"/>
-			<item value="allCheckFunc"/>
-			<item value="selectChecked"/>
-			<item value="allChecked"/>
-			<item value="delBtn"/>
-			<item value="productDetail.do"/>
+			<item value="selectedOption"/>
+			<item value="bankTransfer"/>
+			<item value="bank"/>
+			<item value="list"/>
+			<item value="여러"/>
+			<item value="여러행"/>
+			<item value="focus"/>
+			<item value="우편"/>
+			<item value="banktransfer"/>
+			<item value="{dto."/>
+			<item value="{"/>
+			<item value="PAYMENT_STATUS"/>
+			<item value="redirectUrl"/>
+			<item value="NumberFormatException"/>
+			<item value="order_no"/>
 		</list>
 		<list key="replacehistory">
 		</list>

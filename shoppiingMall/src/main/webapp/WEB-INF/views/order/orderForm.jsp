@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set var="path1" value="${pageContext.request.contextPath }" />
+<c:set var="path" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,8 +10,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주문 하기</title>
-    <link rel="stylesheet" href="${path1 }/resources/css/style.css">
-    <link rel="stylesheet" href="${path1 }/resources/css/normalize.css">
+    <link rel="stylesheet" href="${path }/resources/css/style.css">
+    <link rel="stylesheet" href="${path }/resources/css/normalize.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
    
@@ -68,6 +68,10 @@
         .order .orderFrm .orderInfo table td
         {
             width: 85%;          
+        }
+        .order .orderFrm .orderInfo table td input[readonly]
+        {
+        	background-color: #efefef;
         }
         .order .orderFrm .orderInfo table td input
         {
@@ -348,7 +352,7 @@
 <body>
     <%@ include file ="../include/header.jsp" %>
     <div class="order">
-        <form action="" id="orderFrm" class="orderFrm" name="orderFrm"> 
+        <form id="orderFrm" class="orderFrm" name="orderFrm"> 
             <div class="titleArea">
                 <h2>주문 / 결제</h2>
             </div>
@@ -357,32 +361,34 @@
                 <table>
                     <tr>
                         <th>주문자</th>
-                        <td><input type="text" id="mem_id" name="mem_id" placeholder="주문자" value="${member.mem_name }"></td>
+                        <td><input type="text" id="mem_name" name="mem_name" placeholder="주문자" value="${member.mem_name }" readonly></td>
+                        <td><input type="hidden" id="mem_pw" name="mem_pw" value="${member.mem_pw }"></td>
+                        <td><input type="hidden" id="mem_id" name="mem_id" value="${member.mem_id }"></td>
                     </tr>
                     <tr>
                         <th>이메일</th>
                         <td>
-                            <input type="text" id="email" name="email" placeholder="이메일" value="${firstEmail}">
+                            <input type="text" id="firstEmail" name="firstEmail" placeholder="이메일" value="${firstEmail}" readonly>
                             <label for="email">@</label>
-                            <input type="text" id="email2" name="email2" value="${secondEmail}">
+                            <input type="text" id="secondEmail" name="secondEmail" value="${secondEmail}" readonly>
                         </td>
                     </tr>
                     <tr>
                         <th>휴대전화</th>
                         <td>
-                            <input type="text" value="${mobile1 }">
+                            <input type="text" id="mobile1" value="${mobile1 }">
                             <label for="mobile2">-</label>
-                            <input type="text" value="${mobile2 }">
+                            <input type="text" id="mobile2" value="${mobile2 }">
                             <label for="mobile2">-</label>
-                            <input type="text" value="${mobile3 }">
+                            <input type="text" id="mobile3" value="${mobile3 }">
                         </td>
                     </tr>
                     <tr>
                         <th>주소</th>
                         <td>
-                            <input type="text" placeholder="우편번호" value="${member.post }">
-                            <input type="text" placeholder="기본주소" value="${member.addr1 }">
-                            <input type="text" placeholder="나머지 주소" value="${member.addr2 }">
+                            <input type="text" id="post" placeholder="우편번호" value="${member.post }">
+                            <input type="text" id="addr1" placeholder="기본주소" value="${member.addr1 }">
+                            <input type="text" id="addr2" placeholder="나머지 주소" value="${member.addr2 }">
                         </td>
                     </tr>
                 </table>
@@ -470,12 +476,14 @@
                 <label for="payMEthod-new" class="payMEthod-new">결제수단 선택</label>
                 <div class="segment">   
                     <span>
-                        <label for="banktransfer" id="bank">무통장 입금</label>
-                        <input type="checkbox" name="" id="bankTransfer" value="">
+                        <label for="banktransfer" id="bank">무통장 입금
+                        	<input type="checkbox" name="banktransfer" id="bankTransfer" value="">
+                        </label>
                     </span>    
                     <span class="creditCard">
-                        <label for="creditCard" id="card">카드 결제</label>
-                        <input type="checkbox" name="" id="creditCard" value="">
+                        <label for="creditCard" id="card">카드 결제
+                       		<input type="checkbox" name="creditCard" id="creditCard" value="">
+                        </label>
                     </span> 
                 </div>
                 <!-- payMethod 클릭 에 따른 div 분기 -->
@@ -484,23 +492,23 @@
                         <tr>
                             <th>입금은행</th>
                             <td>
-                                <select name="" id="">
+                                <select name="selectedOption" id="selectedOption">
                                     <option value="select">선택</option>
                                     <option value="bank">기업 123456789 주식 대부</option>
                                 </select>
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <th>입금자명</th>
                             <td><input type="text" placeholder="ex)홍길동"></td>
-                        </tr>
+                        </tr> -->
                     </table>
                 </div>
             </div>
             <div class="agreement">
                 <p>주문 내용을 확인 하였으며 약관에 동의합니다.</p>
             </div>
-            <button type="button" id="btn">0원 결제하기</button>
+            <button type="button" id="btn">${totalData.TOTAL_DATA }원 결제하기</button>
         </form>
     </div>
     <%@ include file ="../include/footer.jsp" %>
@@ -509,9 +517,9 @@
 	    /* 로그인 체크 */
 	    var loginChk = '${loginChk}';
 	    
-	    if (loginChk == 'fail') {
-	        alert("로그인 후 이용 가능합니다.");
-	        window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
+	    if(loginChk == 'fail') {
+	       alert("로그인 후 이용 가능합니다.");
+	       window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
 	    }
    	
 	   	document.querySelectorAll('.segment span').forEach(function(span) {
@@ -539,8 +547,182 @@
 	   	document.getElementById('bank').addEventListener('click', function() {
 	   	    document.querySelector('.ec-payMethod').style.display = 'block';
 	   	});
+		
+		document.getElementById('btn').addEventListener('click', function() {
+			var mobile1 = $("#mobile1").val();
+	        var mobile2 = $("#mobile2").val();
+	        var mobile3 = $("#mobile3").val();
+	        var firstEmail = $("#firstEmail").val();
+	        var secondEmail = $("#secondEmail").val();
+	        var post = $("#post").val();
+	        var addr1 = $("#addr1").val();
+	        var addr2 = $("#addr2").val();
+		    const bankTransferCheckbox = document.getElementById('bankTransfer');	// 무통장 입금 체크박스의 상태 확인
+		    const creditCardCheckbox = document.getElementById('creditCard');	// 카드 결제 체크박스의 상태 확인
+		    const paymentMethodSelect = document.getElementById('selectedOption'); // 결제 수단 select 태그
+		    
+		    var labelOption;
+		    // 무통장 입금
+		    if (bankTransferCheckbox.checked) {
+		        // "무통장 입금" 체크박스가 체크된 상태일 때
+		        // labelOption = document.querySelector('#bank label').textContent.trim(); // 무통장 입금 선택
+		        labelOption = document.querySelector('#bank label'); // 무통장 입금 선택
+		        if (paymentMethodSelect.value !== 'select') {
+		            // 결제 수단이 '선택'이 아니라면 주문 처리
+		            if (mobile1 == "") {
+		                alert("전화번호를 입력 해주세요.");
+		                $("#mobile1").focus();
+		            } else if(mobile2 == "") {
+		            	alert("전화번호를 입력 해주세요.");
+		                $("#mobile2").focus();
+		            } else if(mobile3 == "") {
+		            	alert("전화번호를 입력 해주세요.");
+		                $("#mobile3").focus();
+		            } else if(firstEmail == "") {
+		            	alert("이메일을 입력 해주세요.");
+		                $("#firstEmail").focus();
+		            } else if(secondEmail == "") {
+		            	alert("이메일을 입력 해주세요.");
+		                $("#secondEmail").focus();
+		            } else if(post == "") {
+		            	alert("우편번호를 입력 해주세요.");
+		                $("#post").focus();
+		            } else if(addr1 == "") {
+		            	alert("기본주소를 입력 해주세요.");
+		                $("#addr1").focus();
+		            } else if(addr2 == "") {
+		            	alert("상세주소를 입력 해주세요.");
+		                $("#addr2").focus();
+		            } else {
+		                paymentMemberUpdate('${mem_id}'); // 회원 정보 업데이트
+		                insertOrder('${mem_id}'); // 주문 처리
+		             	insertPayment('${mem_id}'); // 결제 정보 삽입
+		                //window.location.href = '${path}/order/orderList?mem_id=' + mem_id;
+		            }
+		        } else {
+		            // 결제 수단이 '선택'인 경우 알림 표시
+		            alert('입금은행을 선택해주세요.');
+		        }
+		    } else if (creditCardCheckbox.checked) {
+		        // 카드 결제
+		        // labelOption = document.querySelector('#card label').textContent.trim(); // 카드 결제 선택
+		        labelOption = document.querySelector('#card label'); // 카드 결제 선택
+		        if (mobile1 == "") {
+	                alert("전화번호를 입력 해주세요.");
+	                $("#mobile1").focus();
+	            } else if(mobile2 == "") {
+	            	alert("전화번호를 입력 해주세요.");
+	                $("#mobile2").focus();
+	            } else if(mobile3 == "") {
+	            	alert("전화번호를 입력 해주세요.");
+	                $("#mobile3").focus();
+	            } else if(firstEmail == "") {
+	            	alert("이메일을 입력 해주세요.");
+	                $("#firstEmail").focus();
+	            } else if(secondEmail == "") {
+	            	alert("이메일을 입력 해주세요.");
+	                $("#secondEmail").focus();
+	            } else if(post == "") {
+	            	alert("우편번호를 입력 해주세요.");
+	                $("#post").focus();
+	            } else if(addr1 == "") {
+	            	alert("기본주소를 입력 해주세요.");
+	                $("#addr1").focus();
+	            } else if(addr2 == "") {
+	            	alert("상세주소를 입력 해주세요.");
+	                $("#addr2").focus();
+	            }  else {
+		            // 카드 결제는 구현 예정
+		            alert("카드 결제는 현재 구현중에 있습니다.");
+		        }
+		    } else {
+		        // 체크되지 않았을 때 사용자에게 알림
+		        alert('결제 방법을 선택 해주세요.');
+		    }
+		});
 
+		
+		function paymentMemberUpdate(mem_id) {
+		    var mobile1 = $("#mobile1").val();
+		    var mobile2 = $("#mobile2").val();
+		    var mobile3 = $("#mobile3").val();
+		    var post = $("#post").val();
+	        var addr1 = $("#addr1").val();
+	        var addr2 = $("#addr2").val();
+		    var mem_id = $("#mem_id").val();
 
+		    $.ajax({
+		        url: '/myapp/member/paymentMemberUpdate.do', // 회원 정보 업데이트를 위한 URL
+		        method: 'POST',
+		        data: {
+		            mobile1: mobile1,
+		            mobile2: mobile2,
+		            mobile3: mobile3,
+		            post: post,
+		        	addr1: addr1,
+		        	addr2: addr2,
+		            mem_id: mem_id
+		        },
+		        success: function(response) {
+		            alert("회원 정보가 성공적으로 업데이트되었습니다.");
+		        },
+		        error: function(xhr, status, error) {
+		            alert("회원 정보를 업데이트하는 도중 에러가 발생했습니다.");
+		        }
+		    });
+		}
+		
+		 function insertOrder(mem_id) {
+			var mobile1 = $("#mobile1").val();
+	        var mobile2 = $("#mobile2").val();
+	        var mobile3 = $("#mobile3").val();
+	        var firstEmail = $("#firstEmail").val();
+	        var secondEmail = $("#secondEmail").val();
+	        var post = $("#post").val();
+	        var addr1 = $("#addr1").val();
+	        var addr2 = $("#addr2").val();
+	        var mem_id = $("#mem_id").val();
+	    	     
+		    $.ajax({
+		       	 url: '/myapp/order/insertOrder.do',
+		         method: 'POST',
+		         data: {
+		        	 mobile1: mobile1,
+		        	 mobile2: mobile2,
+		        	 mobile3: mobile3,
+		        	 firstEmail: firstEmail,
+		        	 secondEmail: secondEmail,
+		        	 post: post,
+		        	 addr1: addr1,
+		        	 addr2: addr2,
+		        	 mem_id: mem_id
+		         },
+		         success: function(response) {
+		             alert("주문을 성공적으로 완료 하였습니다.");
+		             window.location.href = '${path}/order/orderList?mem_id=' + mem_id;
+		         },
+		         error: function(xhr, status, error) {
+		             alert("주문 도중 에러가 발생 했습니다.");
+		         }
+		     });
+		} 		
+		
+		 function insertPayment(mem_id) {
+				
+				$.ajax({
+					url: '/myapp/order/insertOrder.do',
+					method: 'POST',
+					data: {
+						mem_id: mem_id
+			        },
+					success: function(response) {
+						alert("결제를 성공적으로  완료 했습니다.");
+					},
+					error: function(xhr, status, error) {
+			             alert("결제 도중 에러가 발생 했습니다.");
+			        }
+				});
+			}
 	</script>
    	
 </body>

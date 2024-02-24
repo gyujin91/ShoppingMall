@@ -78,6 +78,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE MEM_ID = #{mem_id}
 	</update>
 	
+	<!-- 결제 화면 에서 회원 정보 수정 -->
+	<update id="paymentMemberUpdate">
+		UPDATE MEMBER SET
+			ADDR1 =	#{addr1}, 
+			ADDR2 = #{addr2},
+			POST = #{post},
+			PHONE = #{phone} 
+		WHERE MEM_ID = #{mem_id}
+	</update>
+	
 	<!--  회원 탈퇴 -->
 	<update id="memberDelete">
 	    UPDATE MEMBER SET 

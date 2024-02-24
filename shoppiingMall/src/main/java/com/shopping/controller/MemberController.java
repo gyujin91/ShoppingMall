@@ -207,6 +207,22 @@ public class MemberController {
 		} else {
 			model.addAttribute("errorMsg", "error");
 			return "member/myPage";
+		}		
+	}
+	
+	// 결제 화면에서 회원 정보 수정
+	@RequestMapping(value= "paymentMemberUpdate.do")
+	public String paymentMemberUpdate(Model model, MemberDTO memberDto, @RequestParam String mobile1, @RequestParam String mobile2, 
+			@RequestParam String mobile3, @RequestParam String mem_id) throws Exception {
+		String phoneNumber = mobile1 + mobile2 + mobile3;
+		
+		if(mobile1 != null && mobile2 != null && mobile3 != null) {
+			memberDto.setPhone(phoneNumber);
+			memberService.paymentMemberUpdate(memberDto);
+			return "redirect:/order/orderList.do";
+		} else {
+			model.addAttribute("errorMsg", "error");
+			return "/cart/orderForm.do";
 		}
 		
 	}

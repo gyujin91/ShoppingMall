@@ -1,0 +1,19 @@
+package com.shopping.dao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.shopping.dto.PaymentDTO;
+
+@Repository
+public class PaymentDAOImpl implements PaymentDAO {
+
+	@Override
+	public void insertPayment(PaymentDTO dto) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+}

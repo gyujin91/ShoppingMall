@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<!-- mapper - mybatis, sqlMap - ibatis -->
+<mapper namespace="payment">
+	<insert id="insertPayment">
+	    INSERT INTO PAYMENT
+	        (ORDER_NO,
+	        MEM_ID,
+	        MEM_NAME,
+	        DEPOSIT_BANK,
+	        PAYMENT_METHOD,
+	        PAYMENT_STATE,
+	        PAYMENT_DATE,
+	        PAYMENT_PRICE)
+	    SELECT
+	        T.ORDER_NO,
+	        M.MEM_ID,
+	        M.MEM_NAME,
+	        <choose>
+	        	<when test="selectedOption == 'bank'">
+	        		'기업 123456789 주식 대부'
+	        	</when>
+	        	<when test="selectedOption == 'select'">
+	        		null
+	        	</when>
+	        </choose>
+	        <choose>
+	        	<when test="selectedOption == 'bank'">
+	        		'기업 123456789 주식 대부'
+	        	</when>
+	        	<when test="selectedOption == 'select'">
+	        		null
+	        	</when>
+	        </choose>
+	        '결제 완료' AS PAYMENT_STATE, 
+	        NOW(),
+	        SUM(T.PRICE)
+	    FROM 
+	        TRANSACTION T
+	    JOIN 
+	        MEMBER M ON T.MEM_ID = M.MEM_ID
+	    WHERE 
+	        M.MEM_ID = #{mem_id}
+	    GROUP BY
+	        T.ORDER_NO;    
+	</insert>
+
+	
+	<select id="paymentDetail" resultType="com.shopping.dto.PaymentDTO">
+		SELECT 
+			PAYMENT_NO,
+		    ORDER_NO,
+		    MEM_ID,
+		    MEM_NAME,
+		    PAYMENT_METHOD,
+		    PAYMENT_STATE,
+		    PAYMENT_DATE,
+		    PAYMENT_PRICE
+		FROM PAYMENT
+		WHERE MEM_ID = #{mem_id}
+	</select>
+	
+	
+</mapper> 

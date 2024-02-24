@@ -39,6 +39,11 @@ public class MemberServiceImpl implements MemberService{
 	public void memberUpdate(MemberDTO dto) throws Exception {
 		memberDao.memberUpdate(dto);
 	}
+	
+	@Override
+	public void paymentMemberUpdate(MemberDTO memberDto) throws Exception {
+		memberDao.paymentMemberUpdate(memberDto);		
+	}
 
 	@Override
 	public void memberDelete(String mem_id) throws Exception {

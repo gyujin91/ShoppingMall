@@ -40,9 +40,13 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public void memberDelete(String mem_id) throws Exception {
-		sqlSession.delete("member.memberDelete", mem_id);
+	public void paymentMemberUpdate(MemberDTO memberDto) throws Exception {
+		sqlSession.update("member.paymentMemberUpdate", memberDto);
 	}	
 	
+	@Override
+	public void memberDelete(String mem_id) throws Exception {
+		sqlSession.delete("member.memberDelete", mem_id);
+	}
 	
 }

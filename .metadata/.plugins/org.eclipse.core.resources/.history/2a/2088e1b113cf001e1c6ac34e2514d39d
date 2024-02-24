@@ -1,0 +1,8 @@
+package com.shopping.service;
+
+import com.shopping.dto.PaymentDTO;
+
+public interface PaymentService {
+
+	public void insertPayment(PaymentDTO dto) throws Exception;
+}

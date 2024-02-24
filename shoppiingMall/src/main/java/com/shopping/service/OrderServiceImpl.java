@@ -1,11 +1,13 @@
 package com.shopping.service;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shopping.dao.OrderDAO;
+import com.shopping.dto.OrderDTO;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -14,9 +16,18 @@ public class OrderServiceImpl implements OrderService {
 	OrderDAO orderDao;
 
 	@Override
-	public void orderInsert(Map<String, Object> params) throws Exception {
-		orderDao.orderInsert(params);		
+	public void insertOrder(OrderDTO dto) throws Exception {
+		orderDao.insertOrder(dto);
 	}
-	
-	
+
+	@Override
+	public List<OrderDTO> orderList(String mem_id) throws Exception {
+		return orderDao.orderList(mem_id);
+	}
+
+	@Override
+	public List<Integer> selectOrderNo(String mem_id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

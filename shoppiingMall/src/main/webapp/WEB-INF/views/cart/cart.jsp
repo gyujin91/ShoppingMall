@@ -263,7 +263,6 @@
 			                       	<td><fmt:formatNumber pattern="###,###,###" value="${list.MONEY}"/></td>
 			                       	<td>${list.deliveryMethod }</td>
 			                        <td>${list.deliveryFee }</td>
-			                        <td><button type="button">주문</button></td>
 			                        <td><button type="button" class="delBtn"><i class="xi-trash-o"></i></button></td>
 			                        <td><input type="hidden" name="cart_id" value="${list.cart_id }"></td>
 	                    		</tr>  
@@ -375,7 +374,7 @@
                 window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
             } else {
                 alert("주문 화면으로 이동 합니다.");
-                window.location.href = "${path}/cart/orderForm.do";
+                window.location.href = "${path}/order/orderForm.do";
             }
         });
     });

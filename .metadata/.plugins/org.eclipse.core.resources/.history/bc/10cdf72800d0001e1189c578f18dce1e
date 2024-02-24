@@ -1,0 +1,41 @@
+package com.shopping.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.shopping.dao.OrderDAO;
+import com.shopping.dto.OrderDTO;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+
+	@Autowired
+	OrderDAO orderDao;
+
+//	@Override
+//	public void insertOrder(OrderDTO dto) throws Exception {
+//		orderDao.insertOrder(dto);
+//	}
+	
+	@Override
+    public List<Integer> insertOrders(List<OrderDTO> orderDTOs) throws Exception {
+        List<Integer> orderNumbers = new ArrayList<>();
+        for (OrderDTO dto : orderDTOs) {
+        	orderDao.insertOrder(dto);
+            // 여기서 새로운 주문 번호를 가져와서 리스트에 추가
+            int newOrderNumber = dto.getOrder_no(); // 예시로 가져오는 것. 실제로는 DB에서 생성된 주문 번호를 가져와야 함
+            orderNumbers.add(newOrderNumber);
+        }
+        return orderNumbers;
+    }
+
+	@Override
+	public List<OrderDTO> orderDetail(int order_no) throws Exception {
+		return orderDao.orderDetail(order_no);
+	}
+
+	
+}

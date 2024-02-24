@@ -4,7 +4,10 @@ import java.util.Date;
 
 public class PaymentDTO {
 	private int payment_no;			// 결제 번호
-	private int order_no;			// 결제 번호
+	private int order_no;			// 주문 번호(외래키)
+	private String mem_id;			// 회원 아이디(외래키)
+	private String mem_name;		// 회원 이름
+	private String deposit_bank;	// 입금 은행
 	private String payment_method;	// 결제 방식
 	private String payment_state;	// 결제 상태
 	private Date payment_date;		// 결제일
@@ -21,6 +24,24 @@ public class PaymentDTO {
 	}
 	public void setOrder_no(int order_no) {
 		this.order_no = order_no;
+	}
+	public String getMem_id() {
+		return mem_id;
+	}
+	public void setMem_id(String mem_id) {
+		this.mem_id = mem_id;
+	}
+	public String getMem_name() {
+		return mem_name;
+	}
+	public void setMem_name(String mem_name) {
+		this.mem_name = mem_name;
+	}
+	public String getDeposit_bank() {
+		return deposit_bank;
+	}
+	public void setDeposit_bank(String deposit_bank) {
+		this.deposit_bank = deposit_bank;
 	}
 	public String getPayment_method() {
 		return payment_method;
@@ -47,5 +68,6 @@ public class PaymentDTO {
 		this.payment_price = payment_price;
 	}
 	
+		
 	
 }

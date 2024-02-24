@@ -1,0 +1,31 @@
+package com.shopping.service;
+
+import java.util.Date;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.shopping.dao.OrderDAO;
+import com.shopping.dto.OrderDTO;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+
+	@Autowired
+	OrderDAO orderDao;
+
+	@Override
+	public void insertOrder(OrderDTO dto) throws Exception {
+		orderDao.insertOrder(dto);
+	}
+
+	@Override
+	public OrderDTO orderDetail(String mem_id) throws Exception {
+		return orderDao.orderDetail(mem_id);
+	}
+
+	
+	
+	
+}

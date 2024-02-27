@@ -40,8 +40,8 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public void paymentMemberUpdate(MemberDTO memberDto) throws Exception {
-		sqlSession.update("member.paymentMemberUpdate", memberDto);
+	public void ordermemberUpdate(MemberDTO memberDto) throws Exception {
+		sqlSession.update("member.ordermemberUpdate", memberDto);
 	}	
 	
 	@Override

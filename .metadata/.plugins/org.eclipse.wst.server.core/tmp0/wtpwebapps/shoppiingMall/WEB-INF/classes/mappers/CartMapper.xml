@@ -84,6 +84,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE CART_ID = #{cart_id}
 	</delete>
 	
+	<!-- 주문 완료 시 해당 아이디의 장바구니 모두 삭제 -->
+	<delete id="allCartDelete">
+		DELETE FROM CART
+		WHERE MEM_ID = #{mem_id}
+	</delete>
+	
 	 <!-- 주문 화면 정보 -->
 	<!-- <select id="order" resultType="com.shopping.dto.CartDTO">
 		SELECT

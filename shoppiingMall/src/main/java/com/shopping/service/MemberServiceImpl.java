@@ -41,8 +41,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public void paymentMemberUpdate(MemberDTO memberDto) throws Exception {
-		memberDao.paymentMemberUpdate(memberDto);		
+	public void ordermemberUpdate(MemberDTO memberDto) throws Exception {
+		memberDao.ordermemberUpdate(memberDto);		
 	}
 
 	@Override

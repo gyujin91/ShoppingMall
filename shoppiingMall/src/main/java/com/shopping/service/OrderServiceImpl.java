@@ -1,6 +1,7 @@
 package com.shopping.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Integer> selectOrderNo(String mem_id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer totalPrice(String mem_id) throws Exception {
+		return orderDao.totalPrice(mem_id);
 	}
+
+	@Override
+	public Date getFirstOrderDate(String mem_id) throws Exception {
+		return orderDao.getFirstOrderDate(mem_id);
+	}
+
 }

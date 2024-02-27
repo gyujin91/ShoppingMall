@@ -40,6 +40,10 @@ public class CartServiceImpl implements CartService {
 	public void cartDelete(int cart_id) throws Exception {
 		cartDao.cartDelete(cart_id);
 	}
-	
+
+	@Override
+	public void allCartDelete(String mem_id) throws Exception {
+		cartDao.allCartDelete(mem_id);
+	}
 	
 }

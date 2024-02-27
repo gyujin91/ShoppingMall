@@ -1,9 +1,8 @@
 package com.shopping.controller;
 
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.shopping.dto.CartDTO;
 import com.shopping.dto.MemberDTO;
 import com.shopping.dto.OrderDTO;
-import com.shopping.dto.PaymentDTO;
 import com.shopping.service.CartService;
 import com.shopping.service.MemberService;
 import com.shopping.service.OrderService;
@@ -99,86 +97,62 @@ public class OrderController {
 			// 로그인을 하지 않았을 경우
 			logger.info("로그인을 하지 않은 경우");
 			model.addAttribute("loginChk", "fail");
-			return "redirect:/member/loginForm.do";
+			return "order/orderForm";
 		}	
 	}
 	
-	// 상품 주문 및 결제 정보 등록
 	@RequestMapping("insertOrder.do")
-	public String insertOrder(HttpSession session, Model model, OrderDTO oDto, @RequestParam String mobile1, 
-	        @RequestParam String mobile2, @RequestParam String mobile3, @RequestParam String firstEmail,
-	        @RequestParam String secondEmail, @RequestParam String post, @RequestParam String addr1, 
-	        @RequestParam String addr2, @RequestParam int order_no) throws Exception {
-	    
+	public String insertOrder(Model model, HttpSession session, OrderDTO oDTO,
+	        @RequestParam String mobile1, @RequestParam String mobile2, @RequestParam String mobile3,
+	        @RequestParam String post, @RequestParam String addr1, @RequestParam String addr2,
+	        @RequestParam String firstEmail, @RequestParam String secondEmail, @RequestParam String mem_id) throws Exception {
 	    @SuppressWarnings("unchecked")
 	    Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
-	    
-	    // 로그인 체크
-	    if(loginMap != null) {
-	        // 필수 정보들이 모두 입력되었는지 확인
-	        if (mobile1 != null && !mobile1.isEmpty() && mobile2 != null && !mobile2.isEmpty() &&  
-	            mobile3 != null && !mobile3.isEmpty() && firstEmail != null && !firstEmail.isEmpty() &&             
-	            secondEmail != null && !secondEmail.isEmpty() && post != null && !post.isEmpty() &&
-	            addr1 != null && !addr1.isEmpty() && addr2 != null && !addr2.isEmpty()) {
-	            
-	            // 분리 전화번호, 이메일 결합 후 update
-	            MemberDTO memberDto = new MemberDTO();
-	            String phoneNumber = mobile1 + mobile2 + mobile3;
+
+	    if (loginMap != null) {
+
+	        if ((mobile1 != null && !mobile1.isEmpty()) && (mobile2 != null && !mobile2.isEmpty())
+	                && (mobile3 != null && !mobile3.isEmpty()) && (post != null && !post.isEmpty())
+	                && (addr1 != null && !addr2.isEmpty()) && (addr2 != null && !addr2.isEmpty())
+	                && (firstEmail != null && !firstEmail.isEmpty()) && (secondEmail != null && !secondEmail.isEmpty())) {
+
+	            // 분리된 전화번호, 이메일 결합 후 업데이트
+	            MemberDTO mDTO = new MemberDTO();
+	            String phone = mobile1 + mobile2 + mobile3;
 	            String email = firstEmail + "@" + secondEmail;
 	            
-	            // 회원 정보 수정
-	            memberDto.setPhone(phoneNumber);
-	            memberDto.setEmail(email);
-	            memberDto.setPost(post);
-	            memberDto.setAddr1(addr1);
-	            memberDto.setAddr2(addr2);
-	            System.out.println("수정된 전화번호 :: " + phoneNumber);
-	            System.out.println("수정된 주소 :: " + post + addr1 + addr2);
-	            memberService.paymentMemberUpdate(memberDto);
-
-	            String mem_id = (String) loginMap.get("MEM_ID");
+	            // 회원 정보 세팅
+	            mDTO.setMem_id(mem_id);
+	            mDTO.setPhone(phone);
+	            mDTO.setEmail(email);
+	            mDTO.setPost(post);
+	            mDTO.setAddr1(addr1);
+	            mDTO.setAddr2(addr2);
+	            System.out.println("로그인 아이디 : " + mem_id);
+	            System.out.println("변경된 전화번호 : " + phone);
+	            System.out.println("변경된 주소 : " + post + "\t" + addr1 + "\t" + addr2);
+	            memberService.ordermemberUpdate(mDTO);
 	            
 	            // 주문 정보 세팅
-	            oDto.setMem_id(mem_id);
-	            oDto.setDeliveryFee("무료");
-	            oDto.setOrder_state("주문 완료");	            
-	            orderService.insertOrder(oDto);
+	            oDTO.setDeliveryFee("무료");
+	            oDTO.setOrder_state("주문 완료");
+	            oDTO.setPayment_state("입금 완료");
+	            oDTO.setPayment_method("무통장 입금");	
+	            orderService.insertOrder(oDTO); 
 	            
-	            // ============================================================================
-          
-	            // 결제 정보 세팅
-	            List<OrderDTO> orderList = orderService.orderList(mem_id);
-	            // 주문버호가 중복 되는지 확인
-	            PaymentDTO duplicateCheck = paymentService.duplicateCheck(order_no);
-	            PaymentDTO payment = new PaymentDTO();
-	            for(OrderDTO order : orderList) {	    
-	            	if(duplicateCheck == null) {
-	            		payment.setOrder_no(order.getOrder_no());
-		            	payment.setMem_id(order.getMem_id());
-		            	payment.setMem_name(order.getMem_name());
-		            	payment.setPayment_price(order.getPrice());
-		            	payment.setPayment_date(order.getOrder_date());
-		            	payment.setDeposit_bank("기업 123456789 주식 대부");
-		            	payment.setPayment_method("무통장 입금");
-	            	} else {
-	            		System.out.println("================= order_no 중복 =================");
-	            	}	            	
-	            }
-	            paymentService.insertPayment(payment);	            
-	            
-	            // ============================================================================
-	            return "redirect:/order/orderList.do";
+	            model.addAttribute("loginMap", loginMap);
+	            return "redirect:/order/orderList.do?mem_id=" + mem_id;
 	        } else {
 	            System.out.println("필수 정보 누락");
 	            return "redirect:/order/orderForm.do";
 	        }
 	    } else {
 	        // 로그인을 하지 않았을 경우
-	        logger.info("로그인을 하지 않은 경우");
 	        model.addAttribute("loginChk", "fail");
 	        return "redirect:/member/loginForm.do";
 	    }
 	}
+
 	
 	// 주문 목록 조회
 	@RequestMapping("orderList.do")
@@ -188,10 +162,72 @@ public class OrderController {
 		
 		// 로그인 체크
 		if(loginMap != null) {
-			List<OrderDTO> orderList = orderService.orderList(mem_id);
+			
+			MemberDTO memberDTO = memberService.myPage(mem_id);		// 회원 정보	
+			List<OrderDTO> orderList = orderService.orderList(mem_id);	// 주문 목록
+			Integer totalPrice = orderService.totalPrice(mem_id);	// 합계(가격 * 수량)
+			Date firstOrderDate = orderService.getFirstOrderDate(mem_id);	// 주문날짜 중 첫번쨰 날짜만 조회
+			
+			// 분할 된 주소 합치기
+			StringBuilder addressBuilder = new StringBuilder();
+			addressBuilder.append(memberDTO.getPost()).append(" ");
+			addressBuilder.append(memberDTO.getAddr1()).append(" ");
+			addressBuilder.append(memberDTO.getAddr2());
+			String address = addressBuilder.toString();
+			
+			model.addAttribute("memberDTO", memberDTO);
 			model.addAttribute("orderList", orderList);
+			model.addAttribute("totalPrice", totalPrice);
+			model.addAttribute("firstOrderDate", firstOrderDate);
+			model.addAttribute("address", address);
+			
+			// 전화 번호 마스킹
+			if (memberDTO != null) {
+			    String phoneNumber = memberDTO.getPhone();
+			    if (phoneNumber != null && !phoneNumber.isEmpty()) {
+			        StringBuilder maskedPhoneNumber = new StringBuilder();
+			        if (phoneNumber.length() == 11) {
+			            // 전화번호가 11자리인 경우 (010-1234-5678)
+			            maskedPhoneNumber.append(phoneNumber.substring(0, 3)); // 앞부분 (010)
+			            maskedPhoneNumber.append("-****-"); // 중간 4자리 마스킹 처리
+			            maskedPhoneNumber.append(phoneNumber.substring(7)); // 뒷부분 (5678)
+			        } else if (phoneNumber.length() == 10) {
+			            // 전화번호가 10자리인 경우 (010-123-4567)
+			            maskedPhoneNumber.append(phoneNumber.substring(0, 3)); // 앞부분 (010)
+			            maskedPhoneNumber.append("-***-"); // 중간 3자리 마스킹 처리
+			            maskedPhoneNumber.append(phoneNumber.substring(6)); // 뒷부분 (4567)
+			        }
+			        model.addAttribute("phoneNumber", maskedPhoneNumber.toString());
+			    }
+			} 
+			
+			// 이름 마스킹
+			String mem_name = memberDTO.getMem_name();
+			
+			if (mem_name.length() > 2) {
+			    // 이름이 세 글자 이상일 때는 첫 번째 글자와 마지막 글자를 제외하고 마스킹 처리
+			    StringBuilder maskedName = new StringBuilder();
+			    maskedName.append(mem_name.charAt(0)); // 첫 번째 글자는 그대로 유지
+			    for (int i = 1; i < mem_name.length() - 1; i++) {
+			        maskedName.append("*");
+			    }
+			    maskedName.append(mem_name.charAt(mem_name.length() - 1)); // 마지막 글자는 그대로 유지
+			    System.out.println(maskedName);
+			    model.addAttribute("maskedName", maskedName);
+			} else if (mem_name.length() == 2) {
+			    // 이름이 두 글자일 때는 두 번째 글자만 마스킹 처리
+			    StringBuilder maskedName = new StringBuilder();
+			    maskedName.append(mem_name.charAt(0)); // 첫 번째 글자는 그대로 유지
+			    maskedName.append("*"); // 두 번째 글자를 마스킹 처리
+			    System.out.println(maskedName);
+			    model.addAttribute("maskedName", maskedName);
+			} else {
+			    System.out.println("이름은 한 글자가 될 수 없습니다.");
+			}
+			
 			return "order/orderList";
 		} else {
+			// 로그인을 하지 않았을 경우
 			model.addAttribute("loginChk", "fail");
 			return "order/orderList";
 		}

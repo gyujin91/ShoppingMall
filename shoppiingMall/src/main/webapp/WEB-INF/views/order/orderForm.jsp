@@ -550,13 +550,18 @@
 		
 		document.getElementById('btn').addEventListener('click', function() {
 			var mobile1 = $("#mobile1").val();
-	        var mobile2 = $("#mobile2").val();
-	        var mobile3 = $("#mobile3").val();
-	        var firstEmail = $("#firstEmail").val();
-	        var secondEmail = $("#secondEmail").val();
-	        var post = $("#post").val();
-	        var addr1 = $("#addr1").val();
-	        var addr2 = $("#addr2").val();
+		    var mobile2 = $("#mobile2").val();
+		    var mobile3 = $("#mobile3").val();
+		    var post = $("#post").val();
+		    var addr1 = $("#addr1").val();
+		    var addr2 = $("#addr2").val();
+		    var firstEmail = $("#firstEmail").val();
+		    var secondEmail = $("#secondEmail").val();	
+		    var mem_id = $("#mem_id").val();
+		    // 이메일, 전화번호 조합
+		    // var phone = mobile1 + mobile2 + mobile3;
+   			// var email = firstEmail + "@" + secondEmail;
+
 		    const bankTransferCheckbox = document.getElementById('bankTransfer');	// 무통장 입금 체크박스의 상태 확인
 		    const creditCardCheckbox = document.getElementById('creditCard');	// 카드 결제 체크박스의 상태 확인
 		    const paymentMethodSelect = document.getElementById('selectedOption'); // 결제 수단 select 태그
@@ -594,10 +599,7 @@
 		            	alert("상세주소를 입력 해주세요.");
 		                $("#addr2").focus();
 		            } else {
-		                paymentMemberUpdate('${mem_id}'); // 회원 정보 업데이트
-		                insertOrder('${mem_id}'); // 주문 처리
-		             	insertPayment('${mem_id}'); // 결제 정보 삽입
-		                //window.location.href = '${path}/order/orderList?mem_id=' + mem_id;
+		            	insertOrder(mem_id)
 		            }
 		        } else {
 		            // 결제 수단이 '선택'인 경우 알림 표시
@@ -640,89 +642,67 @@
 		        alert('결제 방법을 선택 해주세요.');
 		    }
 		});
-
+	
 		
-		function paymentMemberUpdate(mem_id) {
+		function insertOrder(mem_id) {
 		    var mobile1 = $("#mobile1").val();
 		    var mobile2 = $("#mobile2").val();
 		    var mobile3 = $("#mobile3").val();
 		    var post = $("#post").val();
-	        var addr1 = $("#addr1").val();
-	        var addr2 = $("#addr2").val();
+		    var addr1 = $("#addr1").val();
+		    var addr2 = $("#addr2").val();
+		    var firstEmail = $("#firstEmail").val();
+		    var secondEmail = $("#secondEmail").val();	
 		    var mem_id = $("#mem_id").val();
-
-		    $.ajax({
-		        url: '/myapp/member/paymentMemberUpdate.do', // 회원 정보 업데이트를 위한 URL
-		        method: 'POST',
-		        data: {
-		            mobile1: mobile1,
-		            mobile2: mobile2,
-		            mobile3: mobile3,
-		            post: post,
-		        	addr1: addr1,
-		        	addr2: addr2,
-		            mem_id: mem_id
-		        },
-		        success: function(response) {
-		            alert("회원 정보가 성공적으로 업데이트되었습니다.");
-		        },
-		        error: function(xhr, status, error) {
-		            alert("회원 정보를 업데이트하는 도중 에러가 발생했습니다.");
-		        }
-		    });
+		    
+		    // 이메일, 전화번호 조합
+		    // var phone = mobile1 + mobile2 + mobile3;
+   			// var email = firstEmail + "@" + secondEmail;
+		    
+	        $.ajax({
+	            url: '/myapp/order/insertOrder.do',
+	            method: 'POST',
+	            data: {
+	            	mobile1: mobile1,
+	            	mobile2: mobile2,
+	            	mobile3: mobile3,
+	            	post: post,
+	                addr1: addr1,
+	                addr2: addr2,
+	            	firstEmail: firstEmail,
+	            	secondEmail: secondEmail,
+	                // phone: phone,
+	                // email: email,
+	            	mem_id: mem_id
+	            },
+	            success: function(response) {
+	                alert("주문이 성공적으로 완료 되었습니다.");
+	             	// 주문이 성공적으로 처리된 후에 장바구니 비우기 함수 호출
+	                allCartDelete(mem_id);                
+	            },
+	            error: function(xhr, status, error) {
+	                alert("주문 도중 에러가 발생 했습니다.");
+	            }
+	        });		   
+		} 
+		
+		function allCartDelete(mem_id) {
+			$.ajax({
+				url: '/myapp/cart/allCartDelete.do',
+				method: 'POST',
+				data: {
+					mem_id: mem_id
+				},
+				success: function(response) {
+					window.location.href = '/myapp/order/orderList.do?mem_id=' + mem_id;
+				},
+				error: function(xhr, status, error) {
+	                alert("장바구니를 비우던 중 에러가 발생 했습니다.");
+	            }
+			});
 		}
-		
-		 function insertOrder(mem_id) {
-			var mobile1 = $("#mobile1").val();
-	        var mobile2 = $("#mobile2").val();
-	        var mobile3 = $("#mobile3").val();
-	        var firstEmail = $("#firstEmail").val();
-	        var secondEmail = $("#secondEmail").val();
-	        var post = $("#post").val();
-	        var addr1 = $("#addr1").val();
-	        var addr2 = $("#addr2").val();
-	        var mem_id = $("#mem_id").val();
-	    	     
-		    $.ajax({
-		       	 url: '/myapp/order/insertOrder.do',
-		         method: 'POST',
-		         data: {
-		        	 mobile1: mobile1,
-		        	 mobile2: mobile2,
-		        	 mobile3: mobile3,
-		        	 firstEmail: firstEmail,
-		        	 secondEmail: secondEmail,
-		        	 post: post,
-		        	 addr1: addr1,
-		        	 addr2: addr2,
-		        	 mem_id: mem_id
-		         },
-		         success: function(response) {
-		             alert("주문을 성공적으로 완료 하였습니다.");
-		             window.location.href = '${path}/order/orderList?mem_id=' + mem_id;
-		         },
-		         error: function(xhr, status, error) {
-		             alert("주문 도중 에러가 발생 했습니다.");
-		         }
-		     });
-		} 		
-		
-		 function insertPayment(mem_id) {
-				
-				$.ajax({
-					url: '/myapp/order/insertOrder.do',
-					method: 'POST',
-					data: {
-						mem_id: mem_id
-			        },
-					success: function(response) {
-						alert("결제를 성공적으로  완료 했습니다.");
-					},
-					error: function(xhr, status, error) {
-			             alert("결제 도중 에러가 발생 했습니다.");
-			        }
-				});
-			}
+
+					
 	</script>
    	
 </body>

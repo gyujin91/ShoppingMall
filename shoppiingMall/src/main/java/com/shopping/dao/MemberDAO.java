@@ -21,8 +21,8 @@ public interface MemberDAO {
 	// 회원 정보 수정
 	public void memberUpdate(MemberDTO dto) throws Exception;
 	
-	// 결제 화면 에서 회원 정보 수정
-	public void paymentMemberUpdate(MemberDTO memberDto) throws Exception;
+	// 주문 화면 에서 회원 정보 수정
+	public void ordermemberUpdate(MemberDTO memberDto) throws Exception;
 	
 	// 회원 탈퇴
 	public void memberDelete(String mem_id) throws Exception;

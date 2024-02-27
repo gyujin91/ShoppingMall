@@ -63,6 +63,7 @@
                         <ul>
                         	<li><p>${loginMap.MEM_NAME }  (${loginMap.CK})님 환영합니다.</p>      
                             <li><a href="${path }/member/myPage.do">마이페이지</a></li>
+                            <li><a href="${path }/order/orderList.do?mem_id=${mem_id}">주문내역</a></li>
                             <li><a href="${path }/cart/cart.do?mem_id=${mem_id}">장바구니</a></li>
                             <li><a href="${path }/member/logOut.do">로그아웃</a></li>
                         </ul>

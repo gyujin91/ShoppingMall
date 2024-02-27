@@ -22,5 +22,6 @@ public interface CartDAO {
 	// 장바구니 상품 삭제
 	public void cartDelete(int cart_id) throws Exception;
 	
-	
+	// 주문 완료 시 해당 아이디의 장바구니 모두 삭제 
+	public void allCartDelete(String mem_id) throws Exception;
 }

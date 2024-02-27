@@ -1,6 +1,7 @@
 package com.shopping.dao;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,7 +27,12 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<Integer> selectOrderNo(String mem_id) throws Exception {
-		return null;
+	public Integer totalPrice(String mem_id) throws Exception {
+		return sqlSession.selectOne("order.totalPrice", mem_id);
+	}
+
+	@Override
+	public Date getFirstOrderDate(String mem_id) throws Exception {
+		return sqlSession.selectOne("order.getFirstOrderDate", mem_id);
 	}	
 }

@@ -345,16 +345,16 @@
         <div class="point">
             <div>
                 <i class="xi-profile"></i>
-                <h3><strong>??????</strong>님 안녕하세요.</h3>
-                <p>누적 금액: ??????원</p>
+                <h3><strong>${memberDTO.mem_name }</strong>님 안녕하세요.</h3>
+                <p>누적 금액: <fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</p>
             </div>
             <div>
                 <h3>POINT</h3>
-                <P>????</P>
+                <P>0</P>
             </div>
             <div>
                 <h3>사용 가능 쿠폰</h3>
-                <p>?</p>
+                <p>0</p>
             </div>
         </div>
         <div class="orderDetail">
@@ -363,12 +363,14 @@
                 <h2>주문 상세 내역</h2>
             </div>
             <div class="orderDate">
-                <div>
-                    <p>주문일자</p>
-                    <strong>????????</strong>
-                    <p style="margin-left: 20px;">주문번호</p>
-                    <strong>????????</strong>
-                </div>     
+            <div>
+            	<p>주문일자</p>
+            	<strong><fmt:formatDate pattern="yyyy-MM-dd" value="${firstOrderDate }"/></strong>
+	            <p style="margin-left: 20px;">주문번호</p>
+            	<c:forEach items="${orderList }" var="list">	                                 
+	                    <strong>${list.order_no } &nbsp;</strong>	                
+                </c:forEach> 
+                </div>    
             </div>
             <div class="productInfo">
                 <table>
@@ -379,61 +381,52 @@
                             <th>진행상태</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="img/075af9563c23f8850388633646f20b10.webp" alt="">
-                                <p>asdfasdfasdfadsf</p>
-                                <strong>?????원 / 수량?개</strong>
-                            </td>
-                            <td rowspan="3">무료</td>
-                            <td>
-                                <strong>배송중</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/075af9563c23f8850388633646f20b10.webp" alt="">
-                                <p>asdfasdfasdfadsf</p>
-                                <strong>?????원 / 수량?개</strong>
-                            </td>
-                            <!-- <td rowspan="3">무료</td> -->
-                            <td>
-                                <strong>배송중</strong>
-                            </td>                                            
-                        </tr>
+                    <tbody>                      
+                        <c:forEach items="${orderList }" var="list">
+	                        <tr>
+	                            <td>
+	                                <img src="${path }/resources/img/${list.prod_image}" alt="">
+	                                <p>${list.prod_name }</p>
+	                                <strong>${list.price }원 / 수량${list.quantity }개</strong>
+	                            </td>
+	                            <td rowspan="1">${list.deliveryFee }</td>
+	                            <td>
+	                                <strong>${list.order_state }</strong>
+	                            </td>
+	                        </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
             <div class="userInfo">
-                <table>
+                <table>               	
                     <tr>
                         <th>주문자</th>
-                        <td>이규진<td> <!-- 마스킹 처리-->
+                        <td>${maskedName }<td> <!-- 마스킹 처리-->
                     </tr>
                     <tr>
                         <th>연락처</th>
-                        <td>010-6353-3014</td> <!-- 마스킹 처리-->
+                        <td>${phoneNumber }</td> <!-- 마스킹 처리-->
                     </tr>
                     <tr>
                         <th>이메일</th>
-                        <td>lcjh313@naver.com</td>
-                    </tr>
+                        <td>${memberDTO.email }</td>
+                    </tr>                  
                 </table>
             </div>
             <div class="addrInfo">
                 <table>
                     <tr>
                         <th>수령인</th>
-                        <td>이규진<td> <!-- 마스킹 처리-->
+                        <td>${maskedName }<td> <!-- 마스킹 처리-->
                     </tr>
                     <tr>
                         <th>연락처</th>
-                        <td>010-6353-3014</td> <!-- 마스킹 처리-->
+                        <td>${phoneNumber }</td> <!-- 마스킹 처리-->
                     </tr>
                     <tr>
                         <th>배송지</th>
-                        <td>경기도 시흥시 은행로122, 대우1차 아파트 105동 901호</td>
+                        <td>${address }</td>
                     </tr>
                     <tr>
                         <th>배송메모</th>
@@ -443,18 +436,20 @@
             </div>
             <div class="paymentDetail">
                 <div class="payment">
-                    주문금액<strong>??????원</strong>할인금액<strong>????원</strong>총 주문금액 <strong>??????원</strong>
+			                    주문금액<strong><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</strong>
+			                    할인금액<strong>0원</strong>
+			                    총 주문금액 <strong><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</strong>
                 </div>
                 <div class="divGrp">
                     <div class="div1">
                         <table>
                             <tr>
                                 <th>상품금액</th>
-                                <td>??????원</td>
+                                <td><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</td>
                             </tr>
                             <tr>
                                 <th>배송비</th>
-                                <td>????원</td>
+                                <td>????</td>
                             </tr>
                         </table>
                     </div>
@@ -462,29 +457,50 @@
                         <table>
                             <tr>
                                 <th>회원 할인금액</th>
-                                <td>????원</td>
+                                <td>0원</td>
                             </tr>
                             <tr>
                                 <th>쿠폰</th>
-                                <td>????원</td>
+                                <td>0원</td>
                             </tr>
                             <tr>
                                 <th>포인트</th>
-                                <td>????원</td>
+                                <td>0원</td>
                             </tr>
                         </table>
                     </div>
-                    <div class="div3">
-                        <strong>신용카드</strong>
-                        <p class="p1">BC카드(****-****-****-1234</p> <!-- 마스킹 처리-->
-                        <button type="button">영수증 조회</button>
-                        <p class="p2">???? 포인트 적립예정</p>
-                    </div>
+                    <c:choose>
+					    <c:when test="${orderList.PAYMENT_METHOD == '무통장 입금'}">
+					        <div class="div3">
+					            <strong>${orderList.PAYMENT_METHOD }</strong>
+					            <p class="p1">입금 금액: <fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</p>
+					            <button type="button">영수증 조회</button>
+					        </div>
+					    </c:when>
+					    <c:otherwise>
+					        <div class="div3">
+					            <strong>${orderList.PAYMENT_METHOD }</strong>
+					            <p class="p1">BC카드(****-****-****-1234</p> <!-- 마스킹 처리-->
+					            <%-- <p class="p1">${orderList.PAYMENT_METHOD} (${fn:substring(orderList.PAYMENT_STATE, 0, 4)}-****-****-****)</p> --%>
+					            <button type="button">영수증 조회</button>
+					            <p class="p2">???? 포인트 적립예정</p>
+					        </div>
+					    </c:otherwise>
+					</c:choose>
                 </div>
             </div>
         </div>
     </div>
 
     <%@ include file ="../include/footer.jsp" %>
+    
+    <script>
+	    var loginChk = '${loginChk}';
+	
+	    if (loginChk == 'fail') {
+	        alert("로그인 후 이용 가능합니다.");
+	        window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
+	    }
+    </script>
 </body>
 </html>

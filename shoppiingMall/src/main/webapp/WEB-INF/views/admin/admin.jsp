@@ -62,6 +62,9 @@
             color: #fff;
             padding-top: 30px;
         }
+        .navigation .xi-home-o:focus {
+        	cursor: pointer;
+        }
         .content
         {
             flex: 1 0 90%;
@@ -214,15 +217,27 @@
         .content .orders table th:nth-child(1), td:nth-child(1)
         ,th:nth-child(2), td:nth-child(2)
         {
-            width: 35%;
+            width: 16.66%;
         }  
         .content .orders table th:nth-child(3), td:nth-child(3)
         {
-            width: 15%;
+            width: 16.66%;
         }
         .content .orders table th:nth-child(4), td:nth-child(4)
         {
-            float: right;
+            width: 16.66%;
+        }
+        .content .orders table th:nth-child(5), td:nth-child(5)
+        {
+            width: 16.66%;
+            text-align: center;
+        }
+        .content .orders table th:nth-child(6) {
+        	padding-left: 120px;
+        }
+        .content .orders table td:nth-child(6)
+        {
+            float: right; 
         }
         .content .orders table tr
         {
@@ -232,7 +247,7 @@
         {
             margin-bottom: 5px;
         }
-        .content .orders table th:nth-child(4)
+        .content .orders table th:nth-child(5)
         {
             padding-right: 20px;
         }
@@ -240,11 +255,10 @@
         {
             margin: 5px 0 5px 0;
         }
-        .content .orders table td:nth-child(4)
+        .content .orders table td:nth-child(5)
         {
             width: 80px;
             text-align: center;
-            background: red;
             color: white;
             border: none;
             border-radius: 5px;
@@ -297,7 +311,7 @@
     <div class="deshboard">
         <div class="navigation">
             <ul>
-                <li><i class="xi-home-o" ></i></li>
+                <li><i class="xi-home-o" onclick="home()"></i></li>
                 <li><i class="xi-money"></i></li>
                 <li><i class="xi-help-o"></i></li>
                 <li><i class="xi-users-o"></i></li>
@@ -320,24 +334,24 @@
                         <i class="xi-eye-o"></i>
                     </div>
                 </a>
-                <a href="orderList.html">
+                <a href="${path }/admin/adminOrderList.do">
                     <div class="sales">
                         <h3>80</h3>
                         <p style="color: gray; font-size: 18px;">주문</p>
                         <i class="xi-cart-o"></i>
                     </div>
                 </a>
-                <a href="boardList.html">
+                <a href="#">
                     <div class="comments">
                         <h3>208</h3>
                         <p style="color: gray; font-size: 18px;">문의</p>
                         <i class="xi-help-o"></i>     
                     </div>
                 </a>
-                <a href="#">
+                <a href="${path }/admin/productList.do">
                     <div class="earning">
                         <h3>$6,008</h3>
-                        <p style="color: gray; font-size: 18px;">매출</p>
+                        <p style="color: gray; font-size: 18px;">상품</p>
                         <i class="xi-won"></i> 
                     </div>
                 </a>
@@ -351,99 +365,47 @@
                     <table>
                         <thead>
                             <tr>
+                            	<th>아이디</th>
                                 <th>이름</th>
                                 <th>가격</th>
+                                <th>주문일</th>
                                 <th>결제 방법</th>
                                 <th>상태</th>
                             </tr> 
                         </thead>                
                         <tbody>
-                            <tr>
-                                <td>시리</td>
-                                <td>9,805,300</td>
-                                <td>무통장 입금</td>
-                                <td>배송중</td>
-                            </tr>
-                            <tr>
-                                <td>이규진</td>
-                                <td>150,320</td>
-                                <td>카드</td>
-                                <td>배송완료</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>무통장 입금</td>
-                                <td>입금완료</td>
-                            </tr>
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>무통장 입금</td>
-                                <td>입금완료</td>
-                            </tr>     
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>카드</td>
-                                <td>배송중</td>
-                            </tr>     
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>카드</td>
-                                <td>배송완료</td>
-                            </tr>     
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>카드</td>
-                                <td>배송대기</td>
-                            </tr>     
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>카드</td>
-                                <td>상품준비</td>
-                            </tr>    
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>카드</td>
-                                <td>취소완료</td>
-                            </tr>  
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>카드</td>
-                                <td>배송중</td>
-                            </tr>  
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>카드</td>
-                                <td>취소완료</td>
-                            </tr>  
-                            <tr>
-                                <td>홍길동</td>
-                                <td>11111</td>
-                                <td>카드</td>
-                                <td>반품요청</td>
-                            </tr>  
-                                                        
+                      	<c:choose>
+                      		<c:when test="${empty orderList }">
+                      			<span>현재 주문 목록이 없습니다.</span>
+                      		</c:when>
+                      		<c:otherwise>
+                      			<c:forEach items="${orderList }" var="list">
+                      				<tr>
+                      					<td>${list.mem_id }</td>
+		                                <td>${list.mem_name }</td>
+		                                <td><fmt:formatNumber pattern="###,###,###" value="${list.price}"/>원</td>
+		                                <td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.order_date }"/></td>
+		                                <c:if test="${list.payment_method == '무통장 입금' }"><td style="color: #0B610B">${list.payment_method }</td></c:if>
+		                                <c:if test="${list.payment_method == '카드 결제' }"><td style="color: #2E2EFE">${list.payment_method }</td></c:if>
+		                                <c:if test="${list.order_state == '주문 완료' }"><td style="background: #D7DF01">${list.order_state }</td></c:if>
+		                                <c:if test="${list.order_state == '주문 취소' }"><td style="background: #FF0040">${list.order_state }</td></c:if>
+                            		</tr>
+                      			</c:forEach>
+                      		</c:otherwise>
+                      	</c:choose>
                         </tbody>
                     </table>
                 </div>
                 <div class="customers">
                     <div style="display: flex; justify-content: space-between;">
 	                    <h2>회원</h2>
-	                    <button>View All</button>
+	                    <button  onclick="location.href='${path }/admin/allMemberList.do'">View All</button>
                     </div>
                     <table>
                     	<!-- 일반 회원만 -->
 	                    <c:forEach items="${memberList }" var="list">	                    	
-		                   		<tr onclick="location.href='${path }/admin/list.do?mem_id=${list.mem_id }'">
-		                            <th><a href="${path }/admin/allMemberList"><i class="xi-user"></i></a></th>
+		                   		<tr onclick="location.href='${path}/admin/memberInfo.do?mem_id=${list.mem_id }'">
+		                            <th><i class="xi-user"></i></th>
 		                            <td>${list.mem_id }</td>
 		                        </tr>	                       
 	                    </c:forEach>   
@@ -455,7 +417,9 @@
     </div>
 
     <script>
-        
+        function home() {
+        	window.location.href = '${path}/';
+        }
     </script>
 </body>
 </html>

@@ -138,4 +138,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM PRODUCT
 			WHERE PROD_NO = #{prod_no}
 	</select>
+	
+	<!-- 관리자 화면 모든 상품 노출  -->
+	<select id="allProductList" resultType="com.shopping.dto.ProductDTO">
+		SELECT
+			PROD_NO,
+		    PROD_NAME,
+		    PROD_KIND,
+		    PRICE,
+		    CATE_NO,
+		    PROD_CONTENT,
+		    PROD_IMAGE,
+		    USEYN,
+		    REGDATE,
+		    DELDATE
+		FROM PRODUCT
+			ORDER BY PROD_NO DESC;
+	</select>
+	
+	<!-- productMapper.xml -->
+
+	<!-- 상품 추가 -->
+	<insert id="insertProduct" parameterType="com.shopping.dto.ProductDTO">
+	    INSERT INTO PRODUCT
+		    (PROD_NAME,
+		     PROD_KIND,
+		     PRICE,
+		     CATE_NO,
+		     PROD_CONTENT,
+		     PROD_IMAGE,
+		     USEYN,
+		     REGDATE,
+		     DELDATE)
+		    VALUES (
+	        #{prodName},
+	        #{prodKind},
+	        #{price},
+	        #{cateNo},
+	        #{prodContent},
+	        #{prodImage},
+	        'Y',
+	        NOW(),
+	        NULL)
+	</insert>
 </mapper> 

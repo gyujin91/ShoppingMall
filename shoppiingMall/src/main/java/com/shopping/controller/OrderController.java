@@ -135,9 +135,9 @@ public class OrderController {
 	            
 	            // 주문 정보 세팅
 	            oDTO.setDeliveryFee("무료");
-	            oDTO.setOrder_state("주문 완료");
-	            oDTO.setPayment_state("입금 완료");
-	            oDTO.setPayment_method("무통장 입금");	
+	            oDTO.setOrder_state("orderCompleted");
+	            oDTO.setPayment_state("depositCompleted");
+	            oDTO.setPayment_method("bankTransfer");	
 	            orderService.insertOrder(oDTO); 
 	            
 	            model.addAttribute("loginMap", loginMap);
@@ -156,17 +156,18 @@ public class OrderController {
 	
 	// 주문 목록 조회
 	@RequestMapping("orderList.do")
-	public String orderDetail(Model model, HttpSession session, @RequestParam String mem_id) throws Exception {
+	public String orderList(Model model, HttpSession session, @RequestParam String mem_id) throws Exception {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
 		
 		// 로그인 체크
 		if(loginMap != null) {
 			
-			MemberDTO memberDTO = memberService.myPage(mem_id);		// 회원 정보	
-			List<OrderDTO> orderList = orderService.orderList(mem_id);	// 주문 목록
-			Integer totalPrice = orderService.totalPrice(mem_id);	// 합계(가격 * 수량)
-			Date firstOrderDate = orderService.getFirstOrderDate(mem_id);	// 주문날짜 중 첫번쨰 날짜만 조회
+			String member_id = (String) loginMap.get("MEM_ID");
+			MemberDTO memberDTO = memberService.myPage(member_id);		// 회원 정보	
+			List<OrderDTO> orderList = orderService.orderList(member_id);	// 주문 목록
+			Integer totalPrice = orderService.totalPrice(member_id);	// 합계(가격 * 수량)
+			Date firstOrderDate = orderService.getFirstOrderDate(member_id);	// 주문날짜 중 첫번쨰 날짜만 조회
 			
 			// 분할 된 주소 합치기
 			StringBuilder addressBuilder = new StringBuilder();

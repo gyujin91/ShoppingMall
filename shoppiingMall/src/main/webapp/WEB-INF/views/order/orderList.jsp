@@ -449,7 +449,7 @@
                             </tr>
                             <tr>
                                 <th>배송비</th>
-                                <td>????</td>
+                                <td>무료</td>
                             </tr>
                         </table>
                     </div>
@@ -468,25 +468,19 @@
                                 <td>0원</td>
                             </tr>
                         </table>
-                    </div>
-                    <c:choose>
-					    <c:when test="${orderList.PAYMENT_METHOD == '무통장 입금'}">
-					        <div class="div3">
-					            <strong>${orderList.PAYMENT_METHOD }</strong>
-					            <p class="p1">입금 금액: <fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</p>
-					            <button type="button">영수증 조회</button>
-					        </div>
-					    </c:when>
-					    <c:otherwise>
-					        <div class="div3">
-					            <strong>${orderList.PAYMENT_METHOD }</strong>
-					            <p class="p1">BC카드(****-****-****-1234</p> <!-- 마스킹 처리-->
-					            <%-- <p class="p1">${orderList.PAYMENT_METHOD} (${fn:substring(orderList.PAYMENT_STATE, 0, 4)}-****-****-****)</p> --%>
-					            <button type="button">영수증 조회</button>
-					            <p class="p2">???? 포인트 적립예정</p>
-					        </div>
-					    </c:otherwise>
-					</c:choose>
+                    </div>           
+			        <div class="div3">
+			            <strong>무통장입금</strong>
+			            <p class="p1">입금 금액: <fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</p>
+			            <button type="button">영수증 조회</button>
+			        </div>
+			        <%-- <div class="div3">
+			            <strong>${orderList.payment_method }</strong>
+			            <p class="p1">BC카드(****-****-****-1234</p> <!-- 마스킹 처리-->
+			            <p class="p1">${orderList.PAYMENT_METHOD} (${fn:substring(orderList.PAYMENT_STATE, 0, 4)}-****-****-****)</p>
+			            <button type="button">영수증 조회</button>
+			            <p class="p2">???? 포인트 적립예정</p>
+			        </div>	 --%>				    
                 </div>
             </div>
         </div>

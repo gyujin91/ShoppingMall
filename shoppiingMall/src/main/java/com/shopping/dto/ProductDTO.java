@@ -11,10 +11,12 @@ public class ProductDTO {
 	private int price;			// 가격
 	private String prod_content;// 제품 설명
 	private String prod_image;	// 제품 이미지
-	private boolean useyn;		// 사용 여부
-	private Date regdate;		// 등록일	
+	private String useyn;		// 사용 여부
+	private Date regdate;		// 등록일
+	private Date deldate;		// 삭제일
 	private String brand;		// 브랜드
 	private String deliveryFee;	// 배송비
+	    
 	public int getProd_no() {
 		return prod_no;
 	}
@@ -57,10 +59,10 @@ public class ProductDTO {
 	public void setProd_image(String prod_image) {
 		this.prod_image = prod_image;
 	}
-	public boolean isUseyn() {
+	public String getUseyn() {
 		return useyn;
 	}
-	public void setUseyn(boolean useyn) {
+	public void setUseyn(String useyn) {
 		this.useyn = useyn;
 	}
 	public Date getRegdate() {
@@ -68,6 +70,12 @@ public class ProductDTO {
 	}
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
+	}
+	public Date getDeldate() {
+		return deldate;
+	}
+	public void setDeldate(Date deldate) {
+		this.deldate = deldate;
 	}
 	public String getBrand() {
 		return brand;

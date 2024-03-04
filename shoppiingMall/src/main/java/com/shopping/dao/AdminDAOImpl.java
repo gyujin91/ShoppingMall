@@ -1,12 +1,14 @@
 package com.shopping.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.shopping.dto.MemberDTO;
+import com.shopping.dto.OrderDTO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO{
@@ -25,19 +27,35 @@ public class AdminDAOImpl implements AdminDAO{
 	}
 	
 	@Override
-	public MemberDTO memberRead(String mem_id) throws Exception {
-		return sqlSession.selectOne("admin.memberRead", mem_id);
+	public MemberDTO memberInfo(String mem_id) throws Exception {
+		return sqlSession.selectOne("admin.memberInfo", mem_id);
 	}
 
 	@Override
-	public void memberUpdate(MemberDTO dto) throws Exception {
-		sqlSession.update("admin.memberUpdate", dto);
+	public void adminUserUpdate(MemberDTO dto) throws Exception {
+		sqlSession.update("admin.adminUserUpdate", dto);
 	}
 
 	@Override
-	public void memberDelete(String mem_id) throws Exception {
-		sqlSession.update("admin.memberDelte", mem_id);
+	public void adminUserDelete(String mem_id) throws Exception {
+		sqlSession.update("admin.adminUserDelete", mem_id);
 	}
+
+	@Override
+	public List<OrderDTO> allOrderList() throws Exception {
+		return sqlSession.selectList("admin.allOrderList");
+	}
+
+	@Override
+	public List<Map<String, Object>> userTotalPrice() throws Exception {
+		return sqlSession.selectList("admin.userTotalPrice");
+	}
+
+	
+
+	
+	
+	
 	
 	
 }

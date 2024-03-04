@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 페이지</title>
+    <title>모든 회원 목록</title>
     <link rel="stylesheet" href="${path }/resources/css/normalize.css">
     <link rel="stylesheet" href="${path }/resources/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -48,7 +48,7 @@
         <h2><a href="${path }/admin/admin.do"><i class="xi-arrow-left"></i></a>회원 목록</h2>
         <table class="table table-striped table-hover">
             <thead>
-                <tr onclick="">
+                <tr>
                 	<th>구분</th>
 	                <th>아이디</th>
 	                <th>이름</th>
@@ -60,8 +60,10 @@
             </thead>
             <tbody>
            	 	<c:forEach items="${allMemberList }" var="list">
-	                <tr>
-	                	<td>${list.code }</td>
+	                <tr  onclick="location.href='${path} /admin/memberInfo.do?mem_id=${list.mem_id }'">
+	                	<c:if test="${list.MEMBER_CODE == '관리자' }"><td style="color: #0c0b61">${list.MEMBER_CODE }</td></c:if>
+	                	<c:if test="${list.MEMBER_CODE == '일반회원' }"><td>${list.MEMBER_CODE }</td></c:if>
+	                	<c:if test="${list.MEMBER_CODE == '정지회원' }"><td style="color: #FF0040">${list.MEMBER_CODE }</td></c:if>
 	                    <td>${list.mem_id }</td>
 	                    <td>${list.mem_name }</td>
 	                    <td>${list.email }</td>
@@ -74,8 +76,6 @@
         </table>
     </div>
     <%@ include file="../include/footer.jsp" %>
-    
- 
     
 </body>
 </html>

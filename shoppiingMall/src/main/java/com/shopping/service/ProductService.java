@@ -18,4 +18,10 @@ public interface ProductService {
 	// 카테고리 별 분기
 	public List<ProductDTO> itemListByCategory(String cate_no) throws Exception;
 	
+	// 관리자 화면 모든 상품 노출
+	public List<ProductDTO> allProductList() throws Exception;
+	
+	// 상품 추가
+	public void insertProduct(ProductDTO dto) throws Exception;
+	
 }

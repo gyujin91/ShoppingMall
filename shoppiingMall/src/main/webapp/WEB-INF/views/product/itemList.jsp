@@ -181,10 +181,18 @@
 
     <%@ include file ="../include/footer.jsp" %>
     
-    <script>
+    <script>	    
 	    function showItems(cate_no) {
+	        // 현재 스크롤 위치 저장
+	        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+	        
 	        // cate_no 값을 itemList.do 엔드포인트로 전달하여 페이지를 분기
 	        window.location.href = "/myapp/product/itemList.do?cate_no=" + cate_no;
+	        
+	        // 페이지 이동 후 스크롤 위치를 다시 설정
+	        window.addEventListener('load', function() {
+	            window.scrollTo(0, scrollTop);
+	        });
 	    }
 	</script>
 </body>

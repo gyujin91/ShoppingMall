@@ -34,8 +34,13 @@ public class ProductDAOImpl implements ProductDAO{
 		return sqlSession.selectList("product.itemListByCategory", cate_no);
 	}
 
-	
-	
-	
-	
+	@Override
+	public List<ProductDTO> allProductList() throws Exception {
+		return sqlSession.selectList("product.allProductList");
+	}
+
+	@Override
+	public void insertProduct(ProductDTO dto) throws Exception {
+		sqlSession.insert("product.insertProduct", dto);
+	}	
 }

@@ -1,0 +1,24 @@
+package com.shopping.dto;
+
+import java.util.Date;
+
+public class MemberDTO {
+
+	private String mem_id;		// 아이디
+	private String mem_pw;		// 비밀번호
+	private String mem_name;	// 이름
+	private String email;		// 이메일
+	private String phone;		// 전화번호
+	private String addr1;		// 기본 주소
+	private String addr2;		// 상세주소
+	private String post;		// 지번
+	private boolean useyn;		// 가입탈퇴여부 가입(Y), 탈퇴(N)
+	private int code;			// 회원코드  관리자(1), 일반회원(2)
+	private String MEMBER_CODE;
+	private Date join_date;		// 회원가입일
+	private Date del_date;		// 회원탈퇴일
+	
+		
+	
+	
+}

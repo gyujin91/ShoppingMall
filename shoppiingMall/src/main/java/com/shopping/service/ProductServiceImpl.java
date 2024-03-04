@@ -34,7 +34,15 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.itemListByCategory(cate_no);
 	}
 
-	
+	@Override
+	public List<ProductDTO> allProductList() throws Exception {
+		return productDao.allProductList();
+	}
+
+	@Override
+	public void insertProduct(ProductDTO dto) throws Exception {
+		productDao.insertProduct(dto);
+	}
 	
 	
 	

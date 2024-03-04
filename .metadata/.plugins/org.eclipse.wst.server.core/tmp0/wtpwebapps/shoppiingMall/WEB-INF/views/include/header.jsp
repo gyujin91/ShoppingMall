@@ -73,7 +73,7 @@
                         <ul>  
                         	<li><p>${loginMap.MEM_NAME }(${loginMap.CK})님 환영합니다.</p>                        
                             <li><a href="${path }/admin/admin.do">관리자</a></li>
-                            <li><a href="">상품관리</a></li>
+                            <li><a href="${path }/admin/productList.do">상품관리</a></li>
                             <li><a href="">주문관리</a></li>        
                             <li><a href="${path }/member/logOut.do">로그아웃</a></li>               
                         </ul>
@@ -92,7 +92,7 @@
 		        link.addEventListener("click", function(event) {
 		            event.preventDefault();
 		            var categoryNumber = link.getAttribute("data-category");
-		            window.location.href = "/your-page-url?category=" + categoryNumber;
+		            window.location.href = "/myapp/product/itemList.do?cate_no=" + categoryNumber;
 		        });
 		    });
 		});

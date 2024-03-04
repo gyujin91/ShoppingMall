@@ -43,9 +43,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        M.ADDR1, 
 	        M.ADDR2,
 	        '무료',
-	        '주문 완료',
-	        '입금 완료',
-	        '무통장 입금'
+	        'orderCompleted',
+	        'depositCompleted',
+	        'bankTransfer'
 	    FROM 
 	        CART C
 	    JOIN 
@@ -79,27 +79,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 주문 목록 조회 -->
 	<select id="orderList" resultType="com.shopping.dto.OrderDTO">
 	    SELECT 
-	        ORDER_NO,
-	        MEM_ID,
-	        MEM_NAME,
-	        PHONE,
-	        EMAIL,
-	        PROD_NO,
-	        PROD_NAME,
-	        PROD_IMAGE,
-	        PRICE,
-	        QUANTITY,
-	        SIZE,
-	        DELIVERYFEE,
-	        POST,
-	        ADDR1,
-	        ADDR2,
-	        ORDER_DATE,
-	        ORDER_STATE,
-	        PAYMENT_METHOD,  
-	        PAYMENT_STATE
-	    FROM TRANSACTION
-	    WHERE MEM_ID = #{memId}	    
+		    ORDER_NO,
+		    MEM_ID,
+		    MEM_NAME,
+		    PHONE,
+		    EMAIL,
+		    PROD_NO,
+		    PROD_NAME,
+		    PROD_IMAGE,
+		    PRICE,
+		    QUANTITY,
+		    SIZE,
+		    DELIVERYFEE,
+		    POST,
+		    ADDR1,
+		    ADDR2,
+		    ORDER_DATE,
+		    CASE
+		        WHEN ORDER_STATE = 'orderCompleted' THEN '주문 완료'
+		        ELSE ORDER_STATE
+		    END AS ORDER_STATE,
+		    CASE
+		        WHEN PAYMENT_STATE = 'depositCompleted' THEN '입금 완료'
+		        ELSE PAYMENT_STATE
+		    END AS PAYMENT_STATE,
+		    CASE
+		        WHEN PAYMENT_METHOD = 'bankTransfer' THEN '무통장 입금'
+		        ELSE PAYMENT_METHOD
+		    END AS PAYMENT_METHOD
+		FROM TRANSACTION
+		WHERE MEM_ID = #{memId}	    
 	</select>
 	
 	<!-- 가격 * 수량 합계 -->

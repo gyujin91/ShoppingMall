@@ -12,8 +12,9 @@ public class MemberDTO {
 	private String addr1;		// 기본 주소
 	private String addr2;		// 상세주소
 	private String post;		// 지번
-	private boolean useyn;		// 가입탈퇴여부 가입(Y), 탈퇴(N)
+	private String useyn;		// 가입탈퇴여부 가입(Y), 탈퇴(N)
 	private int code;			// 회원코드  관리자(1), 일반회원(2)
+	private String MEMBER_CODE;
 	private Date join_date;		// 회원가입일
 	private Date del_date;		// 회원탈퇴일
 	public String getMem_id() {
@@ -64,10 +65,10 @@ public class MemberDTO {
 	public void setPost(String post) {
 		this.post = post;
 	}
-	public boolean isUseyn() {
+	public String getUseyn() {
 		return useyn;
 	}
-	public void setUseyn(boolean useyn) {
+	public void setUseyn(String useyn) {
 		this.useyn = useyn;
 	}
 	public int getCode() {
@@ -75,6 +76,12 @@ public class MemberDTO {
 	}
 	public void setCode(int code) {
 		this.code = code;
+	}
+	public String getMEMBER_CODE() {
+		return MEMBER_CODE;
+	}
+	public void setMEMBER_CODE(String mEMBER_CODE) {
+		MEMBER_CODE = mEMBER_CODE;
 	}
 	public Date getJoin_date() {
 		return join_date;
@@ -87,8 +94,6 @@ public class MemberDTO {
 	}
 	public void setDel_date(Date del_date) {
 		this.del_date = del_date;
-	}
-		
-	
+	}	
 	
 }

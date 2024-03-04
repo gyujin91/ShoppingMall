@@ -1,6 +1,5 @@
 package com.shopping.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +39,6 @@ public class ProductController {
 		model.addAttribute("itemList", itemList);
 		return "product/itemList";
 	}
-	 	
-	// 제품 상세보기 페이지 이동
-	@RequestMapping("productDetail.do")
-	public String productDetail() throws Exception {
-		return "product/productDetail";
-	}
 	
 	// 제품 상세보기
 	@RequestMapping(value="productDetail.do", method = RequestMethod.GET)
@@ -61,11 +54,5 @@ public class ProductController {
 		model.addAttribute("dto", dto);
 		return "product/productDetail";
 	}
-	
-	
-	
-	
-	
-	
 	
 }

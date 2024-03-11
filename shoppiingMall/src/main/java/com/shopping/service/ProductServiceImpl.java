@@ -43,7 +43,21 @@ public class ProductServiceImpl implements ProductService{
 	public void insertProduct(ProductDTO dto) throws Exception {
 		productDao.insertProduct(dto);
 	}
-	
+
+	@Override
+	public int productTotalCnt() throws Exception {
+		return productDao.productTotalCnt();
+	}
+
+	@Override
+	public void updateProduct(ProductDTO dto) throws Exception {
+		productDao.updateProduct(dto);
+	}
+
+	@Override
+	public void deleteProduct(ProductDTO dto) throws Exception {
+		productDao.deleteProduct(dto);
+	}
 	
 	
 }

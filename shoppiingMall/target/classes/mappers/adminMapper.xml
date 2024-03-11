@@ -59,9 +59,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			DEL_DATE,
 			CODE,
 			CASE
-				WHEN CODE='1' THEN '관리자'
-				WHEN CODE='2' THEN '일반회원'
-				WHEN CODE='3' THEN '정지회원'
+				WHEN CODE='1' AND USEYN='Y' THEN '관리자'
+				WHEN CODE='2' AND USEYN='Y' THEN '일반회원'
+				WHEN CODE='2' AND USEYN='N' THEN '탈퇴회원'
+				WHEN CODE='3' AND USEYN='N' THEN '정지회원'
 			END AS 'MEMBER_CODE'
 		FROM MEMBER
 		ORDER BY JOIN_DATE DESC

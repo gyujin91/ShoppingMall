@@ -42,5 +42,22 @@ public class ProductDAOImpl implements ProductDAO{
 	@Override
 	public void insertProduct(ProductDTO dto) throws Exception {
 		sqlSession.insert("product.insertProduct", dto);
-	}	
+	}
+
+	@Override
+	public int productTotalCnt() throws Exception {
+		return sqlSession.selectOne("product.productTotalCnt");
+	}
+
+	@Override
+	public void updateProduct(ProductDTO dto) throws Exception {
+		sqlSession.update("product.updateProduct", dto);
+	}
+
+	@Override
+	public void deleteProduct(ProductDTO dto) throws Exception {
+		sqlSession.update("product.deleteProduct", dto);
+	}
+	
+	
 }

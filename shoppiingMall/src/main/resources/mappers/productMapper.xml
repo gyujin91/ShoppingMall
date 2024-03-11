@@ -134,7 +134,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			CATE_NO,
 			PROD_CONTENT,
 			PROD_IMAGE,
-			REGDATE
+			USEYN,
+			REGDATE,
+			DELDATE
 		FROM PRODUCT
 			WHERE PROD_NO = #{prod_no}
 	</select>
@@ -156,7 +158,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			ORDER BY PROD_NO DESC;
 	</select>
 	
-	<!-- productMapper.xml -->
+	<!-- 상품 총 건 수  -->
+	<select id="productTotalCnt" resultType="int">
+		SELECT
+		 	COUNT(PROD_NO) AS total_count
+		FROM PRODUCT		
+	</select>
 
 	<!-- 상품 추가 -->
 	<insert id="insertProduct" parameterType="com.shopping.dto.ProductDTO">
@@ -170,15 +177,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     USEYN,
 		     REGDATE,
 		     DELDATE)
-		    VALUES (
-	        #{prodName},
-	        #{prodKind},
-	        #{price},
-	        #{cateNo},
-	        #{prodContent},
-	        #{prodImage},
-	        'Y',
-	        NOW(),
-	        NULL)
+		VALUES (
+		    #{prod_name},
+		    #{pord_kind},
+		    #{price},
+		    #{cate_no},
+		    #{prod_content},
+		    #{prod_image},
+		    'Y',
+		    NOW(),
+		    NULL
+		)
 	</insert>
+	
+	<!-- 상품 수정 -->
+	<update id="updateProduct" parameterType="com.shopping.dto.ProductDTO">
+		UPDATE PRODUCT SET
+			PROD_NAME = #{prod_name},
+			PROD_KIND = #{prod_kind},
+			PRICE = #{price},
+			CATE_NO = #{cate_no},
+			PROD_CONTENT = #{prod_content},
+			USEYN = #{useyn, jdbcType=VARCHAR},
+			DELDATE = 
+			<choose>
+				<when test="useyn == 'Y'.toString() or useyn == 'y'.toString()">
+					NULL
+				</when>
+				<otherwise>
+                	DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
+           		</otherwise>
+			</choose>
+		WHERE PROD_NO = #{prod_no}	
+	</update>
+	
+	<!-- 삭풍 삭제 -->
+	<update id="deleteProduct">
+		UPDATE PRODUCT SET
+			USEYN = 'N',
+			DELDATE = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
+		WHERE PROD_NO = #{prod_no}
+	</update>
 </mapper> 

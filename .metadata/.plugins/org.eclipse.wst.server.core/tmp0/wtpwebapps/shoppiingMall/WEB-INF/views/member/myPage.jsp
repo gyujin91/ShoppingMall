@@ -425,7 +425,7 @@
     
  	// 취소 버튼 클릭 시 메인 화면으로 이동
     function goHome() {
-        window.location.href = '${path}/'; // 메인 화면으로 이동
+        window.location.href = '${path}/home'; // 메인 화면으로 이동
     }
  
     

@@ -417,6 +417,21 @@
     </div>
 
     <script>
+    	var errorMessage = '${errorMessage}'; // 서버 내부 오류
+    	var session = '${session}';	// 세션 체크
+    	var loginChk = '${loginChk}';	// 관리자 로그인 체크
+    	
+    	if(loginChk == 'fail') {
+    		alert("관리자 로그인 후 이용 가능합니다.");
+    		window.location.href = "${path}/member/loginForm.do";
+    	} else if(session == "exp") {
+    		alert("세션이 만료 되었습니다. 다시 로그인 바랍니다.");
+    		window.location.href = "${path}/member/loginForm.do";
+    	} else if(errorMessage == "error") {
+    		alert("서버 내부에 오류가 발생 했습니다.");
+    		window.location.href = "${path}/error/errorPage.do";
+    	}
+
         function home() {
         	window.location.href = '${path}/';
         }

@@ -177,6 +177,7 @@
      		} else if(loginCheck == 'suspended') {
      			alert("정지된 회원 입니다.");
      			$("#mem_id").focus();
+     			return false;
      		}
      		
      		// enter 로그인

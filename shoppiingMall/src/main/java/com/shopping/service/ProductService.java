@@ -24,4 +24,12 @@ public interface ProductService {
 	// 상품 추가
 	public void insertProduct(ProductDTO dto) throws Exception;
 	
+	// 상품 총 건 수
+	public int productTotalCnt() throws Exception;
+	
+	// 상품 수정
+	public void updateProduct(ProductDTO dto) throws Exception;
+	
+	// 상품 삭제
+	public void deleteProduct(ProductDTO dto) throws Exception;
 }

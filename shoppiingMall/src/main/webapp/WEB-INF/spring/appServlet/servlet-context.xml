@@ -24,6 +24,12 @@
 	</beans:bean>
 	<!-- 서블릿에서 home을 호출하면, /WEB-INF/views/home.jsp가 실행되게 된다.  -->
 	
+	<!-- 서블릿 설정 파일에 multipartResolver 빈 등록 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">     
+      <beans:property name="maxUploadSize" value="10485760" />
+      <beans:property name="defaultEncoding" value="utf-8" /> 
+   </beans:bean>    
+	
 	<!-- views 파일안에 새로운 폴더를 만들어서 이미지나 jsp파일을 사용할 때 -->
 	<resources mapping="/include/**" location="/WEB-INF/views/include/"  />
 	

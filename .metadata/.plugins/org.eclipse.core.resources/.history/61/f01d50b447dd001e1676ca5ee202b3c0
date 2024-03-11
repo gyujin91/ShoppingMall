@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<!-- mapper - mybatis, sqlMap - ibatis -->
+<mapper namespace="product">
+  	
+  	<!-- 메인화면 각각 4개씩 노출 -->
+	<select id="productList" resultType="com.shopping.dto.ProductDTO">
+	(SELECT 
+		PROD_NO,
+		PROD_NAME,
+		PROD_KIND,
+		PRICE,
+		CATE_NO,
+		PROD_CONTENT,
+		PROD_IMAGE,
+		REGDATE 
+	FROM PRODUCT
+	 	WHERE PROD_KIND = 'BOTTOM' AND CATE_NO = '10' AND USEYN = 'Y' LIMIT 4)
+	 	
+	 	UNION ALL
+	
+	(SELECT 
+		PROD_NO,
+		PROD_NAME,
+		PROD_KIND,
+		PRICE,
+		CATE_NO,
+		PROD_CONTENT,
+		PROD_IMAGE,
+		REGDATE 
+	FROM PRODUCT
+	 	WHERE PROD_KIND = 'COAT' AND CATE_NO = '20' AND USEYN = 'Y' LIMIT 4)
+	 	
+	 	UNION ALL
+	 	
+	 (SELECT 
+		PROD_NO,
+		PROD_NAME,
+		PROD_KIND,
+		PRICE,
+		CATE_NO,
+		PROD_CONTENT,
+		PROD_IMAGE,
+		REGDATE 
+	FROM PRODUCT
+	 	WHERE PROD_KIND = 'ZIPUP' AND CATE_NO = '30' AND USEYN = 'Y' LIMIT 4)
+	 	 	
+	 	UNION ALL
+	 	
+	 (SELECT 
+		PROD_NO,
+		PROD_NAME,
+		PROD_KIND,
+		PRICE,
+		CATE_NO,
+		PROD_CONTENT,
+		PROD_IMAGE,
+		REGDATE 
+	FROM PRODUCT
+	 	WHERE PROD_KIND = 'HOOD' AND CATE_NO = '40' AND USEYN = 'Y' LIMIT 4)
+	 	
+	 	UNION ALL
+	 	
+	 (SELECT 
+		PROD_NO,
+		PROD_NAME,
+		PROD_KIND,
+		PRICE,
+		CATE_NO,
+		PROD_CONTENT,
+		PROD_IMAGE,
+		REGDATE 
+	FROM PRODUCT
+	 	WHERE PROD_KIND = 'MANTOMAN' AND CATE_NO = '50' AND USEYN = 'Y' LIMIT 4)
+	 	
+	 	UNION ALL
+	 	
+	 (SELECT 
+		PROD_NO,
+		PROD_NAME,
+		PROD_KIND,
+		PRICE,
+		CATE_NO,
+		PROD_CONTENT,
+		PROD_IMAGE,
+		REGDATE 
+	FROM PRODUCT
+	 	WHERE PROD_KIND = 'OUTER' AND CATE_NO = '60' AND USEYN = 'Y' LIMIT 4)
+	</select>
+	
+	<!-- 전체 아이템 리스트 -->
+	<select id="itemList" resultType="com.shopping.dto.ProductDTO">
+	    SELECT
+	        PROD_NO,
+	        PROD_NAME,
+	        PROD_KIND,
+	        PRICE,
+	        CATE_NO,
+	        PROD_CONTENT,
+	        PROD_IMAGE,
+	        REGDATE
+	    FROM PRODUCT
+	    	WHERE USEYN = 'Y'
+<!-- 	    AND CATE_NO = #{cate_no}   -->
+	</select>
+	
+	<!-- 아이템 카테고리 별 분기 -->
+	<select id="itemListByCategory" resultType="com.shopping.dto.ProductDTO">
+	    SELECT
+	        PROD_NO,
+	        PROD_NAME,
+	        PROD_KIND,
+	        PRICE,
+	        CATE_NO,
+	        PROD_CONTENT,
+	        PROD_IMAGE,
+	        REGDATE
+	    FROM PRODUCT
+	    	WHERE USEYN = 'Y' AND CATE_NO = #{cate_no}  
+	</select>
+	
+	
+	<!-- 제품 상세보기 -->
+	<select id="productDetail" resultType="com.shopping.dto.ProductDTO">
+		SELECT
+			PROD_NO,
+			PROD_NAME,
+			PROD_KIND,
+			PRICE,
+			CATE_NO,
+			PROD_CONTENT,
+			PROD_IMAGE,
+			REGDATE,
+			DELDATE
+		FROM PRODUCT
+			WHERE PROD_NO = #{prod_no}
+	</select>
+	
+	<!-- 관리자 화면 모든 상품 노출  -->
+	<select id="allProductList" resultType="com.shopping.dto.ProductDTO">
+		SELECT
+			PROD_NO,
+		    PROD_NAME,
+		    PROD_KIND,
+		    PRICE,
+		    CATE_NO,
+		    PROD_CONTENT,
+		    PROD_IMAGE,
+		    USEYN,
+		    REGDATE,
+		    DELDATE
+		FROM PRODUCT
+			ORDER BY PROD_NO DESC;
+	</select>
+	
+	<!-- 상품 총 건 수  -->
+	<select id="productTotalCnt" resultType="int">
+		SELECT
+		 	COUNT(PROD_NO) AS total_count
+		FROM PRODUCT		
+	</select>
+
+	<!-- 상품 추가 -->
+	<insert id="insertProduct" parameterType="com.shopping.dto.ProductDTO">
+	    INSERT INTO PRODUCT
+		    (PROD_NAME,
+		     PROD_KIND,
+		     PRICE,
+		     CATE_NO,
+		     PROD_CONTENT,
+		     PROD_IMAGE,
+		     USEYN,
+		     REGDATE,
+		     DELDATE)
+		VALUES (
+		    #{prod_name},
+		    #{pord_kind},
+		    #{price},
+		    #{cate_no},
+		    #{prod_content},
+		    #{prod_image},
+		    'Y',
+		    NOW(),
+		    NULL
+		)
+	</insert>
+	
+	<!-- 상품 수정 -->
+	<update id="updateProduct">
+		UPDATE PRODUCT SET
+			PROD_NAME = #{prod_name},
+			PORD_KIND = #{prod_kind},
+			PRICE = #{price},
+			CATE_NO = #{cate_no},
+			PROD_CONTENT = #{prod_content},
+			USEYN = #{useyn}
+		WHERE PROD_NO = #{prod_no}	
+	</update>
+</mapper> 

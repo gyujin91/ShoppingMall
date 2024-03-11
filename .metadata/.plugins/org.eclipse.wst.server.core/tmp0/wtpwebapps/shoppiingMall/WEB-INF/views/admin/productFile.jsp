@@ -76,11 +76,12 @@
     </style>
 </head>
 <body>
-    <header id="header"></header>
+    <%@ include file="../include/header.jsp" %>
     <div class="product">
         <h2>상품 등록</h2>
         <div class="tableBox">
             <form action="" name="frm" id="frm" enctype="multipart/form-data">
+            	<input type="hidden" id="cate_no" name="cate_no">
                 <table>
                     <tr>
                         <th>상품명</th>
@@ -90,12 +91,7 @@
                         <th>상품 종류</th>
                         <td>
                             <select name="prod_kind" id="prod_kind">
-                                <!-- <option value="10">바지</option>
-                                <option value="20">코트</option>
-                                <option value="30">집업</option>
-                                <option value="40">후드</option>
-                                <option value="50">맨투맨</option>
-                                <option value="60">아우터</option> -->
+                            	<option value="select">선택</option>
                                 <option value="bottom">바지</option>
                                 <option value="coat">코트</option>
                                 <option value="zipup">집업</option>
@@ -115,7 +111,7 @@
                     </tr>
                     <tr>
                         <th>이미지</th>
-                        <td><input type="file" id="prod_image" name="prod_image" accept="image/*" required></td>
+                        <td><input type="file" id="file" name="file" required></td>
                     </tr>
                 </table>
             </form>
@@ -126,7 +122,7 @@
             </div>
         </div>
     </div>
-    <footer id="footer"></footer>
+    <%@ include file="../include/footer.jsp" %>
     
     <script type="text/javascript">
     	var loginChk = '${loginChk}';
@@ -142,20 +138,26 @@
     	        var selectedOption = $("#prod_kind").val();
     	        var price = $("#price").val();
     	        var prod_content = $("#prod_content").val();
-
+				var file = $("#file").val();
+    	        
     	        // 상품 정보 입력 확인 후 FormData에 상품 정보들을 담는다.
     	        if(prod_name == "") {
     	            alert("상품명을 입력해주세요.");
     	            $("#prod_name").focus();
-    	        } else if(selectedOption == "") {
+    	        } else if(selectedOption == "select") {
     	            alert("상품종류를 선택해주세요.");
     	            $("#prod_kind").focus();
+    	        } else if(price == "") {
+    	        	alert("가격을 입력해주세요.");
+    	            $("#price").focus();
     	        } else if(isNaN(price)) { 
     	            alert("가격은 숫자만 입력해주세요."); 
     	            $("#price").focus();
     	        } else if(prod_content == "") {
     	            alert("상품내용을 입력해주세요.");
     	            $("#prod_content").focus();
+    	        } else if(file == "") {
+    	        	alert("파일을 선택해주세요.");
     	        } else {
     	            // 유효한 경우에만 AJAX 요청 보내기
     	            var formData = new FormData();
@@ -163,10 +165,11 @@
     	            formData.append('prod_kind', selectedOption);
     	            formData.append('price', price);
     	            formData.append('prod_content', prod_content);
+    	            formData.append('file', $('#file').prop('files')[0]);
 
     	            // AJAX 요청 보내기
     	            $.ajax({
-    	                url: '/insertProduct.do',
+    	                url: 'fileUpload.do',
     	                type: 'POST',
     	                data: formData,
     	                processData: false,
@@ -180,41 +183,17 @@
     	                        alert('상품 등록에 실패하였습니다.');
     	                    }
     	                },
-    	                error: function() {
-    	                    alert('상품 등록 요청에 실패하였습니다.');
-    	                }
+    	                error: function(xhr, status, error) {
+        	                // 파일 업로드 실패 시 처리
+        	                alert("파일 업로드에 실패하였습니다.");
+        	                console.log(xhr.responseText);
+        	            }
     	            });
     	        }
     	    });
-    	});
-	
+    	});	
+
     	
-    	$(document).ready(function() {
-    	    $("#frm").on("submit", function(e) {
-    	        e.preventDefault(); // 기본 이벤트 동작 방지
-
-    	        var formData = new FormData($(this)[0]);
-
-    	        $.ajax({
-    	            url: "fileUpload.do",
-    	            type: "POST",
-    	            data: formData,
-    	            processData: false,
-    	            contentType: false,
-    	            success: function(response) {
-    	                // 파일 업로드 성공 시 처리
-    	                alert("파일 업로드가 완료되었습니다.");
-    	                window.location.href = "/admin/productList.do";
-    	            },
-    	            error: function(xhr, status, error) {
-    	                // 파일 업로드 실패 시 처리
-    	                alert("파일 업로드에 실패하였습니다.");
-    	                console.log(xhr.responseText);
-    	            }
-    	        });
-    	    });
-    	});
-
     </script>
 </body>
 </html>

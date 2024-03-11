@@ -60,8 +60,18 @@
            background-color: #ececec;
            border-radius: 8%;
            margin-bottom: 5px;
-        }        
-        .productList .list .title .p2 a:hover 
+        }
+        .productList .list .title .p3
+        {
+           font-size: 1.1em; 
+           border: 1px solid #ececec;
+           background-color: #A08680;
+           border-radius: 8%;
+           margin-bottom: 5px;
+           margin-left: 10px;    
+           color:white;       
+        }          
+        .productList .list .title .p2 a:hover
         {
             color: black;
         }
@@ -115,7 +125,7 @@
         <div class="list">
             <div class="title">
                  <h2><a href="${path }/admin/admin.do"><i class="xi-arrow-left"></i></a>상품 목록</h2>
-                 <p> (총 <strong>??</strong>개)</p>
+                 <p> (총 <strong>${totalCnt }</strong>개)</p>
                  <span class="p2" style="display: inline-block;"><a href="${path }/admin/productFile.do">상품 등록</a></span>
             </div>
             <table>
@@ -140,7 +150,7 @@
                         	</c:when>
                         	<c:otherwise>
                         		<c:forEach items="${allList }" var="list">
-                        			<tr>
+                        			<tr onclick="location.href='${path}/admin/productInfo.do?prod_no=${list.prod_no }'">
                         				<td>${list.prod_no }</td>
                         				<td>${list.prod_name }</td>
                         				<c:if test="${list.prod_kind eq 'outer'}"><td>아우터</td></c:if>
@@ -153,8 +163,8 @@
                         				<td><img alt="상품이미지" src="${path }/resources/img/${list.prod_image }"></td>
                         				<td>${list.prod_content }</td>
                         				<td>${list.cate_no }</td>
-                        				<c:if test="${list.useyn eq 'Y'}"><td>사용</td></c:if>
-                        				<c:if test="${list.useyn eq 'N'}"><td>X</td></c:if>
+                        				<c:if test="${list.useyn eq 'Y' }"><td style="color: blue">${list.useyn }</td></c:if>
+                        				<c:if test="${list.useyn eq 'N' }"><td style="color: red">${list.useyn }</td></c:if>
                         				<td>${list.regdate }</td>
                         				<td>${list.deldate }</td>
                         			</tr>
@@ -168,12 +178,20 @@
     <%@ include file="../include/footer.jsp" %>
     
     <script type="text/javascript">
-    	var loginChk = '${loginChk}';
-    	
-    	if(loginChk == 'fail') {
-    		alert("관리자 로그인 후 이용 가능 합니다.");
-    		window.location.href = '${path}/member/loginForm.do';
-    	}
+	    var errorMessage = '${errorMessage}'; // 서버 내부 오류
+		var session = '${session}';	// 세션 체크
+		var loginChk = '${loginChk}';	// 관리자 로그인 체크
+		
+		if(loginChk == 'fail') {
+			alert("관리자 로그인 후 이용 가능합니다.");
+			window.location.href = "${path}/member/loginForm.do";
+		} else if(session == "exp") {
+			alert("세션이 만료 되었습니다. 다시 로그인 바랍니다.");
+			window.location.href = "${path}/member/loginForm.do";
+		} else if(errorMessage == "error") {
+			alert("서버 내부에 오류가 발생 했습니다.");
+			window.location.href = "${path}/error/errorPage.do";
+		}
     </script>
 </body>
 </html>

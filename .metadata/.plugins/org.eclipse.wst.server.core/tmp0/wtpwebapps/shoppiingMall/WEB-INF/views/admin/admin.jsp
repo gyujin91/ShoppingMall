@@ -31,7 +31,7 @@
             width: 5%;
             background: #6666FF;
             border-radius: 25px;
-            /* height: 100vh;  */
+            display: none;
         }
 
         .navigation ul 
@@ -118,12 +118,12 @@
         {
             color: black;
         }
-        .content .total .views, .sales, .comments, .earning
+        .content .total .views, .sales, .comments, .earning, .order
         {
             border: 1px solid #ececec;
             border-radius: 10px;
             box-shadow: 2px 2px 2px 2px rgba(33, 33, 33, 0.15);
-            width: 321px;
+            width: 283px;
             height: 90px;
             float: left;
             margin-right: 27px;
@@ -156,6 +156,14 @@
             color: #7766FF;
         }
         .content .total .sales i
+        {
+            position: absolute;
+            left: 80%;
+            bottom: 20%;
+            font-size: 2.5em;
+            color: #7766FF;
+        }
+        .content .total .order i
         {
             position: absolute;
             left: 80%;
@@ -309,19 +317,21 @@
 </head>
 <body>
     <div class="deshboard">
-        <div class="navigation">
+        <div class="navigation" id="navigation">
             <ul>
-                <li><i class="xi-home-o" onclick="home()"></i></li>
-                <li><i class="xi-money"></i></li>
-                <li><i class="xi-help-o"></i></li>
-                <li><i class="xi-users-o"></i></li>
+                <li><i class="xi-home-o" onclick="location.href='${path}/'"></i></li>
+                <li><i class="xi-won" onclick=""></i></li>
+                <li><i class="xi-help-o" onclick=""></i></li>
+                <li><i class="xi-cart-o" onclick="location.href='${path}/admin/orderList.do'"></i></li>
+                <li><i class="xi-users-o" onclick="location.href='${path}/admin/allMemberList.do'"></i></li>
+                <li><i class="xi-box" onclick="location.href='${path }/admin/productList.do'"></i></li>
                 <li><i class="xi-cog"></i></li>
             </ul>
         </div>
         <div class="content">
             <div class="header">
                 <ul class="list">
-                    <li class="item left"><a href="#"><i class="xi-bars"></i></a></li>
+                    <li class="item left"><a href="#" onclick="toggleNavigation()"><i class="xi-bars"></i></a></li>
                     <li class="item center"><i class="xi-search"></i><input type="text" name="search" id="search" value="검색"></li>
                     <li class="item right"><strong>관리자님 환영합니다.</strong></li>
                 </ul>
@@ -334,25 +344,32 @@
                         <i class="xi-eye-o"></i>
                     </div>
                 </a>
-                <a href="${path }/admin/adminOrderList.do">
+                <a href="#">
                     <div class="sales">
-                        <h3>80</h3>
+                        <h3>9,999</h3>
+                        <p style="color: gray; font-size: 18px;">매출</p>
+                        <i class="xi-won"></i>
+                    </div>
+                </a>
+                <a href="${path }/admin/orderList.do">
+                    <div class="order">
+                        <h3>${oTotalCnt }<em style="font-size: 0.6em">건</em></h3>
                         <p style="color: gray; font-size: 18px;">주문</p>
                         <i class="xi-cart-o"></i>
                     </div>
                 </a>
-                <a href="#">
+                <a href="${path }/admin/noticeList.do">
                     <div class="comments">
                         <h3>208</h3>
-                        <p style="color: gray; font-size: 18px;">문의</p>
+                        <p style="color: gray; font-size: 18px;">리뷰</p>
                         <i class="xi-help-o"></i>     
                     </div>
                 </a>
                 <a href="${path }/admin/productList.do">
                     <div class="earning">
-                        <h3>$6,008</h3>
+                        <h3>${pTotalCnt }<em style="font-size: 0.6em">개</em></h3>
                         <p style="color: gray; font-size: 18px;">상품</p>
-                        <i class="xi-won"></i> 
+                        <i class="xi-box"></i> 
                     </div>
                 </a>
             </div>
@@ -360,7 +377,7 @@
                 <div class="orders">
                     <div style="display: flex; justify-content: space-between;">
                         <h2>주문</h2>
-                        <button>View All</button>
+                        <button onclick="location.href='${path}/admin/orderList.do'">View All</button>
                     </div>
                     <table>
                         <thead>
@@ -385,10 +402,26 @@
 		                                <td>${list.mem_name }</td>
 		                                <td><fmt:formatNumber pattern="###,###,###" value="${list.price}"/>원</td>
 		                                <td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.order_date }"/></td>
-		                                <c:if test="${list.payment_method == '무통장 입금' }"><td style="color: #0B610B">${list.payment_method }</td></c:if>
-		                                <c:if test="${list.payment_method == '카드 결제' }"><td style="color: #2E2EFE">${list.payment_method }</td></c:if>
-		                                <c:if test="${list.order_state == '주문 완료' }"><td style="background: #D7DF01">${list.order_state }</td></c:if>
-		                                <c:if test="${list.order_state == '주문 취소' }"><td style="background: #FF0040">${list.order_state }</td></c:if>
+		                                <!-- 결제 방법 -->
+		                                <c:choose>
+		                                	<c:when test="${list.payment_method == '무통장 입금' }">
+		                                		<td style="color: #0B610B">${list.payment_method }</td>
+		                                	</c:when>
+		                                	<c:otherwise>
+		                                		<td style="color: #2E2EFE">${list.payment_method }</td>
+		                                	</c:otherwise>
+		                                </c:choose>
+		                                <!-- 결제 방법 -->
+		                                <!-- 주문 상태 -->
+		                                <c:choose>
+		                                	<c:when test="${list.order_state == '주문 완료' }">
+		                                		<td>${list.order_state }</td>
+		                                	</c:when>
+		                                	<c:otherwise>
+		                                		<td style="color: #FF0040">${list.order_state }</td>
+		                                	</c:otherwise>
+		                                </c:choose>
+		                                <!-- 주문 상태 -->
                             		</tr>
                       			</c:forEach>
                       		</c:otherwise>
@@ -432,8 +465,13 @@
     		window.location.href = "${path}/error/errorPage.do";
     	}
 
-        function home() {
-        	window.location.href = '${path}/';
+        function toggleNavigation() {
+        	var navigation = document.getElementById("navigation");
+            if (navigation.style.display === "none") {
+                navigation.style.display = "block"; // 보이게 변경
+            } else {
+                navigation.style.display = "none"; // 숨기게 변경
+            }
         }
     </script>
 </body>

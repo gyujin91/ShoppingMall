@@ -64,7 +64,7 @@
         }
         .joinBox div i
         {
-            color: black;
+            color: #ffffff;
         }
         .joinBox div input
         {
@@ -79,7 +79,7 @@
         }
         ::placeholder
         {
-            color: black;
+            color: #ffffff;
         }
         .joinBox .links
         {
@@ -103,6 +103,15 @@
             color: blue;
             padding-left: 3px;
         }
+        .joinBox .idCheck
+        {
+            margin: 20px 0 20px 0;
+            border: none;
+        }
+        .joinBox .idCheck label
+        {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -114,19 +123,22 @@
                 <h2>Sign Up</h2>
                 <p>Wellcome</p>
                 <div class="memId"> 
-                    <label for="memId"><i class="xi-user"></i></label>
+                    <label for="mem_id"><i class="xi-user"></i></label>
                     <input type="text" id="mem_id" name="mem_id" placeholder="아이디"  required>
                 </div>
+                <div class="idCheck"> 
+                    <label id="idCheck"></label>
+                </div>
                 <div class="memPw">
-                    <label for="memPw"><i class="xi-lock"></i></label>
+                    <label for="mem_pw"><i class="xi-lock"></i></label>
                     <input type="password" id="mem_pw" name="mem_pw" placeholder="비밀번호"  required>
                 </div>
                 <div class="memPw2">
-                    <label for="memPw2"><i class="xi-lock"></i></label>
+                    <label for="mem_pw2"><i class="xi-lock"></i></label>
                     <input type="password" id="mem_pw2" name="mem_pw2" placeholder="비밀번호 확인"  required>
                 </div>
                 <div class="memName">
-                    <label for="memName"><i class="xi-user-address"></i></label>
+                    <label for="mem_name"><i class="xi-user-address"></i></label>
                     <input type="text" id="mem_name" name="mem_name" placeholder="이름"  required>
                 </div>
                 <div class="email">
@@ -148,48 +160,66 @@
      <%@ include file ="../include/footer.jsp" %>
      
     <script>	
-	    $(function() {				
+	    $(function() {
+	    	$('.idCheck').hide();
+            // mem_id 입력란의 포커스 이벤트를 감지하여 처리합니다.
+            $('#mem_id').on('focus', function() {
+                // .idCheck div를 숨깁니다.
+                $('.idCheck').hide();
+            });
+            
+            $('#mem_id').on('focusout', function() {              
+                $('.idCheck').show();
+                var mem_id = $("#mem_id").val();
+                var idPattern = /^[a-zA-Z0-9]+$/;	// 아이디 유효성 검사 패턴	         
+	            var minIdLength = 4;	   // 아이디 최소 길이            
+	            var maxIdLength = 10;	// 아이디 최대 길이	
+	            
+	            if (mem_id == "") {
+	                $("#idCheck").css("color", "red").text("아이디를 입력하세요.");
+	            } else if (!idPattern.test(mem_id)) {
+	                $("#idCheck").css("color", "red").text("아이디는 영문자와 숫자로만 이루어져야 합니다.");
+	            } else if (mem_id.length < minIdLength || mem_id.length > maxIdLength) {
+	                $("#idCheck").css("color", "red").text("아이디는 최소 " + minIdLength + "자 이상 " + maxIdLength + "자 이하 여야 합니다.");
+	            } else {
+	                $.ajax({
+	                	url: '/myapp/member/idCheck.do',
+	                	type: 'POST',
+	                	data: {
+	                		mem_id: mem_id,
+	                	},
+	                	dataType: 'json',
+	                	success:function(response) {
+	                		if(response.result == "fail") {
+	                			$("#idCheck").css("color", "red").text("이미 사용중인 아이디 입니다.");
+	                		} else {
+	                			$("#idCheck").css("color", "white").text("사용 가능한 아이디 입니다.");
+	                		}
+	                	},
+	                	error:function(xhr, status, error) {
+	                		alert("아이디 중복 검사 중 에러가 발생 했습니다.");
+	                	}
+	                });
+	            }               
+            });
+     
+	    	
+	     	// 아이디 유효성검사 및 중복체크
 			$("#join").click(function() {
-				var mem_id = $("#mem_id").val();
 	            var mem_pw = $("#mem_pw").val();
 	            var mem_pw2 = $("#mem_pw2").val();
 	            var mem_name = $("#mem_name").val();
 	            var email = $("#email").val();
-	            var phone = $("#phone").val();
-	
-	            // 아이디 유효성 검사 패턴
-	            var idPattern = /^[a-zA-Z0-9]+$/;
-	            // 아이디 최소 길이
-	            var minIdLength = 4;
-	            // 아이디 최대 길이
-	            var maxIdLength = 10;
-	            
-	            // 비밀번호 유효성 검사 패턴
-	            var pwPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-	            // 비밀번호 최소 길이
-	            var minPwLength = 8;
-	
-	            // 이름 유효성 검사 패턴
-	            var namePattern = /^[가-힣a-zA-Z]+$/;
-	            // 이름 최소 길이
-	            var minNameLength = 2;
-	
-	            // 이메일 유효성 검사 패턴
-	            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	
-	            // 전화번호 유효성 검사 패턴
-	            var phonePattern = /^\d{2,3}\d{3,4}\d{4}$/;  
-	
-				if(mem_id == "") {
-					alert("아이디를 입력 하세요.");
-					$("#mem_id").focus();
-				} else if(!idPattern.test(mem_id)) {
-	                alert("아이디는 영문자와 숫자로만 이루어져야 합니다.");
-	                $("#mem_id").focus();
-	            } else if(mem_id.length < minIdLength || mem_id.length > maxIdLength) {
-	                alert("아이디는" + minIdLength + "자 이상" + maxIdLength + "자 이하 여야 합니다.");
-	                $("#mem_id").focus();
-	            } else if(mem_pw == "") {
+	            var phone = $("#phone").val();  
+	            	            
+	            var pwPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;	// 비밀번호 유효성 검사 패턴	            
+	            var minPwLength = 8;	// 비밀번호 최소 길이      
+	            var namePattern = /^[가-힣a-zA-Z]+$/;		// 이름 유효성 검사 패턴	            
+	            var minNameLength = 2;	// 이름 최소 길이         
+	            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;	// 이메일 유효성 검사 패턴	            
+	            var phonePattern = /^\d{2,3}\d{3,4}\d{4}$/;  	// 전화번호 유효성 검사 패턴
+				
+	           if(mem_pw == "") {
 					alert("비밀번호를 입력 하세요.");
 					$("#mem_pw").focus();
 				} else if(!pwPattern.test(mem_pw)) {
@@ -198,6 +228,9 @@
 	            }  else if(mem_pw2 == "") {
 					alert("비밀번호 확인을 입력 하세요.");
 					$("#mem_pw2").focus();
+				} else if(mem_pw != mem_pw2) {
+	                alert("비밀번호가 일치 하지 않습니다.");
+	                $("#mem_pw2").focus(); 
 				} else if(mem_name == "") {
 					alert("이름를 입력 하세요.");
 					$("#mem_name").focus();
@@ -218,9 +251,6 @@
 				} else if(!phonePattern.test(phone)) {
 	                alert("유효한 전화번호 형식을 입력하세요. (예: 01012345678)");
 	                $("#phone").focus();
-	            } else if(mem_pw != mem_pw2) {
-	                alert("비밀번호가 일치 하지 않습니다.");
-	                $("#mem_pw2").focus();
 	            } else {
 					/* $("#fr").attr("action", "join.do").attr("method", "post").submit(); */
 	            	$("#fr").attr("action", "join.do").submit();
@@ -228,13 +258,8 @@
 				}     
 			});
 		});
-	    
-	    // 아이디 중복 체크
-
-
-    </script>
     
-   
+    </script>
     
 </body>
 </html>

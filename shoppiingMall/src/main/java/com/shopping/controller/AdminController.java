@@ -1,10 +1,12 @@
 package com.shopping.controller;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -17,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopping.dto.MemberDTO;
+import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
 import com.shopping.dto.ProductDTO;
 import com.shopping.service.AdminService;
+import com.shopping.service.MemberService;
+import com.shopping.service.NoticeService;
 import com.shopping.service.OrderService;
 import com.shopping.service.ProductService;
 
@@ -39,6 +43,12 @@ public class AdminController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	NoticeService noticeService;
 	
 	@Autowired
 	BCryptPasswordEncoder pwdEncoder;
@@ -67,11 +77,15 @@ public class AdminController {
 				List<MemberDTO> memberList = adminService.memberList();
 				List<OrderDTO> orderList = adminService.allOrderList();
 				List<Map<String, Object>> userTotalPrice = adminService.userTotalPrice();
+				int pTotalCnt = productService.productTotalCnt();
+				int oTotalCnt = orderService.orderTotalCnt();
 				
 				model.addAttribute("memberList", memberList);
 				model.addAttribute("orderList", orderList);
 				model.addAttribute("userTotalPrice", userTotalPrice);
-	
+				model.addAttribute("pTotalCnt", pTotalCnt);
+				model.addAttribute("oTotalCnt", oTotalCnt);
+				
 				return "admin/admin";
 			} else {
 				System.out.println("관리자 로그인 후 이용 가능");
@@ -86,6 +100,7 @@ public class AdminController {
 		}
 	}
 	
+	/* -------------------------------------------------------- 유저 -------------------------------------------------------- */
 	@RequestMapping("allMemberList.do")
 	public String allMemberList(Model model, HttpSession session) throws Exception {
 		try {
@@ -171,8 +186,10 @@ public class AdminController {
 	public String memberDelete(@RequestParam String mem_id) throws Exception {
 		adminService.adminUserDelete(mem_id);
 		return "redirect:admin/admin.do";
-	}
+	}	
+	/* -------------------------------------------------------- 유저 -------------------------------------------------------- */
 	
+	/* -------------------------------------------------------- 상품 -------------------------------------------------------- */
 	// 관리자 화면 모든 상품 노출
 	@RequestMapping("productList.do")
 	public String allProductList(Model model, HttpSession session) throws Exception {		
@@ -212,22 +229,30 @@ public class AdminController {
 	}
 	
 	// 상품 등록 페이지 이동
-	@RequestMapping("productFile.do")
+	@RequestMapping("fileUpload.do")
 	public String productFile() throws Exception {
-		return "admin/productFile";
+		return "admin/fileUpload";
 	}
-	
 	
 	// 파일 업로드
 	@RequestMapping(value = "fileUpload.do", method = RequestMethod.POST)
 	public String fileUpload(HttpSession session, @RequestParam("file") MultipartFile file, ProductDTO pdto,
-			Model model, @RequestParam String prod_kind) throws Exception {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
-		
-		if(loginMap != null && (loginMap.get("CODE") == "1")) {
-			// 로그인, 파일 체크 
-			if(!file.isEmpty()) {
+			Model model, @RequestParam String prod_kind, HttpServletRequest request) throws Exception {
+		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "admin/productInfo";
+			}
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 로그인 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
 				try {
 					// 파일 업로드 처리
 					long size = file.getSize();
@@ -267,21 +292,29 @@ public class AdminController {
 					} else if(prod_kind.equals("outer")) {
 						pdto.setProd_kind("outer");
 						pdto.setCate_no("60");
-					}	
+					}
 					
-					productService.insertProduct(pdto);
+					productService.insertProduct(pdto);	
+					return "redirect:/admin/productList.do";
 				} catch(Exception e) {
 					e.printStackTrace(); // 파일 업로드 실패
 					System.out.println("파일 업로드 실패");
+					model.addAttribute("upload", "fail");
+					return "admin/fileUpload";
 				}
 			} else {
-				System.out.println("파일이 비어 있습니다. // 파일 ㅣㅣ " + file);
-			}		
-			return "redirect:/admin/productList.do";
-		} else {
-			model.addAttribute("loginChk", "fail");
-			return "admin/productFile";
-		}		
+				System.out.println("관리자 로그인 후 이용 가능");
+				model.addAttribute("loginChk", "fail");
+				return "admin/fileUpload";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/fileUpload";
+		}
+		
+		
 	}
 	
 	// 상품 상세보기
@@ -321,7 +354,9 @@ public class AdminController {
 	
 	// 상품 수정
 	@RequestMapping("updateProduct.do")
-	public String updateProduct(Model model, HttpSession session, ProductDTO pdto) throws Exception {
+	public String updateProduct(Model model, HttpSession session, ProductDTO pdto,
+			@RequestParam String prod_name, @RequestParam String prod_kind, @RequestParam int price, 
+			@RequestParam String prod_content ,@RequestParam String cate_no) throws Exception {
 		try {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
@@ -331,14 +366,12 @@ public class AdminController {
 			
 			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
 			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
-				System.out.println("111111111111111111111111111111111111111111111");
+				pdto.setProd_name(prod_name);
+				pdto.setProd_kind(prod_kind);
+				pdto.setPrice(price);
+				pdto.setProd_content(prod_content);
+				pdto.setCate_no(cate_no);
 				productService.updateProduct(pdto);
-				System.out.println("pdto ::" + pdto.getCate_no());
-				System.out.println("pdto ::" + pdto.getProd_name());
-				System.out.println("pdto ::" + pdto.getPrice());
-				System.out.println("pdto ::" + pdto.getUseyn());
-				System.out.println("pdto ::" + pdto.getProd_kind());
-				System.out.println("222222222222222222222222222222222222222222222");
 				return "redirect:/admin/productList.do";
 			} else {
 				System.out.println("관리자 로그인 후 이용 가능");
@@ -381,7 +414,175 @@ public class AdminController {
 		}
 		
 	}
+	/* -------------------------------------------------------- 상품 -------------------------------------------------------- */
 	
+	/* -------------------------------------------------------- 주문 -------------------------------------------------------- */
+	@RequestMapping("orderList.do")
+	public String orderList(Model model, HttpSession session) throws Exception {
+		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "redirect:/member/loginForm.do";
+			}
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
+				List<OrderDTO> allOrderList = adminService.allOrderList();
+				int oTotalCnt = orderService.orderTotalCnt();
+				
+				model.addAttribute("allOrderList", allOrderList);
+				model.addAttribute("oTotalCnt", oTotalCnt);
+				return "admin/orderList";
+			} else {
+				System.out.println("관리자 로그인 후 이용 가능");
+				model.addAttribute("loginChk", "fail");
+				return "admin/orderList";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/orderList";
+		}
+	}
+	
+	// 사용자 주문 목록 조회
+	@RequestMapping("orderInfo.do")
+	public String orderInfo(Model model, HttpSession session, @RequestParam String mem_id, @RequestParam int order_no) throws Exception {
+		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "redirect:/member/loginForm.do";
+			}
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
+				
+				MemberDTO memberDTO = memberService.myPage(mem_id);		// 회원 정보	
+//				List<OrderDTO> orderList = orderService.orderList(mem_id);	// 주문 목록
+				OrderDTO orderList = adminService.orderInfo(order_no);
+				Integer totalPrice = orderService.totalPrice(mem_id);	// 합계(가격 * 수량)
+				Date firstOrderDate = orderService.getFirstOrderDate(mem_id);	// 주문날짜 중 첫번쨰 날짜만 조회
+				
+				// 분할 된 주소 합치기
+				StringBuilder addressBuilder = new StringBuilder();
+				addressBuilder.append(memberDTO.getPost()).append(" ");
+				addressBuilder.append(memberDTO.getAddr1()).append(" ");
+				addressBuilder.append(memberDTO.getAddr2());
+				String address = addressBuilder.toString();
+				
+				model.addAttribute("memberDTO", memberDTO);
+				model.addAttribute("orderList", orderList);
+				model.addAttribute("totalPrice", totalPrice);
+				model.addAttribute("firstOrderDate", firstOrderDate);
+				model.addAttribute("address", address);
+				
+				// 전화 번호 마스킹
+				if (memberDTO != null) {
+				    String phoneNumber = memberDTO.getPhone();
+				    if (phoneNumber != null && !phoneNumber.isEmpty()) {
+				        StringBuilder maskedPhoneNumber = new StringBuilder();
+				        if (phoneNumber.length() == 11) {
+				            // 전화번호가 11자리인 경우 (010-1234-5678)
+				            maskedPhoneNumber.append(phoneNumber.substring(0, 3)); // 앞부분 (010)
+				            maskedPhoneNumber.append("-****-"); // 중간 4자리 마스킹 처리
+				            maskedPhoneNumber.append(phoneNumber.substring(7)); // 뒷부분 (5678)
+				        } else if (phoneNumber.length() == 10) {
+				            // 전화번호가 10자리인 경우 (010-123-4567)
+				            maskedPhoneNumber.append(phoneNumber.substring(0, 3)); // 앞부분 (010)
+				            maskedPhoneNumber.append("-***-"); // 중간 3자리 마스킹 처리
+				            maskedPhoneNumber.append(phoneNumber.substring(6)); // 뒷부분 (4567)
+				        }
+				        model.addAttribute("phoneNumber", maskedPhoneNumber.toString());
+				    }
+				} 
+				
+				// 이름 마스킹
+				String mem_name = memberDTO.getMem_name();
+				
+				if (mem_name.length() > 2) {
+				    // 이름이 세 글자 이상일 때는 첫 번째 글자와 마지막 글자를 제외하고 마스킹 처리
+				    StringBuilder maskedName = new StringBuilder();
+				    maskedName.append(mem_name.charAt(0)); // 첫 번째 글자는 그대로 유지
+				    for (int i = 1; i < mem_name.length() - 1; i++) {
+				        maskedName.append("*");
+				    }
+				    maskedName.append(mem_name.charAt(mem_name.length() - 1)); // 마지막 글자는 그대로 유지
+				    System.out.println(maskedName);
+				    model.addAttribute("maskedName", maskedName);
+				} else if (mem_name.length() == 2) {
+				    // 이름이 두 글자일 때는 두 번째 글자만 마스킹 처리
+				    StringBuilder maskedName = new StringBuilder();
+				    maskedName.append(mem_name.charAt(0)); // 첫 번째 글자는 그대로 유지
+				    maskedName.append("*"); // 두 번째 글자를 마스킹 처리
+				    System.out.println(maskedName);
+				    model.addAttribute("maskedName", maskedName);
+				} else {
+				    System.out.println("이름은 한 글자가 될 수 없습니다.");
+				}
+				
+				return "admin/orderInfo";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/orderInfo";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/orderInfo";
+		}	 		
+	}
+	/* -------------------------------------------------------- 주문 -------------------------------------------------------- */
+	/* -------------------------------------------------------- 공지 -------------------------------------------------------- */
+	@RequestMapping("noticeList.do")
+	public String noticeList(Model model, HttpSession session) throws Exception {
+		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "redirect:/member/loginForm.do";
+			}
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
+				List<NoticeDTO> noticeList = noticeService.noticeList();
+				model.addAttribute("noticeList", noticeList);
+				return "admin/noticeList";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/noticeList";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/noticeList";
+		}
+	}
+	/* -------------------------------------------------------- 공지 -------------------------------------------------------- */
 	// 조회수
 	@RequestMapping("views.do")
 	public String views() throws Exception {

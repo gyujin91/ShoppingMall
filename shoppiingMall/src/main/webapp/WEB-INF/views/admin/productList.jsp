@@ -126,7 +126,7 @@
             <div class="title">
                  <h2><a href="${path }/admin/admin.do"><i class="xi-arrow-left"></i></a>상품 목록</h2>
                  <p> (총 <strong>${totalCnt }</strong>개)</p>
-                 <span class="p2" style="display: inline-block;"><a href="${path }/admin/productFile.do">상품 등록</a></span>
+                 <span class="p2" style="display: inline-block;"><a href="${path }/admin/fileUpload.do">상품 등록</a></span>
             </div>
             <table>
                 <thead>
@@ -151,20 +151,44 @@
                         	<c:otherwise>
                         		<c:forEach items="${allList }" var="list">
                         			<tr onclick="location.href='${path}/admin/productInfo.do?prod_no=${list.prod_no }'">
-                        				<td>${list.prod_no }</td>
+                        				<td><a href="${path }/admin/productInfo.do?prod_no=${list.prod_no}" style="text-decoration: none">${list.prod_no }</a></td>
                         				<td>${list.prod_name }</td>
-                        				<c:if test="${list.prod_kind eq 'outer'}"><td>아우터</td></c:if>
-                        				<c:if test="${list.prod_kind eq 'bottom'}"><td>바지</td></c:if>
-                        				<c:if test="${list.prod_kind eq 'coat'}"><td>코트</td></c:if>
-                        				<c:if test="${list.prod_kind eq 'hood'}"><td>후드</td></c:if>
-                        				<c:if test="${list.prod_kind eq 'zipup'}"><td>집업</td></c:if>
-                        				<c:if test="${list.prod_kind eq 'mantoman'}"><td>맨투맨</td></c:if>
+                        				<!-- 상품 종류 -->
+                        				<c:choose>
+                        					<c:when test="${list.prod_kind eq 'outer'}">
+                        						<td>아우터</td>
+                        					</c:when>                   		
+                        					<c:when test="${list.prod_kind eq 'bottom'}">
+                        						<td>바지</td>
+                        					</c:when>              		
+                        					<c:when test="${list.prod_kind eq 'coat'}">
+                        						<td>코트</td>
+                        					</c:when>                     				
+                        					<c:when test="${list.prod_kind eq 'hood'}">
+                        						<td>후드</td>
+                        					</c:when>                 			
+                        					<c:when test="${list.prod_kind eq 'zipup'}">
+                        						<td>집업</td>
+                        					</c:when>                  				
+                        					<c:when test="${list.prod_kind eq 'mantoman'}">
+                        						<td>맨투맨</td>
+                        					</c:when>
+                        				</c:choose>
+                        				<!-- 상품 종류 -->                    			
                         				<td><fmt:formatNumber pattern="###,###,###" value="${list.price}"/></td>  
                         				<td><img alt="상품이미지" src="${path }/resources/img/${list.prod_image }"></td>
                         				<td>${list.prod_content }</td>
                         				<td>${list.cate_no }</td>
-                        				<c:if test="${list.useyn eq 'Y' }"><td style="color: blue">${list.useyn }</td></c:if>
-                        				<c:if test="${list.useyn eq 'N' }"><td style="color: red">${list.useyn }</td></c:if>
+                        				<!-- 사용 여부 -->
+                        				<c:choose>
+                        					<c:when test="${list.useyn eq 'Y' }">
+                        						<td style="color: blue">${list.useyn }</td>
+                        					</c:when>
+                        					<c:otherwise>
+                        						<td style="color: red">${list.useyn }</td>
+                        					</c:otherwise>
+                        				</c:choose>
+		                        		<!-- 사용 여부 -->		
                         				<td>${list.regdate }</td>
                         				<td>${list.deldate }</td>
                         			</tr>

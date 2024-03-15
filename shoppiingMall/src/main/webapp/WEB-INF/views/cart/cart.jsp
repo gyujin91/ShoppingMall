@@ -368,10 +368,14 @@
         // 주문하기 버튼 클릭 시
         $("#order").click(function() {
             var loginChk = '${loginChk}';
+            var cart = '${cart}'; 
 
             if (loginChk == 'fail') {
                 alert("로그인 후 이용 가능합니다.");
-                window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
+                window.location.href = '${path}/member/loginForm.do'; // 로그인 페이지로 리다이렉트
+            } else if(cart == 'empty') {	// 장바구니가 비어 있는지 확인
+            	alert("장바구니가 비어 있습니다.");
+            	window.location.href = '${path}/';	// 홈으로 리다렉트
             } else {
                 alert("주문 화면으로 이동 합니다.");
                 window.location.href = "${path}/order/orderForm.do";

@@ -1,6 +1,6 @@
 package com.shopping.controller;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shopping.dto.MemberDTO;
 import com.shopping.service.MemberService;
@@ -216,24 +216,21 @@ public class MemberController {
 	
 	// 아이디 중복 체크
 	@RequestMapping(value = "idCheck.do", method = RequestMethod.POST)
-	public String idCheck(Model model, @RequestParam String mem_id) throws Exception {
-		try {
+	@ResponseBody
+	public Map<String, Object> idCheck(@RequestParam String mem_id) throws Exception {
+	
 			int idCheck = memberService.idCheck(mem_id);
+			Map<String, Object> map = new HashMap<String, Object>();
 			
 			if(idCheck == 1) {
-				// 중복된 아이디가 존재 할 경우
-				model.addAttribute("idCheck", "fail");
-				return "member/joinForm";
-			} else {
-				// 중복된 아이디가 존재 하지 않을 경우 idCheck = 0
-				model.addAttribute("idCheck", "success");
-				return "member/joinForm";
-			}
+				System.out.println("이미 사용중인 아이디 입니다.");
+				map.put("result", "fail");
+			} else {	// idCheck == 0
+				System.out.println("사용 가능한 아이디 입니다.");
+				map.put("result", "success");
+			}			
+			return map;
 			
-		} catch(Exception e) {
-			 e.printStackTrace();
-		     return "member/joginForm";
-		}
 	}
 	
 	

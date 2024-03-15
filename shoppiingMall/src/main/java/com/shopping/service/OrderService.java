@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.shopping.dto.OrderDTO;
 
 public interface OrderService {
@@ -19,5 +21,14 @@ public interface OrderService {
 	
 	// 첫번째 주문 날짜만 조회
 	public Date getFirstOrderDate(String mem_id) throws Exception;
+	
+	// 주문 총 건 수
+	public int orderTotalCnt() throws Exception;
+	
+	// 주문 취소
+	public void deleteOrder(int order_no) throws Exception;
+	
+	// 주문 취소 후 변경 된 주문 금액
+	public Integer updatePrice(@Param("mem_id") String mem_id, @Param("order_state") String order_state) throws Exception;
 	
 }

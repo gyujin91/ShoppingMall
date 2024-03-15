@@ -243,6 +243,7 @@
 			});
 			
 			$("#update").click(function() {
+				var prod_no = $("#prod_no").val();	// 상품 번호
 				var prod_name = $("#prod_name").val();	// 상품명
 				var prod_kind = $("#prod_kind").val();	// 상품 종류
 				var price = $("#price").val();	// 가격
@@ -270,6 +271,7 @@
 						url: "updateProduct.do",
 						type: "POST",
 						data: {
+								prod_no: prod_no,
 				            	prod_name: prod_name,
 				            	prod_kind: prod_kind,
 				            	price: price,

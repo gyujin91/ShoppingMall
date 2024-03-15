@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//src/main/webapp/WEB-INF/views/admin/admin.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/admin/productList.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/admin/views.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/cart/cart.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/home.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/include/footer.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/include/header.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/map/map.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/member/joinForm.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/member/loginForm.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/notice/boardList.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/order/orderInfo.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/product/productDetail.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/review/review.jsp=UTF-8

@@ -26,6 +26,9 @@ public interface AdminDAO {
 	// 주문 목록 조회
 	public List<OrderDTO> allOrderList() throws Exception;
 	
+	// 주문 상세 목록 조회
+	public OrderDTO orderInfo(int order_no) throws Exception;
+	
 	// 사용자들 각각의 (주문 * 수량) 금액 조회
 	public List<Map<String,Object>> userTotalPrice() throws Exception;
 }

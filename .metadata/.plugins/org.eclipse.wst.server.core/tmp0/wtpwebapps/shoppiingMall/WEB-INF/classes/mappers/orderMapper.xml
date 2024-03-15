@@ -56,6 +56,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        C.MEM_ID = #{mem_id}
 	</insert>
 	
+	<!-- 주문 목록 담기 -->
+	<!-- <insert id="insertOrder" parameterType="com.shopping.dto.OrderDTO">	
+	    INSERT INTO TRANSACTION 
+		    (MEM_ID,
+		    MEM_NAME,
+		    PHONE,
+		    EMAIL, 
+		    PROD_NO, 
+		    PROD_NAME, 
+		    PRICE, SIZE, 
+		    QUANTITY, 
+		    PROD_IMAGE, 
+		    ORDER_DATE, 
+		    POST, 
+		    ADDR1, 
+		    ADDR2,
+		    DELIVERYFEE,
+		    ORDER_STATE,
+		    PAYMENT_STATE,
+		    PAYMENT_METHOD)
+	    SELECT 
+	        C.MEM_ID,
+	        M.MEM_NAME,
+	        M.PHONE,
+	        M.EMAIL, 
+	        C.PROD_NO, 
+	        P.PROD_NAME, 
+	        P.PRICE, 
+	        C.SIZE, 
+	        C.QUANTITY, 
+	        P.PROD_IMAGE, 
+	        NOW(), 
+	        M.POST, 
+	        M.ADDR1, 
+	        M.ADDR2,
+	        '무료',
+	        'orderCompleted',
+	        CASE
+	        	WHEN PAYMENT_METHOD = 'bankTransfer' THEN 'depositCompleted'
+	        	WHEN PAYMENT_METHOD = 'creditCard' THEN 'completePayment'
+	        	ELSE PAYMENT_STATE,
+	        CASE
+	        	WHEN PAYMENT_METHOD = 'bankTransfer' THEN '무통장 입금'
+	        	WHEN PAYMENT_METHOD = 'creditCard' THEN '카드'
+	        	ELSE PAYMENT_METHOD,
+	    FROM 
+	        CART C
+	    JOIN 
+	        PRODUCT P ON C.PROD_NO = P.PROD_NO
+	    JOIN 
+	        MEMBER M ON C.MEM_ID = M.MEM_ID
+	    WHERE 
+	        C.MEM_ID = #{mem_id}
+	</insert> -->
+	
 	<!-- order_state, payment_state의 데이터를 30분 마다 자동으로 업데이트 -->
 	<!-- 	
 		DELIMITER //
@@ -97,15 +152,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    ORDER_DATE,
 		    CASE
 		        WHEN ORDER_STATE = 'orderCompleted' THEN '주문 완료'
-		        ELSE ORDER_STATE
+		        WHEN ORDER_STATE = 'orderCancel' THEN '주문 취소'
 		    END AS ORDER_STATE,
 		    CASE
-		        WHEN PAYMENT_STATE = 'depositCompleted' THEN '입금 완료'
+		        WHEN PAYMENT_STATE = 'depositCompleted' THEN '입금 완료' 
+		        WHEN PAYMENT_STATE = 'completePayment' THEN '결제 완료'
 		        ELSE PAYMENT_STATE
 		    END AS PAYMENT_STATE,
 		    CASE
 		        WHEN PAYMENT_METHOD = 'bankTransfer' THEN '무통장 입금'
-		        ELSE PAYMENT_METHOD
+		        WHEN PAYMENT_METHOD = 'creditCard' THEN '카드'
 		    END AS PAYMENT_METHOD
 		FROM TRANSACTION
 		WHERE MEM_ID = #{memId}	    
@@ -122,6 +178,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<!-- 주문 취소 후 변경된 주문 금액 -->
+	<select id="updatePrice" resultType="Integer" parameterType="map" >
+		<![CDATA[ 
+		SELECT 
+			SUM(PRICE * QUANTITY) AS UPDATE_PRICE
+		FROM TRANSACTION T
+			LEFT JOIN PAYMENT P ON T.ORDER_NO = P.ORDER_NO
+		WHERE ORDER_STATE != 'orderCancel' AND MEM_ID = #{memId};
+		]]>
+	</select>
+	
 	<!-- 첫번째 주문 날짜만 조회 -->
 	<select id="getFirstOrderDate" resultType="java.util.Date" parameterType="String">
 	    SELECT 
@@ -130,6 +197,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	WHERE MEM_ID = #{memId}
 	    ORDER BY ORDER_DATE LIMIT 1;
 	</select>
+	
+	<!-- 주문 총 건 수  -->
+	<select id="orderTotalCnt" resultType="int">
+		SELECT
+		 	COUNT(ORDER_NO) AS total_count
+		FROM TRANSACTION		
+	</select>
+	
+	<!-- 주문 취소 -->
+	<update id="deleteOrder">
+		UPDATE TRANSACTION SET
+			ORDER_STATE = 'orderCancel',
+			PAYMENT_STATE = 
+				CASE 
+	                WHEN payment_method = 'bankTransfer' THEN 'refundExpected'
+	                WHEN payment_method = 'creditCard' THEN 'paymentCancel'
+	                ELSE PAYMENT_STATE 
+            	END,
+			DEL_DATE = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
+		WHERE ORDER_NO = #{order_no}
+	</update>
 
 	
 </mapper> 

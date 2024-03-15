@@ -397,7 +397,7 @@
                 <h3>주문상품</h3>
                 <c:choose>
                 	<c:when test="${empty cartList }">
-                		<span>주문 하실 상품이 없습니다.</span>
+                		<span style="padding:0 0 15px 15px; color: red;">주문 하실 상품이 없습니다.</span>
                 	</c:when>
                 	<c:otherwise>
                 		<c:forEach items="${cartList }" var="list">
@@ -487,7 +487,7 @@
                     </span> 
                 </div>
                 <!-- payMethod 클릭 에 따른 div 분기 -->
-                <div class="ec-payMethod">
+                <div class="ec-payMethod" id="ec-payMethod">
                     <table border="1">
                         <tr>
                             <th>입금은행</th>
@@ -521,7 +521,7 @@
 	       alert("로그인 후 이용 가능합니다.");
 	       window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
 	    }
-   	
+   		
 	   	document.querySelectorAll('.segment span').forEach(function(span) {
 	   	    span.addEventListener('click', function() {
 	   	        // 모든 span의 스타일과 연결된 input의 상태를 원래 상태로 초기화
@@ -538,7 +538,9 @@
 	   	        input.checked = true;
 	   	    });
 	   	});
-	
+		
+	   	$("#ec-payMethod").css("display", "none");
+	   	
 	   	// id가 "card"인 label을 클릭하면 ec-payMethod를 숨깁니다.
 	   	document.getElementById('card').addEventListener('click', function() {
 	   	    document.querySelector('.ec-payMethod').style.display = 'none';           
@@ -642,8 +644,15 @@
 		        alert('결제 방법을 선택 해주세요.');
 		    }
 		});
-	
 		
+		// 장바구니가 비어 있다면 홈 화면으로 리다이렉트
+		var totalQuantity = '${totalQuantity}';
+		if(totalQuantity == 0) {
+			alert("장바구니가 비어있습니다.\n상품을 장바구니에 담아주세요.");
+			window.location.href = '${path}/';
+		}
+		
+		// 상품 주문 함수
 		function insertOrder(mem_id) {
 		    var mobile1 = $("#mobile1").val();
 		    var mobile2 = $("#mobile2").val();
@@ -676,9 +685,9 @@
 	            	mem_id: mem_id
 	            },
 	            success: function(response) {
-	                alert("주문이 성공적으로 완료 되었습니다.");
-	             	// 주문이 성공적으로 처리된 후에 장바구니 비우기 함수 호출
-	                allCartDelete(mem_id);                
+	            		alert("주문이 성공적으로 완료 되었습니다.");
+		             	// 주문이 성공적으로 처리된 후에 장바구니 비우기 함수 호출
+		                allCartDelete(mem_id);	
 	            },
 	            error: function(xhr, status, error) {
 	                alert("주문 도중 에러가 발생 했습니다.");
@@ -686,6 +695,7 @@
 	        });		   
 		} 
 		
+		// 상품 주문 후 장바구니 비우기 함수
 		function allCartDelete(mem_id) {
 			$.ajax({
 				url: '/myapp/cart/allCartDelete.do',
@@ -694,7 +704,7 @@
 					mem_id: mem_id
 				},
 				success: function(response) {
-					window.location.href = '/myapp/order/orderList.do?mem_id=' + mem_id;
+					window.location.href = '/myapp/order/orderInfo.do?mem_id=' + mem_id;
 				},
 				error: function(xhr, status, error) {
 	                alert("장바구니를 비우던 중 에러가 발생 했습니다.");

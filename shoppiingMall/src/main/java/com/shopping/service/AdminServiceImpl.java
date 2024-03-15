@@ -50,7 +50,9 @@ public class AdminServiceImpl implements AdminService{
 	public List<Map<String, Object>> userTotalPrice() throws Exception {
 		return adminDao.userTotalPrice();
 	}
-	
-	
-	
+
+	@Override
+	public OrderDTO orderInfo(int order_no) throws Exception {
+		return adminDao.orderInfo(order_no);
+	}
 }

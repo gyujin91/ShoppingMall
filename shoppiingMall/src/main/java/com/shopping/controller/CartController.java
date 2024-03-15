@@ -58,6 +58,11 @@ public class CartController {
 	        	totalData.put("DELIVERYFEE", 0);	// 배송비 = 디폴트 값으로 0 설정
 	        	totalData.put("TOTAL_DATA", 0);		// 합계 가격 + 배송비 = 디폴트 값으로 0 설정
 	        }
+	        
+	        if(cartList == null || cartList.isEmpty()) {
+	        	System.out.println("장바구니가  비어있습니다.");
+	        	model.addAttribute("cart", "empty");
+	        }
 
 	        model.addAttribute("mem_id", mem_id);
 	        model.addAttribute("cartList", cartList);        
@@ -116,7 +121,7 @@ public class CartController {
 	@RequestMapping("allCartDelete.do")
 	public String allCartDelete(@RequestParam String mem_id) throws Exception {
 		cartService.allCartDelete(mem_id);
-	    return "redirect:/order/orderList.do?mem_id=" + mem_id;
+	    return "redirect:/order/orderInfo.do?mem_id=" + mem_id;
 	}
 	
 }

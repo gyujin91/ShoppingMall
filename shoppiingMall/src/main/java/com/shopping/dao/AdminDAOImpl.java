@@ -12,7 +12,7 @@ import com.shopping.dto.OrderDTO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO{
-	
+
 	@Autowired
 	SqlSession sqlSession;
 
@@ -51,7 +51,10 @@ public class AdminDAOImpl implements AdminDAO{
 		return sqlSession.selectList("admin.userTotalPrice");
 	}
 
-	
+	@Override
+	public OrderDTO orderInfo(int order_no) throws Exception {
+		return sqlSession.selectOne("admin.orderInfo", order_no);
+	}
 
 	
 	

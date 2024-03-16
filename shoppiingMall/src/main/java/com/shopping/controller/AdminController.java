@@ -261,13 +261,12 @@ public class AdminController {
 					String fileRealName = file.getOriginalFilename();	// 원본 파일명
 					UUID uuid = UUID.randomUUID();	// 파일명을 현재 시간과 랜덤 UUID를 조합하여 생성
 					String fileName = uuid + "_" + fileRealName;		
-					String savePath = session.getServletContext().getRealPath(uploadPath);	// 서버에서 실제 파일이 저장될 경로
-					String filePath = savePath + File.separator + fileName;	// 파일이 저장될 최종 경로 지정
+					// String savePath = session.getServletContext().getRealPath(uploadPath);	// 서버에서 실제 파일이 저장될 경로
+					String filePath = uploadPath + File.separator + fileName;	// 파일이 저장될 최종 경로 지정
 					file.transferTo(new File(filePath));	// 해당 객체 생성 후 해당 경로에 파일 저장
 					
 					System.out.println("파일용량(byte) ::" + size);
 					System.out.println("원본 파일명 ::" + fileName);
-					System.out.println("실제 파일 저장 경로 ::" + savePath);
 					System.out.println("파일이 저장될 최종 경로 ::" + filePath);
 					System.out.println("파일 객체 ::" + file);
 					
@@ -316,7 +315,7 @@ public class AdminController {
 		
 		
 	}
-	
+
 	// 상품 상세보기
 	@RequestMapping("productInfo.do")
 	public String productInfo(Model model, @RequestParam int prod_no, HttpSession session) throws Exception {
@@ -550,6 +549,7 @@ public class AdminController {
 	}
 	/* -------------------------------------------------------- 주문 -------------------------------------------------------- */
 	/* -------------------------------------------------------- 공지 -------------------------------------------------------- */
+	// 골지 글 조회
 	@RequestMapping("noticeList.do")
 	public String noticeList(Model model, HttpSession session) throws Exception {
 		try {
@@ -582,6 +582,76 @@ public class AdminController {
 			return "admin/noticeList";
 		}
 	}
+	
+	// 공지 글 등록
+	@RequestMapping("insertNotice.do")
+	public String insertNotice(Model model, HttpSession session, NoticeDTO dto) throws Exception {
+		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "redirect:/member/loginForm.do";
+			}
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
+				noticeService.insertNotice(dto);
+				return "redirect/admin/noticeList.do";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/insertNoticeForm";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/insertNoticeForm";
+		}
+	}
+	
+	// 골지 사항 등록 폼 
+	@RequestMapping("insertNoticeForm.do")
+	public String insertNoticeForm(Model model, HttpSession session, Map<String, Object> map) throws Exception {
+		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "redirect:/member/loginForm.do";
+			}
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {			
+				int nextNum = noticeService.nextNum();
+				map.put("nextNum", String.valueOf(nextNum));
+				
+				model.addAttribute("nextNum", nextNum);
+				return "admin/insertNoticeForm";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/insertNoticeForm";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/insertNoticeForm";
+		}
+	}
+	
 	/* -------------------------------------------------------- 공지 -------------------------------------------------------- */
 	// 조회수
 	@RequestMapping("views.do")

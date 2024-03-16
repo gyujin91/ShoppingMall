@@ -179,7 +179,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     DELDATE)
 		VALUES (
 		    #{prod_name},
-		    #{pord_kind},
+		    #{prod_kind},
 		    #{price},
 		    #{cate_no},
 		    #{prod_content},

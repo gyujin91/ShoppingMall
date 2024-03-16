@@ -101,6 +101,7 @@ public class OrderController {
 		}	
 	}
 	
+	// 상품 주문
 	@RequestMapping("insertOrder.do")
 	public String insertOrder(Model model, HttpSession session, OrderDTO oDTO,
 	        @RequestParam String mobile1, @RequestParam String mobile2, @RequestParam String mobile3,

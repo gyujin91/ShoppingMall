@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<!-- mapper - mybatis, sqlMap - ibatis -->
+<mapper namespace="notice">
+  	
+  	<!-- 공지글 조회 -->
+	<select id="noticeList" resultType="com.shopping.dto.NoticeDTO">
+		SELECT 
+			NUM,
+			TITLE,
+			AUTHOR,
+			REGDATE,
+			VIEW_CNT,
+			USEYN
+		FROM NOTICE 
+        WHERE USEYN = 'Y' ORDER BY NUM DESC
+	</select>
+	
+	<insert id="insertNotice">
+		INSERT INTO NOTICE
+		(			
+  		TITLE, 				<!-- 제목 -->
+  		AUTHOR, 			<!-- 작성자 -->
+  		REGDATE,			<!-- 작성일 -->
+  		VIEW_CNT,			<!-- 조회수-->
+  		USEYN				<!-- 사용여부-->				
+  		) VALUES (
+  		#{title},
+  		(SELECT MEM_NAME FROM MEMBER WHERE CODE = 1),		
+  		DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')),
+		 0,                  <!-- 초기 조회수를 0으로 설정 -->
+        'Y'                 <!-- 사용 여부를 'Y'로 설정 -->
+	</insert>
+	
+</mapper> 

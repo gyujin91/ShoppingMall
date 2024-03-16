@@ -19,5 +19,15 @@ public class NoticeServiceImpl implements NoticeService{
 		return noticeDao.noticeList();
 	}
 
+	@Override
+	public void insertNotice(NoticeDTO dto) throws Exception {
+		noticeDao.insertNotice(dto);
+	}
+
+	@Override
+	public int nextNum() throws Exception {
+		return noticeDao.nextNum();
+	}
+
 	
 }

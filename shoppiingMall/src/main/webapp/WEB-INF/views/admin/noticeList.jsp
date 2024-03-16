@@ -55,6 +55,13 @@
                 color: #fff;
                 background: #212121;
             }
+            .notice .btn_Group button:nth-child(3)
+            {
+                float:right;
+                margin-right: 130px;
+                border: none;
+                background: #ececec;
+            }
             .notice table
             {
                 width: 85%;
@@ -85,6 +92,7 @@
         <div class="btn_Group">
             <button type="button" onclick="notice()">NOTICE</button>
             <button type="button" onclick="review()">REVIEW</button>
+            <button type="button" onclick="location.href='${path}/admin/insertNoticeForm.do'">공지 등록</button>
         </div>
         <div class="notice_table">
         	<table>
@@ -121,7 +129,22 @@
     <%@ include file ="../include/footer.jsp" %>
 
     <script>
-        function notice(){
+	    var errorMessage = '${errorMessage}'; // 서버 내부 오류
+		var session = '${session}';	// 세션 체크
+		var loginChk = '${loginChk}';	// 관리자 로그인 체크
+		
+		if(loginChk == 'fail') {
+			alert("관리자 로그인 후 이용 가능합니다.");
+			window.location.href = "${path}/member/loginForm.do";
+		} else if(session == 'exp') {
+			alert("세션이 만료 되었습니다. 다시 로그인 바랍니다.");
+			window.location.href = "${path}/member/loginForm.do";
+		} else if(errorMessage == 'error') {
+			alert("서버 내부에 오류가 발생 했습니다.");
+			window.location.href = "${path}/error/errorPage.do";
+		}
+    
+		function notice(){
             location.href = 'boardList.html';
         }
 

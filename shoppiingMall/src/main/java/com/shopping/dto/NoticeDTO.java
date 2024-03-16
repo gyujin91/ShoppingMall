@@ -6,6 +6,7 @@ public class NoticeDTO {
 	private int num;		// 공지 번호
 	private String title;	// 제목
 	private String author;	// 작성자
+	private String content; // 공지 내용
 	private Date regdate;	// 작성일
 	private int view_cnt;	// 조회수
 	private String useyn;	// 사용 여부
@@ -27,6 +28,12 @@ public class NoticeDTO {
 	}
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public Date getRegdate() {
 		return regdate;

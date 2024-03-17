@@ -256,7 +256,7 @@ public class AdminController {
 				try {
 					// 파일 업로드 처리
 					long size = file.getSize();
-					String uploadPath = "D:\\gyujin\\upload\\";	// 업로드 파일 저장 경로
+					String uploadPath = "D:\\gyujin\\sideP\\shoppiingMall\\src\\main\\webapp\\resources\\img";	// 업로드 파일 저장 경로
 					
 					String fileRealName = file.getOriginalFilename();	// 원본 파일명
 					UUID uuid = UUID.randomUUID();	// 파일명을 현재 시간과 랜덤 UUID를 조합하여 생성
@@ -265,12 +265,15 @@ public class AdminController {
 					String filePath = uploadPath + File.separator + fileName;	// 파일이 저장될 최종 경로 지정
 					file.transferTo(new File(filePath));	// 해당 객체 생성 후 해당 경로에 파일 저장
 					
+					// 데이터베이스에 저장할 파일 경로 설정
+					String dbFilePath = "/resources/img/" + fileName;
+					
 					System.out.println("파일용량(byte) ::" + size);
 					System.out.println("원본 파일명 ::" + fileName);
 					System.out.println("파일이 저장될 최종 경로 ::" + filePath);
 					System.out.println("파일 객체 ::" + file);
 					
-					pdto.setProd_image(uploadPath + fileName);
+					pdto.setProd_image(dbFilePath);
 					
 					// 상품 정보 세팅
 					if(prod_kind.equals("bottom")) {
@@ -294,6 +297,7 @@ public class AdminController {
 					}
 					
 					productService.insertProduct(pdto);	
+					System.out.println("파일 업로드 성공");
 					return "redirect:/admin/productList.do";
 				} catch(Exception e) {
 					e.printStackTrace(); // 파일 업로드 실패
@@ -585,7 +589,8 @@ public class AdminController {
 	
 	// 공지 글 등록
 	@RequestMapping("insertNotice.do")
-	public String insertNotice(Model model, HttpSession session, NoticeDTO dto) throws Exception {
+	public String insertNotice(Model model, HttpSession session, NoticeDTO dto, @RequestParam String title,
+			@RequestParam String content) throws Exception {
 		try {
 			if(session.getAttribute("loginMap") == null) {
 				System.out.println("세션 만료");
@@ -601,8 +606,15 @@ public class AdminController {
 			
 			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
 			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
-				noticeService.insertNotice(dto);
-				return "redirect/admin/noticeList.do";
+				if(title == null || title.isEmpty() || content == null || content.isEmpty()) {
+					model.addAttribute("nullMsg", "제목과 내용을 입력 해주세요.");
+					return "admin/insertNoticeForm";
+				} else {
+					dto.setTitle(title);
+					dto.setContent(content);
+					noticeService.insertNotice(dto);
+					return "redirect:/admin/noticeList.do";
+				}
 			} else {
 				// 로그인을 하지 않았을 경우
 				model.addAttribute("loginChk", "fail");
@@ -616,7 +628,7 @@ public class AdminController {
 		}
 	}
 	
-	// 골지 사항 등록 폼 
+	// 공지 사항 등록 폼 
 	@RequestMapping("insertNoticeForm.do")
 	public String insertNoticeForm(Model model, HttpSession session, Map<String, Object> map) throws Exception {
 		try {

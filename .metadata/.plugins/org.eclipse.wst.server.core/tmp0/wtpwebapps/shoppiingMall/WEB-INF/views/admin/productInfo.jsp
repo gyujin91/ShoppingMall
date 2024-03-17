@@ -306,6 +306,13 @@
 					},
 					error: function(xht, status, error) {
 						alert("상품 삭제에 실패하였습니다. 오류: " + error);
+						
+						if (xhr.status === 404) {
+		                    alert("요청하신 페이지를 찾을 수 없습니다.");
+		                    window.location.href = '${path}/error/errorPage.do';
+		                } else if (xhr.status === 500) {
+		                    alert("서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요.");
+		                }
 					}
 				});	
 			});

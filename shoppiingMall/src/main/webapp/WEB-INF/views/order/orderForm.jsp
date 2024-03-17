@@ -402,7 +402,7 @@
                 	<c:otherwise>
                 		<c:forEach items="${cartList }" var="list">
                 			<div class="prodBox">
-			                    <img src="${path }/resources/img/${list.prod_image}" alt="상품 이미지">
+			                    <img src="${path }/${list.prod_image}" alt="상품 이미지">
 			                    <ul>
 			                        <li>상품명 : ${list.prod_name }</li>
 			                        <li>[옵션: ${list.size }]</li>
@@ -691,6 +691,13 @@
 	            },
 	            error: function(xhr, status, error) {
 	                alert("주문 도중 에러가 발생 했습니다.");
+	                
+	                if (xhr.status === 404) {
+	                    alert("요청하신 페이지를 찾을 수 없습니다.");
+	                    window.location.href = '${path}/error/errorPage.do';
+	                } else if (xhr.status === 500) {
+	                    alert("서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요.");
+	                }
 	            }
 	        });		   
 		} 
@@ -708,6 +715,13 @@
 				},
 				error: function(xhr, status, error) {
 	                alert("장바구니를 비우던 중 에러가 발생 했습니다.");
+	                
+	                if (xhr.status === 404) {
+	                    alert("요청하신 페이지를 찾을 수 없습니다.");
+	                    window.location.href = '${path}/error/errorPage.do';
+	                } else if (xhr.status === 500) {
+	                    alert("서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요.");
+	                }
 	            }
 			});
 		}

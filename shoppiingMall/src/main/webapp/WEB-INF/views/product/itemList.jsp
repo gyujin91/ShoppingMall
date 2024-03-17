@@ -156,7 +156,7 @@
 	            		<c:forEach items="${itemList}" var="list">   
 			                <div class="card" onclick="location.href='${path }/product/productDetail.do?prod_no=${list.prod_no }'">
 			                    <div class="imgBx">
-			                        <img src="${path }/resources/img/${list.prod_image }" alt="상품 이미지">
+			                        <img src="${path }/${list.prod_image}" alt="상품 이미지">
 			                    </div>
 			                    <div class="productName">
 			                        <h4>${list.prod_name}</h4>

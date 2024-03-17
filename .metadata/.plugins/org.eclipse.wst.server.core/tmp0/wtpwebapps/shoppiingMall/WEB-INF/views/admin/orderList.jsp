@@ -103,7 +103,7 @@
     <div class="orderList">
         <div class="list">
             <div class="title">
-                 <h2><a href="admin.html"><i class="xi-arrow-left"></i></a>주문 목록</h2>
+                 <h2><a href="${path }/admin/admin.do"><i class="xi-arrow-left"></i></a>주문 목록</h2>
                  <p> (총 <strong>${oTotalCnt }</strong>건)</p>
             </div>
             <table>
@@ -170,7 +170,7 @@
 		                            </c:choose>
                             		<!-- 결제 상태 -->
 		                            <td>${list.prod_no }</td>
-		                            <td><img alt="상품이미지" src="${path }/resources/img/${list.prod_image }"></td>
+		                            <td><img src="${path }/${list.prod_image}" alt="상품 이미지"></td>
 		                            <td>${list.prod_name }</td>
 		                            <td>${list.deliveryFee }</td>
 		                            <td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.order_date }"/></td>

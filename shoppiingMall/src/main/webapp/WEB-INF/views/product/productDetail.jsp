@@ -146,7 +146,7 @@
    	<form id="frm" name="frm">
    		 <div class="itetmDetail"> 
 	        <div class="imgBox">
-	            <img src="${path }/resources/img/${dto.prod_image }" alt="상품 이미지">
+	            <img src="${path }/${dto.prod_image}" alt="상품 이미지">
 	        </div>
 	        <div class="detail">
 	            <h3>${dto.prod_name }</h3>

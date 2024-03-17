@@ -79,7 +79,7 @@
     <div class="insertNotice">
         <h2>공지 등록</h2>
         <div class="tableBox">
-            <form action="">
+            <form action="" id="frm">
                 <table>
                     <tr>
                         <th>공지 번호</th>
@@ -87,15 +87,15 @@
                     </tr>
                     <tr>
                         <th>제목</th>
-                        <td><input type="text" id="title" name="title"></td>
+                        <td><input type="text" id="title" name="title" required="required"></td>
                     </tr>
                     <tr>
                         <th>작성자</th>
-                        <td><input type="text" id="author" name="author"></td>
+                        <td><input type="text" id="author" name="author" placeholder="관리자" required="required" readonly="readonly"></td>
                     </tr>
                     <tr>
                         <th>공지 내용</th>
-                        <td><textarea id="content" name="content" rows="4" cols="50"></textarea></td>
+                        <td><textarea id="content" name="content" rows="4" cols="50" required="required"></textarea></td>
                     </tr>
                 </table>
             </form>
@@ -123,30 +123,43 @@
 			alert("서버 내부에 오류가 발생 했습니다.");
 			window.location.href = "${path}/error/errorPage.do";
 		}
-		
+				
 		function insertNotice() {
-			var title = $("#title").val();
-			var content = $("#content").val();
-			var author = $("#author").val();
-			
-		    $.ajax({
-		    	url: "insertNotice.do", 
-		        type: "POST", 
-		        data: { 
-		            title: title,
-		            content: content,
-		            author: author
-		        },
-		        success: function(response) { 
-		            location.href = "${path}/admin/noticeList.do";
-		        },
-		        error: function(xhr, status, error) { 
-		            console.error("Error:", error); 
-		            alert("공지사항 등록 중 오류가 발생했습니다. 다시 시도해주세요."); 
-		        }
-		    });
-		}
+		    var title = $("#title").val();
+		    var content = $("#content").val();
+		    
+		    if(title == "") {
+		        alert("제목을 입력 해주세요.");
+		        $("#title").focus();
+		    } else if(content == "") {
+		        alert("내용을 입력 해주세요.");
+		    } else {
+		        $.ajax({
+		            url: "insertNotice.do", 
+		            type: "POST", 
+		            data: { 
+		                title: title,
+		                content: content
+		            },
+		            success: function(response) { 
+		                alert("공지 사항을 등록 했습니다.");
+		                window.location.href = "${path}/admin/noticeList.do";
+		            },
+		            error: function(xhr, status, error) { 
+		                alert("공지사항 등록 중 오류가 발생했습니다. 다시 시도해주세요."); 
+		                		                
+		                if (xhr.status === 404) {
+		                    alert("요청하신 페이지를 찾을 수 없습니다.");
+		                    window.location.href = '${path}/error/errorPage.do';
+		                } else if (xhr.status === 500) {
+		                    alert("서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요.");
+		                }
+		            }
+		        });
+		    }
+		} 
 
+		
     </script>
 </body>
 </html>

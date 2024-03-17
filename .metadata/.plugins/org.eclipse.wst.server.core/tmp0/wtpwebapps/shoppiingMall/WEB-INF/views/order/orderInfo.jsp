@@ -409,7 +409,7 @@
                         <c:forEach items="${orderList }" var="list">
 	                        <tr>
 	                            <td>
-	                                <img src="${path }/resources/img/${list.prod_image}" alt="">
+	                                <img src="${path }/${list.prod_image}" alt="상품 이미지">
 	                                <p>${list.prod_name }</p>
 	                                <strong>${list.price }원 / 수량${list.quantity }개</strong>
 	                            </td>
@@ -553,6 +553,13 @@
 		                error: function(xhr, status, error) {
 		                	alert("주문을 성공적으로 취소 했습니다.");
 		                    $(this).closest("tr").find(".order_state").text("주문 취소");
+		                    
+		                    if (xhr.status === 404) {
+			                    alert("요청하신 페이지를 찾을 수 없습니다.");
+			                    window.location.href = '${path}/error/errorPage.do';
+			                } else if (xhr.status === 500) {
+			                    alert("서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요.");
+			                }
 		                }.bind(this)
 		            });
 		        }       

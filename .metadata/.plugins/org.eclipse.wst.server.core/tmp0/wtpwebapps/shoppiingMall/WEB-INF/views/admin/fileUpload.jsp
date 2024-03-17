@@ -186,7 +186,7 @@
     	                processData: false,
     	                contentType: false,
     	                success: function(response) {
-    	                    if(response === 'success') {
+    	                    if(response) {
     	                        alert('상품 등록이 완료되었습니다.');
     	                        // location.reload(); 
     	                        window.location.href = '${path}/admin/productList.do';
@@ -198,6 +198,13 @@
         	                // 파일 업로드 실패 시 처리
         	                alert("파일 업로드에 실패하였습니다.");
         	                console.log(xhr.responseText);
+        	                
+        	                if (xhr.status === 404) {
+    		                    alert("요청하신 페이지를 찾을 수 없습니다.");
+    		                    window.location.href = '${path}/error/errorPage.do';
+    		                } else if (xhr.status === 500) {
+    		                    alert("서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요.");
+    		                }
         	            }
     	            });
     	        }

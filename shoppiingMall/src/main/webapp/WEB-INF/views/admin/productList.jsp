@@ -176,7 +176,7 @@
                         				</c:choose>
                         				<!-- 상품 종류 -->                    			
                         				<td><fmt:formatNumber pattern="###,###,###" value="${list.price}"/></td>  
-                        				<td><img alt="상품이미지" src="${path }/resources/img/${list.prod_image }"></td>
+                        				<td><img src="${path }/${list.prod_image}" alt="상품 이미지"></td>
                         				<td>${list.prod_content }</td>
                         				<td>${list.cate_no }</td>
                         				<!-- 사용 여부 -->

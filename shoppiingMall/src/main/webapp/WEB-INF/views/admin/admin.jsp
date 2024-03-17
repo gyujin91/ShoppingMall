@@ -319,13 +319,34 @@
     <div class="deshboard">
         <div class="navigation" id="navigation">
             <ul>
-                <li><i class="xi-home-o" onclick="location.href='${path}/'"></i></li>
-                <li><i class="xi-won" onclick=""></i></li>
-                <li><i class="xi-help-o" onclick=""></i></li>
-                <li><i class="xi-cart-o" onclick="location.href='${path}/admin/orderList.do'"></i></li>
-                <li><i class="xi-users-o" onclick="location.href='${path}/admin/allMemberList.do'"></i></li>
-                <li><i class="xi-box" onclick="location.href='${path }/admin/productList.do'"></i></li>
-                <li><i class="xi-cog"></i></li>
+                <li>
+               	 	<i class="xi-home-o" onclick="location.href='${path}/'" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+                	<span style="display: none; font-weight: bold;">홈</span>
+                </li>              
+                <li>
+                	<i class="xi-won" onclick="" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+                	<span style="display: none; font-weight: bold;">매출</span>
+                </li>
+                <li>
+               		<i class="xi-help-o" onclick="" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+               		<span style="display: none; font-weight: bold;">리뷰</span>
+               	</li>
+                <li>
+                	<i class="xi-cart-o" onclick="location.href='${path}/admin/orderList.do'" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+                	<span style="display: none; font-weight: bold;">주문</span>
+                </li>
+                <li>
+                	<i class="xi-users-o" onclick="location.href='${path}/admin/allMemberList.do'" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+                	<span style="display: none; font-weight: bold;">회원</span>
+                </li>
+                <li>
+                	<i class="xi-box" onclick="location.href='${path }/admin/productList.do'" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+                	<span style="display: none; font-weight: bold;">상품</span>
+                </li>
+                <li>
+               		<i class="xi-cog" onclick="" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+               		<span style="display: none; font-weight: bold;">설정</span>
+                </li>
             </ul>
         </div>
         <div class="content">
@@ -473,6 +494,17 @@
                 navigation.style.display = "none"; // 숨기게 변경
             }
         }
+        
+        function showText(element) {
+            var textElement = element.nextElementSibling;
+            textElement.style.display = 'inline'; // 텍스트 보이기
+        }
+
+        function hideText(element) {
+            var textElement = element.nextElementSibling;
+            textElement.style.display = 'none'; // 텍스트 숨기기
+        }
+
     </script>
 </body>
 </html>

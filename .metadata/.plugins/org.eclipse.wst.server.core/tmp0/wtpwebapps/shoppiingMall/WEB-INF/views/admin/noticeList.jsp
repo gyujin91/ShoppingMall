@@ -21,12 +21,35 @@
             {
                 margin: 15px;
             }
-            .notice h2
-            {
-                text-align: center;
-                font-size: 1.5em;
-                margin-bottom: 30px;
-            }
+            .notice .title
+	        {
+	            position: relative;
+	            margin: 30px 0 0 125px;
+	        }
+	        .notice .title h2
+	        {
+	            font-size: 1.3em;
+	            margin-bottom: 20px;
+	        } 
+	        .notice .title h2 i:hover
+	        {
+	            color: #222;
+	        } 
+	        .notice .title p
+	        {
+	            position: absolute;
+	            top: 2%;
+	            left: 8%;
+	            font-size: 1.1em;
+	        }
+	        .notice .title p strong
+	        {
+	            color: blue;
+	        }
+	        .notice h2 i
+	        {
+	            margin-right: 5px;
+	        }  
             .notice .btn_Group button
             {
                 padding: 5px;
@@ -88,7 +111,10 @@
 <body>
     <%@ include file ="../include/header.jsp" %>
     <div class="notice">
-        <h2>NOTICE</h2>
+        <div class="title">
+                 <h2><a href="${path }/admin/admin.do"><i class="xi-arrow-left"></i></a>공지 목록</h2>
+                 <p> (총 <strong>${noticeTotalCnt }</strong>건)</p>
+        </div>
         <div class="btn_Group">
             <button type="button" onclick="notice()">NOTICE</button>
             <button type="button" onclick="review()">REVIEW</button>
@@ -103,6 +129,7 @@
 	                    <th>작성자</th>
 	                    <th>작성일</th>
 	                    <th>조회수</th>
+	                    <th>사용여부</th>
 	                </tr>
 	           </thead> 
 	           <tbody>
@@ -112,12 +139,22 @@
 	           			</c:when>
 	           			<c:otherwise>
 	           				<c:forEach items="${noticeList }" var="list">
-	           					<tr>
+	           					<tr onclick="location.href='${path}/admin/noticeRead.do?num=${list.num }'">
 				                    <td>${list.num }</td>
 				                    <td>${list.title }</td>
 				                    <td>${list.author }</td>
 				                    <td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.regdate }"/></td>
 				                    <td>${list.view_cnt }</td>
+				                    <!-- 사용 여부 -->
+                       				<c:choose>
+                       					<c:when test="${list.useyn eq 'Y' }">
+                       						<td style="color: blue">${list.useyn }</td>
+                       					</c:when>
+                       					<c:otherwise>
+                       						<td style="color: red">${list.useyn }</td>
+                       					</c:otherwise>
+                       				</c:choose>
+	                        		<!-- 사용 여부 -->
 				                </tr>
 	           				</c:forEach>
 	           			</c:otherwise>

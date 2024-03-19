@@ -29,5 +29,30 @@ public class NoticeServiceImpl implements NoticeService{
 		return noticeDao.nextNum();
 	}
 
+	@Override
+	public NoticeDTO noticeRead(int num) throws Exception {
+		return noticeDao.noticeRead(num);
+	}
+
+	@Override
+	public int increaseViewCount(int num) throws Exception {
+		return noticeDao.increaseViewCount(num);
+	}
+
+	@Override
+	public void updateNotice(NoticeDTO dto) throws Exception {
+		noticeDao.updateNotice(dto);
+	}
+
+	@Override
+	public void deleteNotice(NoticeDTO dto) throws Exception {
+		noticeDao.deleteNotice(dto);
+	}
+
+	@Override
+	public int noticeTotalCnt() throws Exception {
+		return noticeDao.noticeTotalCnt();
+	}
+	
 	
 }

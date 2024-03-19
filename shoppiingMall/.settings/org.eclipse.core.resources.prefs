@@ -12,4 +12,5 @@ encoding//src/main/webapp/WEB-INF/views/member/loginForm.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/notice/noticeList.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/order/orderInfo.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/product/productDetail.jsp=UTF-8
-encoding//src/main/webapp/WEB-INF/views/review/review.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/review/insertReviewForm.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/review/reviewList.jsp=UTF-8

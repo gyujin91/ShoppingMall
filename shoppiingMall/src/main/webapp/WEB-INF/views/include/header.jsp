@@ -54,6 +54,7 @@
                     <!-- 로그인 전 -->
                     <c:if test="${empty loginMap}">
                         <ul>
+                        	<li><a href="${path }/notice/noticeList.do">공지 및 리뷰</a></li>
                             <li><a href="${path }/member/loginForm.do">로그인</a></li>
                             <li><a href="${path }/member/joinForm.do">회원가입</a></li>
                         </ul>
@@ -63,7 +64,7 @@
                         <ul>
                         	<li><p>${loginMap.MEM_NAME }  (${loginMap.CK})님 환영합니다.</p>      
                             <li><a href="${path }/member/myPage.do">마이페이지</a></li>
-                            <li><a href="${path }/notice/noticeList">공지 및 리뷰</a></li>
+                            <li><a href="${path }/notice/noticeList.do">공지 및 리뷰</a></li>
                             <li><a href="${path }/order/orderInfo.do?mem_id=${mem_id}">주문내역</a></li>
                             <li><a href="${path }/cart/cart.do?mem_id=${mem_id}">장바구니</a></li>
                             <li><a href="${path }/member/logOut.do">로그아웃</a></li>
@@ -74,7 +75,7 @@
                         <ul>  
                         	<li><p>${loginMap.MEM_NAME }(${loginMap.CK})님 환영합니다.</p>                        
                             <li><a href="${path }/admin/admin.do">관리자</a></li>
-                            <li><a href="${path }/admin/noticeList.do">공지 및 리뷰관리</a></li>
+                            <li><a href="${path }/admin/allNoticeList.do">공지 및 리뷰관리</a></li>
                             <li><a href="${path }/admin/productList.do">상품관리</a></li>
                             <li><a href="${path }/admin/orderList.do">주문관리</a></li>        
                             <li><a href="${path }/member/logOut.do">로그아웃</a></li>               

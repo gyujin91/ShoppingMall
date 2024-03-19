@@ -17,4 +17,16 @@ public interface NoticeDAO {
 	
 	// 공지 상세 보기
 	public NoticeDTO noticeRead(int num) throws Exception;
+	
+	// 조회수 증가
+	public int increaseViewCount(int num) throws Exception;
+	
+	// 공지 글 수정
+	public void updateNotice(NoticeDTO dto) throws Exception;
+	
+	// 공지 글 삭제
+	public void deleteNotice(NoticeDTO dto) throws Exception;
+	
+	// 총 공지 건수
+	public int noticeTotalCnt() throws Exception;
 }

@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			VIEW_CNT,
 			USEYN
 		FROM NOTICE 
-        WHERE USEYN = 'Y' ORDER BY NUM DESC
+		WHERE USEYN = 'Y' ORDER BY NUM DESC
 	</select>
 	
 	<!-- 공지 상세 보기 -->
@@ -60,6 +60,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT MAX(NUM) + 1 AS NEXT_NUM FROM NOTICE
 	</select>
 	
+	<!-- 조회수 증가 -->
+	<update id="increaseViewCount">
+	    UPDATE NOTICE SET 
+	    	VIEW_CNT = VIEW_CNT + 1
+	    WHERE NUM = #{num}
+	</update>
 	
+	<!-- 공지 글 수정 -->
+	<update id="updateNotice">
+		UPDATE NOTICE SET
+			TITLE = #{title},
+			CONTENT = #{content},
+			USEYN = #{useyn}
+		WHERE NUM = #{num}
+	</update>
+	
+	<!-- 공지 글 삭제 -->
+	<update id="deleteNotice">
+		UPDATE NOTICE SET
+			USEYN = 'N',
+			DELDATE = NOW()
+		WHERE NUM = #{num}
+	</update>
+	
+	<!-- 총 공지 건수 -->
+	<select id="noticeTotalCnt" resultType="int">
+		SELECT
+		 	COUNT(NUM) AS total_count
+		FROM NOTICE		
+	</select>
 	
 </mapper> 

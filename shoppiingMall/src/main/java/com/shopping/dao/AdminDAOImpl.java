@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.shopping.dto.MemberDTO;
+import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
 
 @Repository
@@ -56,9 +57,9 @@ public class AdminDAOImpl implements AdminDAO{
 		return sqlSession.selectOne("admin.orderInfo", order_no);
 	}
 
-	
-	
-	
-	
+	@Override
+	public List<NoticeDTO> allNoticeList() throws Exception {
+		return sqlSession.selectList("admin.allNoticeList");
+	}
 	
 }

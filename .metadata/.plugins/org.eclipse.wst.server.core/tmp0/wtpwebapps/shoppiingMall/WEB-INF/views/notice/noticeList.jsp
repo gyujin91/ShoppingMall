@@ -17,58 +17,58 @@
    
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <style>
-            .board
+            .notice
             {
                 margin: 15px;
             }
-            .board h2
+            .notice h2
             {
                 text-align: center;
                 font-size: 1.5em;
                 margin-bottom: 30px;
             }
-            .board .btnGroup button
+            .notice .btn_Group button
             {
                 padding: 5px;
                 border-radius: 8px;
                 margin: 5px;
             }
             
-            .board .btnGroup button:nth-child(1)
+            .notice .btn_Group button:nth-child(1)
             {
-                margin-left: 145px;
+                margin-left: 130px;
                 color: #fff;
                 background: #212121;
             }
-            .board .btnGroup button:nth-child(1):hover
+            .notice .btn_Group button:nth-child(1):hover
             {
                 color: #777777;
                 background: #f1f1f1;
             }
-            .board .btnGroup button:nth-child(2)
+            .notice .btn_Group button:nth-child(2)
             {
                 color: #777777;
                 background: #f1f1f1;
             }
-            .board .btnGroup button:nth-child(2):hover
+            .notice .btn_Group button:nth-child(2):hover
             {
                 color: #fff;
                 background: #212121;
             }
-            .board table
+            .notice table
             {
-                width: 1200px;
+                width: 85%;
                 margin: 0 auto;
                 border-top: 1px solid black;
                 margin-top: 30px;
                 margin-bottom: 30px;
             }
-            .board table th
+            .notice table th
             {
                 text-align: center;
                 padding: 5px 0 5px 0;
             }
-            .board table td
+            .notice table td
             {
                 text-align: center;
                 background: #f1f1f1;
@@ -80,91 +80,53 @@
 </head>
 <body>
     <%@ include file ="../include/header.jsp" %>
-    <div class="board">
+    <div class="notice">
         <h2>NOTICE</h2>
-        <div class="btnGroup">
+        <div class="btn_Group">
             <button type="button" onclick="notice()">NOTICE</button>
             <button type="button" onclick="review()">REVIEW</button>
         </div>
-        <table>
-           <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
-                </tr>
-           </thead> 
-           <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>안녕하세요</td>
-                    <td>관리자</td>
-                    <td>2023-12-11</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>안녕하세요</td>
-                    <td>관리자</td>
-                    <td>2023-12-11</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>안녕하세요</td>
-                    <td>관리자</td>
-                    <td>2023-12-11</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>안녕하세요</td>
-                    <td>관리자</td>
-                    <td>2023-12-11</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>안녕하세요</td>
-                    <td>관리자</td>
-                    <td>2023-12-11</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>안녕하세요</td>
-                    <td>관리자</td>
-                    <td>2023-12-11</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>안녕하세요</td>
-                    <td>관리자</td>
-                    <td>2023-12-11</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>안녕하세요</td>
-                    <td>관리자</td>
-                    <td>2023-12-11</td>
-                    <td>10</td>
-                </tr>
-           </tbody>
-        </table>
+        <div class="notice_table">
+        	<table>
+	           <thead>
+	                <tr>
+	                    <th>번호</th>
+	                    <th>제목</th>
+	                    <th>작성자</th>
+	                    <th>작성일</th>
+	                    <th>조회수</th>
+	                </tr>
+	           </thead> 
+	           <tbody>
+	           		<c:choose>
+	           			<c:when test="${empty noticeList }">
+	           				<span>공지사항이 없습니다.</span>
+	           			</c:when>
+	           			<c:otherwise>
+	           				<c:forEach items="${noticeList }" var="list">
+	           					<tr onclick="location.href='${path}/notice/noticeRead.do?num=${list.num }'">
+				                    <td>${list.num }</td>
+				                    <td>${list.title }</td>
+				                    <td>${list.author }</td>
+				                    <td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.regdate }"/></td>
+				                    <td>${list.view_cnt }</td>
+				                </tr>
+	           				</c:forEach>
+	           			</c:otherwise>
+	           		</c:choose>
+	           </tbody>
+	        </table>
+        </div>
     </div>
     <%@ include file ="../include/footer.jsp" %>
 
     <script>
-        function notice(){
-            location.href = 'boardList.html';
+		function notice(){
+            window.location.href = '${path}/notice/noticeList.do';
         }
 
         function review(){
-            location.href = 'review.html';
+        	window.location.href = '${path}/review/reviewList.do';
         }
     </script>
 </body>

@@ -125,7 +125,7 @@
         <div class="list">
             <div class="title">
                  <h2><a href="${path }/admin/admin.do"><i class="xi-arrow-left"></i></a>상품 목록</h2>
-                 <p> (총 <strong>${totalCnt }</strong>개)</p>
+                 <p> (총 <strong>${totalCnt }</strong>건)</p>
                  <span class="p2" style="display: inline-block;"><a href="${path }/admin/fileUpload.do">상품 등록</a></span>
             </div>
             <table>

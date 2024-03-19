@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.shopping.dto.MemberDTO;
+import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
 
 public interface AdminService {
@@ -31,4 +32,7 @@ public interface AdminService {
 	
 	// 사용자들 각각의 (주문 * 수량) 금액 조회
 	public List<Map<String,Object>> userTotalPrice() throws Exception;
+	
+	// 모든 공지글 조회
+	public List<NoticeDTO> allNoticeList() throws Exception;
 }

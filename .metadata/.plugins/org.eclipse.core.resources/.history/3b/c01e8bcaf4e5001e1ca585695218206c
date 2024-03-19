@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<!-- mapper - mybatis, sqlMap - ibatis -->
+<mapper namespace="reply">
+  	
+  	<!-- 리뷰 목록 조회 -->
+	<select id="selectReply" resultType="com.shopping.dto.ReplyDTO">
+	    SELECT 
+	        R1.REPLY_NO,
+	        R2.REVIEW_NO,
+	        R1.REPLY,
+	        M.MEM_ID,
+	        M.MEM_NAME,
+	        R1.REG_DATE,
+	        R1.DEL_DATE
+	    FROM 
+	        REPLY R1
+	    LEFT JOIN 
+	        REVIEW R2 ON R1.REVIEW_NO = R2.RNO
+	    LEFT JOIN 
+	        MEMBER M ON R1.MEM_ID = M.MEM_ID;
+	</select>
+
+	<!-- 리뷰 등록 -->
+	<insert id="insertReview" parameterType="com.shopping.dto.ReviewDTO">
+	    INSERT INTO PRODUCT
+		    (REVIEW_TITLE,
+		     REVIEW_CONTENT,
+		     PRICE,
+		     MEM_NAME,
+		     PROD_CONTENT,
+		     PROD_IMAGE,
+		     USEYN,
+		     REGDATE,
+		     DELDATE)
+		VALUES (
+		    #{prod_name},
+		    #{prod_kind},
+		    #{price},
+		    #{cate_no},
+		    #{prod_content},
+		    #{prod_image},
+		    'Y',
+		    DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
+		    NULL
+		)
+	</insert>
+	
+	
+</mapper> 

@@ -33,6 +33,26 @@ public class NoticeDAOImpl implements NoticeDAO {
 	public NoticeDTO noticeRead(int num) throws Exception {
 		return sqlSession.selectOne("notice.noticeRead", num);
 	}
+
+	@Override
+	public int increaseViewCount(int num) throws Exception {
+		return sqlSession.update("notice.increaseViewCount", num);
+	}
+
+	@Override
+	public void updateNotice(NoticeDTO dto) throws Exception {
+		sqlSession.update("notice.updateNotice", dto);
+	}
+
+	@Override
+	public void deleteNotice(NoticeDTO dto) throws Exception {
+		sqlSession.update("notice.deleteNotice", dto);
+	}
+
+	@Override
+	public int noticeTotalCnt() throws Exception {
+		return sqlSession.selectOne("notice.noticeTotalCnt");
+	}
 	
 	
 }

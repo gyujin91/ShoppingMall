@@ -87,7 +87,7 @@
                     </tr>
                     <tr>
                         <th>제목</th>
-                        <td><input type="text" id="title" name="title" required="required"></td>
+                        <td><input type="text" id="title" name="title" required="required" style="width: 450px;"></td>
                     </tr>
                     <tr>
                         <th>작성자</th>
@@ -95,14 +95,13 @@
                     </tr>
                     <tr>
                         <th>공지 내용</th>
-                        <td><textarea id="content" name="content" rows="4" cols="50" required="required"></textarea></td>
+                        <td><textarea id="content" name="content" rows="5" cols="80" required="required"></textarea></td>
                     </tr>
                 </table>
             </form>
             <div class="btn_group">
                 <button type="button" id="insert" onclick="insertNotice()">등록</button>
-                <button type="button" id="update">수정</button>
-                <button type="button" id="delete">삭제</button>
+                <button type="button" onclick="location.href='${path}/admin/allNoticeList.do'">목록</button>
             </div>
         </div>
     </div>
@@ -143,7 +142,7 @@
 		            },
 		            success: function(response) { 
 		                alert("공지 사항을 등록 했습니다.");
-		                window.location.href = "${path}/admin/noticeList.do";
+		                window.location.href = "${path}/admin/allNoticeList.do";
 		            },
 		            error: function(xhr, status, error) { 
 		                alert("공지사항 등록 중 오류가 발생했습니다. 다시 시도해주세요."); 

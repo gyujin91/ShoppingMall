@@ -8,6 +8,7 @@ public class NoticeDTO {
 	private String author;	// 작성자
 	private String content; // 공지 내용
 	private Date regdate;	// 작성일
+	private Date deldate;	// 삭제일
 	private int view_cnt;	// 조회수
 	private String useyn;	// 사용 여부
 	
@@ -19,6 +20,12 @@ public class NoticeDTO {
 	}
 	public String getTitle() {
 		return title;
+	}
+	public Date getDeldate() {
+		return deldate;
+	}
+	public void setDeldate(Date deldate) {
+		this.deldate = deldate;
 	}
 	public void setTitle(String title) {
 		this.title = title;

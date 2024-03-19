@@ -1,0 +1,7 @@
+0:0:0:0:0:0:0:1 - - [20/Mar/2024:00:08:36 +0900] "GET /myapp/review/reviewList.do HTTP/1.1" 200 18201
+0:0:0:0:0:0:0:1 - - [20/Mar/2024:00:12:33 +0900] "GET /myapp/review/reviewList.do HTTP/1.1" 200 16860
+0:0:0:0:0:0:0:1 - - [20/Mar/2024:00:14:53 +0900] "GET /myapp/review/reviewList.do HTTP/1.1" 200 18201
+0:0:0:0:0:0:0:1 - - [20/Mar/2024:00:15:57 +0900] "GET /myapp/review/reviewList.do HTTP/1.1" 500 8455
+0:0:0:0:0:0:0:1 - - [20/Mar/2024:00:17:10 +0900] "GET /myapp/review/reviewList.do HTTP/1.1" 200 18201
+127.0.0.1 - - [20/Mar/2024:00:27:00 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [20/Mar/2024:00:27:05 +0900] "GET /myapp/review/reviewList.do HTTP/1.1" 500 3766

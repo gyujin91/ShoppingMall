@@ -426,7 +426,7 @@ public class AdminController {
 			if(session.getAttribute("loginMap") == null) {
 				System.out.println("세션 만료");
 				model.addAttribute("session", "exp");
-				return "redirect:/member/loginForm.do";
+				return "admin/orderList";
 			}
 			
 			@SuppressWarnings("unchecked")
@@ -463,7 +463,7 @@ public class AdminController {
 			if(session.getAttribute("loginMap") == null) {
 				System.out.println("세션 만료");
 				model.addAttribute("session", "exp");
-				return "redirect:/member/loginForm.do";
+				return "admin/orderInfo";
 			}
 			
 			@SuppressWarnings("unchecked")
@@ -554,13 +554,13 @@ public class AdminController {
 	/* -------------------------------------------------------- 주문 -------------------------------------------------------- */
 	/* -------------------------------------------------------- 공지 -------------------------------------------------------- */
 	// 골지 글 조회
-	@RequestMapping("noticeList.do")
+	@RequestMapping("allNoticeList.do")
 	public String noticeList(Model model, HttpSession session) throws Exception {
 		try {
 			if(session.getAttribute("loginMap") == null) {
 				System.out.println("세션 만료");
 				model.addAttribute("session", "exp");
-				return "redirect:/member/loginForm.do";
+				return "admin/noticeList";
 			}
 			
 			@SuppressWarnings("unchecked")
@@ -571,8 +571,11 @@ public class AdminController {
 			
 			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
 			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
-				List<NoticeDTO> noticeList = noticeService.noticeList();
+				List<NoticeDTO> noticeList = adminService.allNoticeList();
+				int noticeTotalCnt = noticeService.noticeTotalCnt();
+				
 				model.addAttribute("noticeList", noticeList);
+				model.addAttribute("noticeTotalCnt", noticeTotalCnt);
 				return "admin/noticeList";
 			} else {
 				// 로그인을 하지 않았을 경우
@@ -592,11 +595,6 @@ public class AdminController {
 	public String insertNotice(Model model, HttpSession session, NoticeDTO dto, @RequestParam String title,
 			@RequestParam String content) throws Exception {
 		try {
-			if(session.getAttribute("loginMap") == null) {
-				System.out.println("세션 만료");
-				model.addAttribute("session", "exp");
-				return "redirect:/member/loginForm.do";
-			}
 			
 			@SuppressWarnings("unchecked")
 			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
@@ -613,7 +611,7 @@ public class AdminController {
 					dto.setTitle(title);
 					dto.setContent(content);
 					noticeService.insertNotice(dto);
-					return "redirect:/admin/noticeList.do";
+					return "redirect:/admin/allNoticeList.do";
 				}
 			} else {
 				// 로그인을 하지 않았을 경우
@@ -635,7 +633,7 @@ public class AdminController {
 			if(session.getAttribute("loginMap") == null) {
 				System.out.println("세션 만료");
 				model.addAttribute("session", "exp");
-				return "redirect:/member/loginForm.do";
+				return "admin/insertNoticeForm";
 			}
 			
 			@SuppressWarnings("unchecked")
@@ -661,6 +659,103 @@ public class AdminController {
 			System.out.println("내부 서버 에러 발생");
 			model.addAttribute("errorMessage", "error");
 			return "admin/insertNoticeForm";
+		}
+	}
+	
+	// 공지사항 상세보기
+	@RequestMapping("noticeRead.do")
+	public String noticeRead(Model model, HttpSession session, @RequestParam int num) throws Exception {
+		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "admin/noticeRead";
+			}
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {			
+				NoticeDTO noticeDto = noticeService.noticeRead(num);				
+				noticeService.increaseViewCount(num);	// 조회수 증가
+				
+				model.addAttribute("noticeDto", noticeDto);
+				return "admin/noticeRead";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/noticeRead";
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/noticeRead";
+		}
+	}
+	
+	// 공지 글 수정
+	@RequestMapping("updateNotice.do")
+	public String updateNotice(Model model, HttpSession session, NoticeDTO dto, @RequestParam String title, 
+			@RequestParam String content, @RequestParam int num) throws Exception {
+		try {
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {			
+				dto.setTitle(title);
+				dto.setContent(content);
+				noticeService.updateNotice(dto);
+				
+				return "redirect:/admin/allNoticeList.do";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/noticeRead";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/noticeRead";
+		}
+	}
+	
+	// 공지 글 삭제
+	@RequestMapping("deleteNotice.do")
+	public String deleteNotice(Model model, HttpSession session, NoticeDTO dto) throws Exception {
+		try {
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {			
+				
+				noticeService.deleteNotice(dto);
+				return "redirect:/admin/allNoticeList.do";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/noticeRead";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/noticeRead";
 		}
 	}
 	

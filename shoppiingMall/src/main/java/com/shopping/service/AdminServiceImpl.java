@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.shopping.dao.AdminDAO;
 import com.shopping.dto.MemberDTO;
+import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
 
 @Service
@@ -54,5 +55,10 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public OrderDTO orderInfo(int order_no) throws Exception {
 		return adminDao.orderInfo(order_no);
+	}
+
+	@Override
+	public List<NoticeDTO> allNoticeList() throws Exception {
+		return adminDao.allNoticeList();
 	}
 }

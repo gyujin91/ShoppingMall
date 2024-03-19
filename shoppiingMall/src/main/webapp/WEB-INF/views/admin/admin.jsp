@@ -379,7 +379,7 @@
                         <i class="xi-cart-o"></i>
                     </div>
                 </a>
-                <a href="${path }/admin/noticeList.do">
+                <a href="${path }/admin/allNoticeList.do">
                     <div class="comments">
                         <h3>208</h3>
                         <p style="color: gray; font-size: 18px;">리뷰</p>
@@ -388,7 +388,7 @@
                 </a>
                 <a href="${path }/admin/productList.do">
                     <div class="earning">
-                        <h3>${pTotalCnt }<em style="font-size: 0.6em">개</em></h3>
+                        <h3>${pTotalCnt }<em style="font-size: 0.6em">건</em></h3>
                         <p style="color: gray; font-size: 18px;">상품</p>
                         <i class="xi-box"></i> 
                     </div>

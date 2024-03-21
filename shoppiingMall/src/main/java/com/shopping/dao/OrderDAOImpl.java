@@ -56,11 +56,14 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.selectOne("order.updatePrice", params);
 	}
 
-	
+	@Override
+	public List<OrderDTO> completedOrderList(String mem_id) throws Exception {
+		return sqlSession.selectList("order.completedOrderList", mem_id);
+	}
 
-	
-
-		
-	
+	@Override
+	public OrderDTO selectedProdNo(int prod_no) throws Exception {
+		return sqlSession.selectOne("order.selectedProdNo", prod_no);
+	}	
 	
 }

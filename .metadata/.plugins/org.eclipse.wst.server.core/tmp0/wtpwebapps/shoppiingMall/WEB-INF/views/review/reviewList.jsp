@@ -135,7 +135,8 @@
         <div class="btnGroup">
             <button type="button" onclick="location.href='${path}/notice/noticeList.do'">NOTICE</button>
             <button type="button" onclick="location.href='${path}/review/reviewList.do'">REVIEW</button>
-            <button type="button" id="insert" onclick="checkLogin('${path}/review/insertReviewForm.do')">리뷰 작성</button>          
+            <button type="button" id="insert" onclick="checkLogin()">리뷰 작성</button>   
+            <input type="hidden" name="mem_id" id="mem_id" value="${sessionScope.loginMap.MEM_ID }">       
         </div>
         <table>
         	<c:choose>
@@ -152,14 +153,12 @@
 			                    <span>${list.review_content }</span>
 			                    <ul>
 			                        <li style="font-weight: bold;">${maskedName }</li>
-			                        <li><fmt:formatDate pattern="yyyy-MM-dd" value="${list.reg_date }"/></li>
+			                        <li><fmt:formatDate pattern="yyyy-MM-dd" value="${list.review_regdate }"/></li>
 			                    </ul>
 			                    <ul class="commentList">
 			                    	<li class="comment">답글</li>
-				                    <li class="commentTextarea" style="display:none;">
-				                        <c:forEach items="${replyMap[list.rno]}" var="reply">
-				                        	<textarea name="reply" id="reply" cols="100" rows="3">${reply.reply }</textarea>
-				                        </c:forEach>
+				                    <li class="commentTextarea" style="display:none;">				                        
+				                        <textarea name="reply" id="reply" cols="100" rows="3">${list.reply }</textarea>				                 
 				                    </li>
 			                    </ul>
 			                </td>
@@ -189,13 +188,14 @@
             }
         }
           
-       	function checkLogin(url) {
+       	function checkLogin() {
        		// 세션에 로그인 정보가 있는지 확인
             var loginMap = '${loginMap}';
+            var mem_id = $("#mem_id").val();
             
             if (loginMap) {
                 // 로그인한 경우 리뷰 작성 폼으로 이동
-                location.href = url;
+                window.location.href = '${path}/review/insertReviewForm.do?mem_id=' + mem_id;
             } else {
                 // 로그인하지 않은 경우 알림창 표시
                 alert("로그인 후 이용 가능합니다.");

@@ -18,6 +18,13 @@ public class ReviewDAOImpl implements ReviewDAO {
 	public List<ReviewDTO> reviewList() throws Exception {
 		return sqlSession.selectList("review.reviewList");
 	}
+
+	@Override
+	public void insertReview(ReviewDTO dto) throws Exception {
+		 sqlSession.insert("review.insertReview", dto);
+	}
+
+	
 	
 	
 }

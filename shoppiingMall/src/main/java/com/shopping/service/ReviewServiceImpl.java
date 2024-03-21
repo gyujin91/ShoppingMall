@@ -18,6 +18,11 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<ReviewDTO> reviewList() throws Exception {
 		return reviewDao.reviewList();
 	}
+
+	@Override
+	public void insertReview(ReviewDTO dto) throws Exception {
+		reviewDao.insertReview(dto);
+	}
 	
 	
 }

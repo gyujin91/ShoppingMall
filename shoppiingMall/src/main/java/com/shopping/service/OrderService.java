@@ -31,4 +31,9 @@ public interface OrderService {
 	// 주문 취소 후 변경 된 주문 금액
 	public Integer updatePrice(@Param("mem_id") String mem_id, @Param("order_state") String order_state) throws Exception;
 	
+	// 리뷰 화면에서 주문 정보 조회
+	public List<OrderDTO> completedOrderList(String mem_id) throws Exception;
+	
+	// 리뷰 화면에서 선택 된 주문 정보
+	public OrderDTO selectedProdNo(int prod_no) throws Exception;
 }

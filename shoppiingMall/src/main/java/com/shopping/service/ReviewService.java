@@ -7,4 +7,9 @@ import com.shopping.dto.ReviewDTO;
 public interface ReviewService {
 	// 리뷰 목록 조회
 	public List<ReviewDTO> reviewList() throws Exception;
+	
+	// 리뷰 작성
+	public void insertReview(ReviewDTO dto) throws Exception;
+	
+	
 }

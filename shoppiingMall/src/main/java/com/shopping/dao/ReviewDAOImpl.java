@@ -24,6 +24,16 @@ public class ReviewDAOImpl implements ReviewDAO {
 		 sqlSession.insert("review.insertReview", dto);
 	}
 
+	@Override
+	public void deleteReview(int rno) throws Exception {
+		sqlSession.update("review.deleteReview", rno);
+		
+	}
+
+	@Override
+	public ReviewDTO getReviewByRno(int rno) throws Exception {
+		return sqlSession.selectOne("review.getReviewByRno", rno);
+	}
 	
 	
 	

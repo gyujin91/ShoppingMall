@@ -92,50 +92,82 @@ public class ReviewController {
 		return "review/insertReviewForm";
 	}
 	
-	// 리뷰 작성
 	@RequestMapping("insertReview.do")
-	public String insertReview(Model model, HttpSession session, ReviewDTO dto, HttpServletRequest request, @RequestParam int prod_no) throws Exception {
+	public String insertReview(Model model, HttpSession session, ReviewDTO dto, HttpServletRequest request, @RequestParam String mem_id) throws Exception {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
 		
 		// 로그인 체크
 		if(loginMap != null) {
-			String memId = (String) loginMap.get("MEM_ID");	// 로그인 아이디 
-			String memName = (String) loginMap.get("MEM_NAME");	// 회원 이름
+			// String memId = (String) loginMap.get("MEM_ID");	// 로그인 아이디 
+			// String memName = (String) loginMap.get("MEM_NAME");	// 회원 이름
 			
-			// 선택된 상품의 주문 번호 가져오기
-			String selectedProdNos = request.getParameter("chk");
-			List<OrderDTO> completedOrderList = orderService.completedOrderList(memId); // 해당 회원의 주문 목록 가져오기 
 			
-			if(!completedOrderList.isEmpty()) {
-				if(selectedProdNos != null && !selectedProdNos.isEmpty()) {
-					OrderDTO orderDTO = orderService.selectedProdNo(prod_no);
-					
-					if(orderDTO != null) {
-						ReviewDTO reviewDTO = new ReviewDTO();
-						reviewDTO.setReview_title(dto.getReview_title());
-						reviewDTO.setReview_content(dto.getReview_content());
-						reviewDTO.setMem_id(memId);
-						reviewDTO.setMem_name(memName); 
-						reviewDTO.setProd_no(orderDTO.getProd_no());
-						reviewDTO.setProd_name(orderDTO.getProd_name());
-						reviewDTO.setProd_image(orderDTO.getProd_image());
-						
-						reviewService.insertReview(dto);
-					}				
-				}
+			// 선택된 상품의 주문 정보 가져오기
+			String selectedProdNo = request.getParameter("prod_no");	// 상품번호
+			String selectedProdName = request.getParameter("prod_name");	// 상품명
+			String selectedProdImage = request.getParameter("prod_image");	// 상품 이미지
+			
+			List<OrderDTO> completedOrderList = orderService.completedOrderList(mem_id); // 해당 회원의 주문 목록 가져오기 
+			
+			// 주문 목록이 있다면 리뷰 정보에 세팅
+			if((!completedOrderList.isEmpty()) && completedOrderList != null) {
+				ReviewDTO reviewDTO = new ReviewDTO();
+				reviewDTO.setReview_title(dto.getReview_title());	// 리뷰 제목
+				reviewDTO.setReview_content(dto.getReview_content());	// 리뷰 내용
+				reviewDTO.setMem_id((String) session.getAttribute("MEM_ID"));	// 회원 아이디
+				reviewDTO.setMem_name((String) session.getAttribute("MEM_NAME")); 	// 회원 이름
+				reviewDTO.setProd_no(Integer.parseInt(selectedProdNo));	// 상품번호
+				reviewDTO.setProd_name(selectedProdName);	// 상품명
+				reviewDTO.setProd_image(selectedProdImage);	// 상품 이미지
+				
+				reviewService.insertReview(dto);
 			}
-			
-			
 			return "redirect:/review/reviewList.do";
+			
 		} else {
 			model.addAttribute("loginChk", "fail");
 			return "review/insertReviewForm";
 		}
 	}
 	
+	// 리뷰 수정
 	
-	
+	// 리뷰 삭제
+	@RequestMapping("deleteReview.do")
+	public String deleteReview(Model model, HttpSession session, @RequestParam int rno) throws Exception {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+		
+		if(loginMap != null) {
+			// 세션에 저장된 회원 아이디
+			String sessionId = (String) loginMap.get("MEM_ID");
+			
+			// 리뷰 조회
+			ReviewDTO review = reviewService.getReviewByRno(rno);
+			
+			// 리뷰가 존재하고, 삭제 요창한 사용자의 아이디가 리뷰를 작성한 사용자의 아이디와 일치 하는 경우
+			if(review != null && sessionId.equals(review.getMem_id())) {
+				// 권한이 있는 경우 리뷰 삭제
+				try {
+					reviewService.deleteReview(rno);
+					return "redirect:/review/reviewList.do";
+				} catch(Exception e) {
+					logger.info("리뷰 삭제 중 오류가 발생");
+					model.addAttribute("errorMsg", "리뷰 삭제 중 오류가 발생 했습니다.");
+					return "review/reviewList";
+				}
+			} else {
+				model.addAttribute("fail", "삭제할 권한이 없습니다.");
+				return "review/reviewList";
+			}
+		} else {
+			// 로그인 하지 않은 경우
+			model.addAttribute("loginChk", "fail");
+			return "review/reviewList";
+		}
+		
+	}
 	
 	
 	

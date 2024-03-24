@@ -23,6 +23,15 @@ public class ReviewServiceImpl implements ReviewService {
 	public void insertReview(ReviewDTO dto) throws Exception {
 		reviewDao.insertReview(dto);
 	}
-	
+
+	@Override
+	public void deleteReview(int rno) throws Exception {
+		reviewDao.deleteReview(rno);
+	}
+
+	@Override
+	public ReviewDTO getReviewByRno(int rno) throws Exception {
+		return reviewDao.getReviewByRno(rno);
+	}
 	
 }

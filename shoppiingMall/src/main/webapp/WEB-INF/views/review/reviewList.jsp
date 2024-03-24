@@ -154,6 +154,15 @@
 			                    <ul>
 			                        <li style="font-weight: bold;">${maskedName }</li>
 			                        <li><fmt:formatDate pattern="yyyy-MM-dd" value="${list.review_regdate }"/></li>
+			                        <!-- 리뷰를 남긴 해당 사용자만 수정, 삭제 버튼이 보이게 -->
+			                        <c:if test="${list.mem_id eq sessionScope.loginMap.MEM_ID }">
+				                        <li style="margin-left: 15px;">
+				                        	<a href="#" onclick="">수정</a>
+				                        </li>
+	                       				<li style="margin-left: 15px;">
+	                       					<a href="#" data-rno="${list.rno }" onclick="deleteReview(${list.rno}); return false;">삭제</a>
+	                       				</li>
+	                      			</c:if>                       				
 			                    </ul>
 			                    <ul class="commentList">
 			                    	<li class="comment">답글</li>
@@ -201,6 +210,28 @@
                 alert("로그인 후 이용 가능합니다.");
                 window.location.href = '${path}/member/loginForm.do';
             }
+       	}
+
+       	function deleteReview(rno) {
+       	    $.ajax({
+       	        url: 'deleteReview.do',
+       	        type: 'POST',
+       	        data: { rno: rno },
+       	        success: function(response) {
+       	            // 성공적으로 삭제된 경우
+       	            window.location.reload(); // 페이지 새로고침 또는 리뷰 목록을 다시 로드하는 다른 작업 수행
+       	        },
+       	        error: function(xhr, status, error) {
+       	            alert("리뷰 삭제 중 오류가 발생했습니다.");
+	                
+	                if (xhr.status === 404) {
+	                    alert("요청하신 페이지를 찾을 수 없습니다.");
+	                    window.location.href = '${path}/error/errorPage.do';
+	                } else if (xhr.status === 500) {
+	                    alert("서버 내부 오류가 발생했습니다. 관리자에게 문의해주세요.");
+	                }
+       	        }
+       	    });
        	}
 
     </script>

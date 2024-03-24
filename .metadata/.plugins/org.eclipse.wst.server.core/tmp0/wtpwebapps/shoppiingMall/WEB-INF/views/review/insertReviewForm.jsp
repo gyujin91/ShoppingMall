@@ -131,6 +131,8 @@
 			                                    <li><img src="${path }/${list.prod_image}" alt="상품 이미지"></li>
 			                                    <li><input type="text" name="prod_name" value="${list.prod_name }"></li>
 			                                    <li><input type="hidden" name="prod_no" value="${list.prod_no }"></li>
+			                                    <li><input type="hidden" name="mem_id" value="${list.mem_id }"></li>
+			                                    <li><input type="hidden" name="mem_name" value="${list.mem_name }"></li>
 			                                    <li><input type="checkbox" name="chk" value="${list.prod_no }" onchange="handleCheckboxChange(this)"></li>
 			                                </ul>
 			                            </div>
@@ -145,15 +147,11 @@
                     </tr>
                     <tr>
                         <th>작성자</th>
-                        <td><input type="text" id="mem_id" name="mem_id" value="${sessionScope.loginMap.MEM_NAME }" readonly></td>
+                        <td>${sessionScope.loginMap.MEM_NAME }</td>
                     </tr>
                     <tr>
                         <th>내용</th>
                         <td><textarea id="review_content" name="review_content" rows="4" cols="100" required></textarea></td>
-                    </tr>
-                   <tr>
-                        <th>이미지</th>
-                        <td><input type="file" id="prod_image" name="prod_image" accept="image/*" required></td>
                     </tr>
                 </table>
             </form>
@@ -186,11 +184,11 @@
 	    function insertReview() {
 	        var reviewTitle = $("#review_title").val();	// 리뷰 제목
 	        var reviewContent = $("#review_content").val();	// 리뷰 내용
-	        var selectedProdNo = $("input[name='chk']:checked").val();
-	        var prodName = $("input[name='chk']:checked").siblings("input[name='prod_name']").val();
-	        var prodImage = $("input[name='chk']:checked").siblings("input[name='prod_image']").val(); 
-	        
-	        // 선택된 상품의 주문 번호 가져오기
+	        var selectedProdNo = $("input[name='chk']:checked").val();	// 상품 번호
+	        var selectedProdName = $("input[name='chk']:checked").closest(".prodInfo").find("input[name='prod_name']").val();
+	        var selectedProdImage = $("input[name='chk']:checked").closest(".prodInfo").find("img").attr("src");	// 상품 이미지
+	        var selectedMemId = $("input[name='chk']:checked").closest(".prodInfo").find("input[name='mem_id']").val();
+	        var selectedMemName = $("input[name='chk']:checked").closest(".prodInfo").find("input[name='mem_name']").val();
 	        
 	        if (!selectedProdNo) {
 	            alert("리뷰를 작성할 상품을 선택 해주세요.");
@@ -211,8 +209,10 @@
 		                review_title: reviewTitle,
 		                review_content: reviewContent,
 		                prod_no: selectedProdNo,
-		                prod_name: prodName,
-		                prod_image: prodImage
+		                prod_name: selectedProdName,
+		                prod_image: selectedProdImage,
+		                mem_id: selectedMemId,
+		                mem_name: selectedMemName
 		            },
 		            success: function(response) {
 		                alert("리뷰 작성을 완료 하였습니다.");

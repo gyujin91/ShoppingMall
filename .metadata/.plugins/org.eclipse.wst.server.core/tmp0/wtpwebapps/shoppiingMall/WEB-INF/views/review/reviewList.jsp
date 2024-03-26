@@ -102,10 +102,12 @@
         {
             margin-top: 16px;
             margin-bottom: 5px;
+            font-weight: bold;
         }
         .review table td span:nth-child(2)
         {
             margin-bottom: 5px;
+            font-size:0.9em;
         }
         .review table td span:nth-child(3)
         {
@@ -164,12 +166,14 @@
 	                       				</li>
 	                      			</c:if>                       				
 			                    </ul>
-			                    <ul class="commentList">
-			                    	<li class="comment">답글</li>
-				                    <li class="commentTextarea" style="display:none;">				                        
-				                        <textarea name="reply" id="reply" cols="100" rows="3">${list.reply }</textarea>				                 
-				                    </li>
-			                    </ul>
+			                    <c:if test="${!empty list.reply }">
+				                    <ul class="commentList">
+				                    	<li class="comment">답글</li>
+					                    <li class="commentTextarea" style="display:none;">				                        
+					                        <textarea name="reply" id="reply" cols="100" rows="3">${list.reply }</textarea>				                 
+					                    </li>
+				                    </ul>
+			                    </c:if>
 			                </td>
 			            </tr>
         			</c:forEach>
@@ -212,6 +216,7 @@
             }
        	}
        	
+       	// 회원 리뷰 삭제 //
        	function deleteReview(rno) {
        	    $.ajax({
        	        url: 'deleteReview.do',
@@ -233,6 +238,11 @@
        	        }
        	    });
        	}
+     // 회원 리뷰 삭제 //
+     
+     // 관리자 댓글 작성 //
+     
+     // 관리자 댓글 작성 //
 
     </script>
 </body>

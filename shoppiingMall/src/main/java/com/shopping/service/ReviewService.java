@@ -19,4 +19,7 @@ public interface ReviewService {
 		
 	// 리뷰 삭제
 	public void deleteReview(int rno) throws Exception;
+
+	// 리뷰 총 건 수
+	public int reviewTotalCnt() throws Exception;
 }

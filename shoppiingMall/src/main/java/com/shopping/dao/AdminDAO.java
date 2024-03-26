@@ -6,6 +6,7 @@ import java.util.Map;
 import com.shopping.dto.MemberDTO;
 import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
+import com.shopping.dto.ReviewDTO;
 
 public interface AdminDAO {
 	
@@ -27,6 +28,9 @@ public interface AdminDAO {
 	// 주문 목록 조회
 	public List<OrderDTO> allOrderList() throws Exception;
 	
+	// 대쉬보드 주문 목록 조회
+	public List<OrderDTO> orderList() throws Exception;
+	
 	// 주문 상세 목록 조회
 	public OrderDTO orderInfo(int order_no) throws Exception;
 	
@@ -35,4 +39,10 @@ public interface AdminDAO {
 	
 	// 모든 공지글 조회
 	public List<NoticeDTO> allNoticeList() throws Exception;
+	
+	// 모든 리뷰 조회
+	public List<ReviewDTO> selectReviewList() throws Exception;
+	
+	// 관리자 댓글
+	public void insertReply(ReviewDTO dto) throws Exception;
 }

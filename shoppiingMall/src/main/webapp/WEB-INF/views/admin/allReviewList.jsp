@@ -62,6 +62,17 @@
             border: none;
             background: #ececec;
         }
+        .review .cnt
+        {
+        	margin-left: 150px;
+        	font-weight: bold;
+        	font-size: 1.2em;
+        	margin-top: 15px;
+        }
+        .review .cnt strong
+        {
+        	color: #7766FF;
+        }
         .review table
         {
             width: 1365px;
@@ -135,18 +146,19 @@
     <div class="review">
         <h2>REVIEW</h2>
         <div class="btnGroup">
-            <button type="button" onclick="location.href='${path}/notice/noticeList.do'">NOTICE</button>
-            <button type="button" onclick="location.href='${path}/review/reviewList.do'">REVIEW</button>
+            <button type="button" onclick="location.href='${path}/admin/allNoticeList.do'">NOTICE</button>
+            <button type="button" onclick="location.href='${path}/admin/selectReviewList.do'">REVIEW</button>
             <button type="button" id="insert" onclick="checkLogin()">리뷰 작성</button>   
             <input type="hidden" name="mem_id" id="mem_id" value="${sessionScope.loginMap.MEM_ID }">       
         </div>
+        <span class="cnt"><strong>${rTotalCnt }</strong>건</span>
         <table>
         	<c:choose>
-        		<c:when test="${empty reviewList }">
+        		<c:when test="${empty selectReviewList }">
         			<div>리뷰가 없습니다.</div>
         		</c:when>
         		<c:otherwise>
-        			<c:forEach items="${reviewList }" var="list">
+        			<c:forEach items="${selectReviewList }" var="list">
         				<tr>
 			                <th><a href="${path }/product/productDetail.do?prod_no=${list.prod_no}"><img src="${path }/${list.prod_image}" alt="상품 이미지"></a></th>
 			                <td>

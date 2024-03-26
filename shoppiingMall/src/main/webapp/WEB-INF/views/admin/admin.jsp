@@ -381,7 +381,7 @@
                 </a>
                 <a href="${path }/admin/allNoticeList.do">
                     <div class="comments">
-                        <h3>208</h3>
+                        <h3>${rTotalCnt }<em style="font-size: 0.6em">건</em></h3>
                         <p style="color: gray; font-size: 18px;">리뷰</p>
                         <i class="xi-help-o"></i>     
                     </div>

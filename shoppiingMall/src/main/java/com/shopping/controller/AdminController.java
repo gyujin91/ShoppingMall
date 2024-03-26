@@ -24,11 +24,13 @@ import com.shopping.dto.MemberDTO;
 import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
 import com.shopping.dto.ProductDTO;
+import com.shopping.dto.ReviewDTO;
 import com.shopping.service.AdminService;
 import com.shopping.service.MemberService;
 import com.shopping.service.NoticeService;
 import com.shopping.service.OrderService;
 import com.shopping.service.ProductService;
+import com.shopping.service.ReviewService;
 
 
 @Controller
@@ -49,6 +51,9 @@ public class AdminController {
 	
 	@Autowired
 	NoticeService noticeService;
+	
+	@Autowired
+	ReviewService reviewService;
 	
 	@Autowired
 	BCryptPasswordEncoder pwdEncoder;
@@ -75,16 +80,18 @@ public class AdminController {
 			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
 			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
 				List<MemberDTO> memberList = adminService.memberList();
-				List<OrderDTO> orderList = adminService.allOrderList();
+				List<OrderDTO> orderList = adminService.orderList();
 				List<Map<String, Object>> userTotalPrice = adminService.userTotalPrice();
 				int pTotalCnt = productService.productTotalCnt();
 				int oTotalCnt = orderService.orderTotalCnt();
+				int rTotalCnt = reviewService.reviewTotalCnt();
 				
 				model.addAttribute("memberList", memberList);
 				model.addAttribute("orderList", orderList);
 				model.addAttribute("userTotalPrice", userTotalPrice);
 				model.addAttribute("pTotalCnt", pTotalCnt);
 				model.addAttribute("oTotalCnt", oTotalCnt);
+				model.addAttribute("rTotalCnt", rTotalCnt);
 				
 				return "admin/admin";
 			} else {
@@ -760,6 +767,72 @@ public class AdminController {
 	}
 	
 	/* -------------------------------------------------------- 공지 -------------------------------------------------------- */
+	/* -------------------------------------------------------- 리뷰 -------------------------------------------------------- */
+	// 모든 리뷰 조회
+	@RequestMapping("selectReviewList.do")
+	public String selectReviewList(Model model, HttpSession session) throws Exception {
+		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "admin/noticeRead";
+			}
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {		
+				
+				List<ReviewDTO> selectReviewList = adminService.selectReviewList();	// 모든 리뷰 목록
+				int rTotalCnt = reviewService.reviewTotalCnt();	// 리뷰 총 건 수
+				
+				for(ReviewDTO rDTO : selectReviewList) {
+					
+					String mem_name = rDTO.getMem_name();
+					
+					// 이름 마스킹
+					if (mem_name.length() > 2) {
+					    // 이름이 세 글자 이상일 때는 첫 번째 글자와 마지막 글자를 제외하고 마스킹 처리
+					    StringBuilder maskedName = new StringBuilder();
+					    maskedName.append(mem_name.charAt(0)); // 첫 번째 글자는 그대로 유지
+					    for (int i = 1; i < mem_name.length() - 1; i++) {
+					        maskedName.append("*");
+					    }
+					    maskedName.append(mem_name.charAt(mem_name.length() - 1)); // 마지막 글자는 그대로 유지
+					    System.out.println(maskedName);
+					    model.addAttribute("maskedName", maskedName);
+					} else if (mem_name.length() == 2) {
+					    // 이름이 두 글자일 때는 두 번째 글자만 마스킹 처리
+					    StringBuilder maskedName = new StringBuilder();
+					    maskedName.append(mem_name.charAt(0)); // 첫 번째 글자는 그대로 유지
+					    maskedName.append("*"); // 두 번째 글자를 마스킹 처리
+					    System.out.println(maskedName);
+					    model.addAttribute("maskedName", maskedName);
+					} else {
+					    System.out.println("이름은 한 글자가 될 수 없습니다.");
+					}
+				}
+				
+				model.addAttribute("selectReviewList", selectReviewList);
+				model.addAttribute("rTotalCnt", rTotalCnt);
+				return "admin/allReviewList";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/allReviewList";
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("내부 서버 에러 발생");
+			model.addAttribute("errorMessage", "error");
+			return "admin/allReviewList";
+		}
+	}
+	/* -------------------------------------------------------- 리뷰 -------------------------------------------------------- */
 	// 조회수
 	@RequestMapping("views.do")
 	public String views() throws Exception {

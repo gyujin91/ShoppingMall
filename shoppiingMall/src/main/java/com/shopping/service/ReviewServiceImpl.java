@@ -38,5 +38,12 @@ public class ReviewServiceImpl implements ReviewService {
 	public void updateReview(ReviewDTO dto) throws Exception {
 		reviewDao.updateReview(dto);
 	}
+
+	@Override
+	public int reviewTotalCnt() throws Exception {
+		return reviewDao.reviewTotalCnt();
+	}
+	
+	
 	
 }

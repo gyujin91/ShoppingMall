@@ -157,16 +157,24 @@
                 </table>
             </form>
             <div class="btn_group">
-                <button type="button" id="update" onclick="updateReview()">수정</button>
+                <button type="button" id="update" data-rno="${rDTO.rno }" onclick="updateReview(${rDTO.rno})">수정</button>
                 <button type="button" id="cancel" onclick="location.href='${path}/review/reviewList.do'">취소</button>
             </div>
         </div>
     </div>
     <%@ include file="../include/footer.jsp" %>
     
-    <script>
+    <script>	 		 	    
+	 	// 로그인 여부 확인
+	    var loginMap = '${loginMap}';
+	    
+	    if(!loginMap) {
+	    	alert("로그인 후 이용 가능합니다.");
+	        window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
+	    }
+    
 	    // 해당 리뷰의 상품 번호 저장
-	    var previousProdNo = ${rDTO.prod_no}; // 이전에 남긴 리뷰의 상품 번호
+	    var previousProdNo = '${rDTO.prod_no}'; // 이전에 남긴 리뷰의 상품 번호
 
 	 	// 페이지 로드 시 실행되는 함수
 	     $(document).ready(function() {
@@ -181,25 +189,17 @@
 	        if (checkbox.value === previousProdNo) {
 	            checkbox.checked = true;
 	        }
-	    }
-
-
-
- 		// 로그인 여부 확인
-	    var loginChk = '${loginChk}';
-	    
-	    if(loginChk == 'fail') {
-	    	alert("로그인 후 이용 가능합니다.");
-	        window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
-	    }
+	    }	
 	
-	    function updateReview() {
+	    function updateReview(rno) {
 	    	var reviewRno = $("#rno").val();
 	        var reviewTitle = $("#review_title").val();	// 리뷰 제목
 	        var reviewContent = $("#review_content").val();	// 리뷰 내용
 	        var selectedProdNo = $("input[name='chk']:checked").val();	// 상품 번호
 	        var selectedProdName = $("input[name='chk']:checked").closest(".prodInfo").find("input[name='prod_name']").val();
 	        var selectedProdImage = $("input[name='chk']:checked").closest(".prodInfo").find("img").attr("src");	// 상품 이미지
+	        var selectedMemId = $("input[name='chk']:checked").closest(".prodInfo").find("input[name='mem_id']").val();
+	        var selectedMemName = $("input[name='chk']:checked").closest(".prodInfo").find("input[name='mem_name']").val();
 	        
 	        if (!selectedProdNo) {
 	            alert("리뷰를 작성할 상품을 선택 해주세요.");
@@ -217,11 +217,14 @@
 		            url: 'updateReview.do',
 		            type: 'POST',
 		            data: {
+		            	rno: reviewRno,
 		                review_title: reviewTitle,
 		                review_content: reviewContent,
 		                prod_no: selectedProdNo,
 		                prod_name: selectedProdName,
 		                prod_image: selectedProdImage,
+		                mem_id: selectedMemId,
+		                mem_name: selectedMemName
 		            },
 		            success: function(response) {
 		                alert("리뷰 수정을 완료 하였습니다.");

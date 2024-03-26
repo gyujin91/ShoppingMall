@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.shopping.dto.MemberDTO;
 import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
+import com.shopping.dto.ReviewDTO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO{
@@ -61,5 +62,24 @@ public class AdminDAOImpl implements AdminDAO{
 	public List<NoticeDTO> allNoticeList() throws Exception {
 		return sqlSession.selectList("admin.allNoticeList");
 	}
+
+	@Override
+	public List<OrderDTO> orderList() throws Exception {
+		return sqlSession.selectList("admin.orderList");
+	}
+
+	@Override
+	public List<ReviewDTO> selectReviewList() throws Exception {
+		return sqlSession.selectList("admin.selectReviewList");
+	}
+
+	@Override
+	public void insertReply(ReviewDTO dto) throws Exception {
+		sqlSession.update("admin.insertReply", dto);
+	}
+
+	
+	
+	
 	
 }

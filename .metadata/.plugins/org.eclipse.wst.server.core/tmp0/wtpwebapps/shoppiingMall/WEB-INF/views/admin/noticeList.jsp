@@ -182,11 +182,11 @@
 		}
     
 		function notice(){
-            location.href = 'boardList.html';
+            location.href = '${path}/admin/allNoticeList.do';
         }
 
         function review(){
-            location.href = 'review.html';
+            location.href = '${path}/admin/selectReviewList.do';
         }
     </script>
 </body>

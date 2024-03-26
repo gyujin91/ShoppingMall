@@ -10,6 +10,7 @@ import com.shopping.dao.AdminDAO;
 import com.shopping.dto.MemberDTO;
 import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
+import com.shopping.dto.ReviewDTO;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -61,4 +62,24 @@ public class AdminServiceImpl implements AdminService{
 	public List<NoticeDTO> allNoticeList() throws Exception {
 		return adminDao.allNoticeList();
 	}
+
+	@Override
+	public List<OrderDTO> orderList() throws Exception {
+		return adminDao.orderList();
+	}
+
+	@Override
+	public List<ReviewDTO> selectReviewList() throws Exception {
+		return adminDao.selectReviewList();
+	}
+
+	@Override
+	public void insertReply(ReviewDTO dto) throws Exception {
+		adminDao.insertReply(dto);
+	}
+
+	
+	
+	
+	
 }

@@ -131,7 +131,99 @@ public class ReviewController {
 		}
 	}
 	
+	// 리뷰 수정 폼
+	@RequestMapping("updateReviewForm.do")
+	public String updateReviewForm(Model model, HttpSession session, @RequestParam int rno, @RequestParam String mem_id) throws Exception {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+		
+		if(loginMap != null) {
+			// 세션 정보
+			String sessionId = (String) loginMap.get("MEM_ID");
+			
+			// 해당 회원의 주문 정보 가져오기
+			List<OrderDTO> completedOrderList = orderService.completedOrderList(mem_id); 
+			
+			// 리뷰 조회
+			ReviewDTO rDTO = reviewService.getReviewByRno(rno);
+			
+			// 주문 목록, 리뷰가 존재하고, 삭제 요창한 사용자의 아이디가 리뷰를 작성한 사용자의 아이디와 일치 하는 경우
+			if((completedOrderList != null && !completedOrderList.isEmpty()) && rDTO != null && sessionId.equals(rDTO.getMem_id()) ) {
+				try {
+					model.addAttribute("rDTO", rDTO);
+					model.addAttribute("completedOrderList", completedOrderList);
+					return "review/updateReviewForm";
+				} catch(Exception e) {
+					logger.info("리뷰 확인 중 오류가 발생 했습니다.");
+					model.addAttribute("msg", "리뷰 확인 중 오류가 발생 했습니다.");
+					return "review/updateReviewForm";
+				}
+			} else {
+				System.out.println("리뷰를 확인 할 권한이 없습니다.");
+				model.addAttribute("message", "리뷰가 존재 하지 않습니다.");
+				return "review/updateReviewForm";
+			}
+		} else {
+			// 로그인 하지 않은 상태
+			model.addAttribute("loginChk", "fail");
+			return "review/updateReviewForm";
+		}
+	
+	}
+	
 	// 리뷰 수정
+	@RequestMapping("updateReview.do")
+	public String updateReview(Model model, HttpSession session, @RequestParam int rno, @RequestParam String mem_id, HttpServletRequest request,
+			 ReviewDTO dto) throws Exception {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+		
+		if(loginMap != null) {
+			// 세션 정보
+			String sessionId = (String) loginMap.get("MEM_ID");
+			
+			// 해당 회원의 주문 정보 가져오기
+			List<OrderDTO> completedOrderList = orderService.completedOrderList(mem_id); 
+			
+			// 리뷰 조회
+			ReviewDTO rDTO = reviewService.getReviewByRno(rno);
+			
+			String selectedProdNo = request.getParameter("prod_no");	// 상품번호
+			String selectedProdName = request.getParameter("prod_name");	// 상품명
+			String selectedProdImage = request.getParameter("prod_image");	// 상품 이미지
+			
+			// 주문 목록, 리뷰가 존재하고, 삭제 요창한 사용자의 아이디가 리뷰를 작성한 사용자의 아이디와 일치 하는 경우
+			if((completedOrderList != null && !completedOrderList.isEmpty()) && rDTO != null && sessionId.equals(rDTO.getMem_id()) ) {
+				try {
+					ReviewDTO reviewDTO = new ReviewDTO();
+					reviewDTO.setRno(rno);
+					reviewDTO.setMem_id((String) session.getAttribute("MEM_ID"));	// 회원 아이디
+					reviewDTO.setMem_name((String) session.getAttribute("MEM_NAME")); 	// 회원 이름
+					reviewDTO.setProd_no(Integer.parseInt(selectedProdNo));
+					reviewDTO.setProd_name(selectedProdName);
+					reviewDTO.setProd_image(selectedProdImage);
+					reviewDTO.setReview_title(dto.getReview_title());
+					reviewDTO.setReview_content(dto.getReview_content());
+					reviewService.updateReview(reviewDTO);
+					
+					return "review/updateReviewForm";
+				} catch(Exception e) {
+					logger.info("리뷰 수정 중 오류가 발생 했습니다.");
+					model.addAttribute("msg", "리뷰 수정 중 오류가 발생 했습니다.");
+					return "review/updateReviewForm";
+				}
+			} else {
+				System.out.println("리뷰를 수정 할 권한이 없습니다.");
+				model.addAttribute("message", "리뷰가 존재 하지 않습니다.");
+				return "review/updateReviewForm";
+			}
+		} else {
+			// 로그인 하지 않은 상태
+			model.addAttribute("loginChk", "fail");
+			return "review/updateReviewForm";
+		}
+				
+	}
 	
 	// 리뷰 삭제
 	@RequestMapping("deleteReview.do")
@@ -158,7 +250,7 @@ public class ReviewController {
 					return "review/reviewList";
 				}
 			} else {
-				model.addAttribute("fail", "삭제할 권한이 없습니다.");
+				model.addAttribute("msg", "삭제할 권한이 없습니다.");
 				return "review/reviewList";
 			}
 		} else {

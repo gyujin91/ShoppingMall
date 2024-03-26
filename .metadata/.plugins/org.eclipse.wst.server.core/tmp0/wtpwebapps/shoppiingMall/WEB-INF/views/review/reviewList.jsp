@@ -157,7 +157,7 @@
 			                        <!-- 리뷰를 남긴 해당 사용자만 수정, 삭제 버튼이 보이게 -->
 			                        <c:if test="${list.mem_id eq sessionScope.loginMap.MEM_ID }">
 				                        <li style="margin-left: 15px;">
-				                        	<a href="#" onclick="">수정</a>
+				                        	<a href="#" onclick="location.href='${path}/review/updateReviewForm.do?rno=${list.rno }&mem_id=${list.mem_id }'">수정</a>
 				                        </li>
 	                       				<li style="margin-left: 15px;">
 	                       					<a href="#" data-rno="${list.rno }" onclick="deleteReview(${list.rno}); return false;">삭제</a>
@@ -211,15 +211,15 @@
                 window.location.href = '${path}/member/loginForm.do';
             }
        	}
-
+       	
        	function deleteReview(rno) {
        	    $.ajax({
        	        url: 'deleteReview.do',
        	        type: 'POST',
        	        data: { rno: rno },
-       	        success: function(response) {
-       	            // 성공적으로 삭제된 경우
-       	            window.location.reload(); // 페이지 새로고침 또는 리뷰 목록을 다시 로드하는 다른 작업 수행
+       	        success: function(response) {       	   
+       	        		alert("리뷰를 성공적으로 삭제 했습니다.");
+           	            window.location.reload(); // 페이지 새로고침      	            
        	        },
        	        error: function(xhr, status, error) {
        	            alert("리뷰 삭제 중 오류가 발생했습니다.");

@@ -15,7 +15,8 @@ public interface ReviewService {
 	public ReviewDTO getReviewByRno(int rno) throws Exception;
 	
 	// 리뷰 수정
-	
+	public void updateReview(ReviewDTO dto) throws Exception;
+		
 	// 리뷰 삭제
 	public void deleteReview(int rno) throws Exception;
 }

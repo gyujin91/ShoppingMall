@@ -31,6 +31,11 @@ public class ReviewDAOImpl implements ReviewDAO {
 	}
 
 	@Override
+	public void updateReview(ReviewDTO dto) throws Exception {
+		sqlSession.update("review.updateReview", dto);
+	}
+
+	@Override
 	public ReviewDTO getReviewByRno(int rno) throws Exception {
 		return sqlSession.selectOne("review.getReviewByRno", rno);
 	}

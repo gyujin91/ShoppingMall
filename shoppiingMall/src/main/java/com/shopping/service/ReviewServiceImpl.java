@@ -33,5 +33,10 @@ public class ReviewServiceImpl implements ReviewService {
 	public ReviewDTO getReviewByRno(int rno) throws Exception {
 		return reviewDao.getReviewByRno(rno);
 	}
+
+	@Override
+	public void updateReview(ReviewDTO dto) throws Exception {
+		reviewDao.updateReview(dto);
+	}
 	
 }

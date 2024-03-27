@@ -31,7 +31,7 @@
             width: 5%;
             background: #6666FF;
             border-radius: 25px;
-            display: none;
+            display: block;
         }
 
         .navigation ul 
@@ -324,11 +324,11 @@
                 	<span style="display: none; font-weight: bold;">홈</span>
                 </li>              
                 <li>
-                	<i class="xi-won" onclick="" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+                	<i class="xi-won" onclick="location.href='${path}/admin/sales.do'" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
                 	<span style="display: none; font-weight: bold;">매출</span>
                 </li>
                 <li>
-               		<i class="xi-help-o" onclick="" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
+               		<i class="xi-help-o" onclick="location.href='${path}/admin/selectReviewList.do'" onmouseover="showText(this)" onmouseout="hideText(this)"></i>
                		<span style="display: none; font-weight: bold;">리뷰</span>
                	</li>
                 <li>
@@ -365,7 +365,7 @@
                         <i class="xi-eye-o"></i>
                     </div>
                 </a>
-                <a href="#">
+                <a href="${path }/admin/sales.do">
                     <div class="sales">
                         <h3>9,999</h3>
                         <p style="color: gray; font-size: 18px;">매출</p>
@@ -379,7 +379,7 @@
                         <i class="xi-cart-o"></i>
                     </div>
                 </a>
-                <a href="${path }/admin/allNoticeList.do">
+                <a href="${path }/admin/selectReviewList.do">
                     <div class="comments">
                         <h3>${rTotalCnt }<em style="font-size: 0.6em">건</em></h3>
                         <p style="color: gray; font-size: 18px;">리뷰</p>
@@ -488,12 +488,14 @@
 
         function toggleNavigation() {
         	var navigation = document.getElementById("navigation");
-            if (navigation.style.display === "none") {
-                navigation.style.display = "block"; // 보이게 변경
+            if (navigation.style.display === "block") {
+                navigation.style.display = "none"; 
             } else {
-                navigation.style.display = "none"; // 숨기게 변경
+                navigation.style.display = "block"; 
             }
         }
+        
+       
         
         function showText(element) {
             var textElement = element.nextElementSibling;

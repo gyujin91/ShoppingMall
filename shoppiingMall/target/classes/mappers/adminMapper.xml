@@ -254,7 +254,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    R.RNO,
 		    R.REVIEW_TITLE,
 		    R.REVIEW_CONTENT,
-		    R.MEM_ID,
+		    M.MEM_ID,
 		    M.MEM_NAME,
 		    R.PROD_NO,
 		    P.PROD_NAME,
@@ -263,15 +263,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    R.REPLY,
 		    R.REPLY_ID,
 		    R.REPLY_NAME,
-		    R.REPLY_REGDATE AS REPLY_DATE
+		    R.REPLY_REGDATE AS REPLY_DATE,
+		    R.USEYN
 		FROM 
 		    REVIEW R
 		JOIN 
 		    PRODUCT P ON R.PROD_NO = P.PROD_NO
 		JOIN 
 		    MEMBER M ON R.MEM_ID = M.MEM_ID
-		WHERE 
-		    R.USEYN = 'Y'
 		ORDER BY 
 		    R.REVIEW_REGDATE DESC;				
 	</select>

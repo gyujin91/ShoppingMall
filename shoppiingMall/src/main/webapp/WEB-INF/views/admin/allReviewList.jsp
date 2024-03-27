@@ -22,12 +22,36 @@
         {
             margin: 15px;
         }
-        .review h2
+        
+        .review .title
         {
-            text-align: center;
-            font-size: 1.5em;
-            margin-bottom: 30px;
+            position: relative;
+            margin: 30px 0 0 145px;
         }
+        .review .title h2
+        {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        } 
+        .review .title h2 i:hover
+        {
+            color: #222;
+        } 
+        .review .title p
+        {
+            position: absolute;
+            top: 2%;
+            left: 5%;
+            font-size: 1.1em;
+        }
+        .review .title p strong
+        {
+            color: blue;
+        }
+        .review h2 i
+        {
+            margin-right: 5px;
+        }       
         .review .btnGroup button
         {
             padding: 5px;
@@ -144,14 +168,16 @@
 <body>
     <%@ include file="../include/header.jsp" %>
     <div class="review">
-        <h2>REVIEW</h2>
+        <div class="title">
+                 <h2><a href="${path }/admin/admin.do"><i class="xi-arrow-left"></i></a>리뷰</h2>
+                 <p> (총 <strong>${rTotalCnt }</strong>건)</p>
+        </div>
         <div class="btnGroup">
             <button type="button" onclick="location.href='${path}/admin/allNoticeList.do'">NOTICE</button>
             <button type="button" onclick="location.href='${path}/admin/selectReviewList.do'">REVIEW</button>
             <button type="button" id="insert" onclick="checkLogin()">리뷰 작성</button>   
             <input type="hidden" name="mem_id" id="mem_id" value="${sessionScope.loginMap.MEM_ID }">       
         </div>
-        <span class="cnt"><strong>${rTotalCnt }</strong>건</span>
         <table>
         	<c:choose>
         		<c:when test="${empty selectReviewList }">
@@ -162,30 +188,28 @@
         				<tr>
 			                <th><a href="${path }/product/productDetail.do?prod_no=${list.prod_no}"><img src="${path }/${list.prod_image}" alt="상품 이미지"></a></th>
 			                <td>
-			                    <span>${list.prod_name }</span>
+			                	<c:choose>
+			                		<c:when test="${list.useyn eq 'Y'}">
+			                			<span id="prod_name">${list.prod_name }<strong style="margin-left:10px; color:#7766FF;">(사용)</strong></span>
+			                		</c:when>
+			                		<c:when test="${list.useyn eq 'N'}">
+			                			<span id="prod_name">${list.prod_name }<strong style="margin-left:10px; color:#f22c3d;">(미사용)</strong></span>
+			                		</c:when>
+			                	</c:choose>
+			                    
 			                    <span>${list.review_title }</span>
 			                    <span>${list.review_content }</span>
 			                    <ul>
 			                        <li style="font-weight: bold;">${maskedName }</li>
 			                        <li><fmt:formatDate pattern="yyyy-MM-dd" value="${list.review_regdate }"/></li>
-			                        <!-- 리뷰를 남긴 해당 사용자만 수정, 삭제 버튼이 보이게 -->
-			                        <c:if test="${list.mem_id eq sessionScope.loginMap.MEM_ID }">
-				                        <li style="margin-left: 15px;">
-				                        	<a href="#" onclick="location.href='${path}/review/updateReviewForm.do?rno=${list.rno }&mem_id=${list.mem_id }'">수정</a>
-				                        </li>
-	                       				<li style="margin-left: 15px;">
-	                       					<a href="#" data-rno="${list.rno }" onclick="deleteReview(${list.rno}); return false;">삭제</a>
-	                       				</li>
-	                      			</c:if>                       				
 			                    </ul>
-			                    <c:if test="${!empty list.reply }">
-				                    <ul class="commentList">
-				                    	<li class="comment">답글</li>
-					                    <li class="commentTextarea" style="display:none;">				                        
-					                        <textarea name="reply" id="reply" cols="100" rows="3">${list.reply }</textarea>				                 
-					                    </li>
-				                    </ul>
-			                    </c:if>
+			                    <ul class="commentList">
+			                    	<li class="comment">답글 입력</li>
+				                    <li class="commentTextarea" style="display:none;">				                        
+				                        <textarea name="reply" id="reply_${list.rno }" cols="100" rows="3">${list.reply }</textarea>	
+				                        <button type="button" style="margin-left:5px; padding: 5px; background-color: black; color:white;" onclick="insertReplay(${list.rno})">작성</button>			                 
+				                    </li>
+			                    </ul>
 			                </td>
 			            </tr>
         			</c:forEach>
@@ -228,18 +252,20 @@
             }
        	}
        	
-       	// 회원 리뷰 삭제 //
-       	function deleteReview(rno) {
+       	// 리뷰 답글 
+       	function insertReplay(rno) {
+       		var reply = $("#reply_" + rno).val();	//해당 리뷰의 답글
+       		
        	    $.ajax({
-       	        url: 'deleteReview.do',
+       	        url: 'insertReply.do',
        	        type: 'POST',
-       	        data: { rno: rno },
+       	        data: { reply: reply, rno: rno },
        	        success: function(response) {       	   
-       	        		alert("리뷰를 성공적으로 삭제 했습니다.");
+       	        		alert("답글을 성공적으로 작성 했습니다.");
            	            window.location.reload(); // 페이지 새로고침      	            
        	        },
        	        error: function(xhr, status, error) {
-       	            alert("리뷰 삭제 중 오류가 발생했습니다.");
+       	            alert("답글 작성 중 오류가 발생했습니다.");
 	                
 	                if (xhr.status === 404) {
 	                    alert("요청하신 페이지를 찾을 수 없습니다.");
@@ -250,11 +276,9 @@
        	        }
        	    });
        	}
-     // 회원 리뷰 삭제 //
+     	
      
-     // 관리자 댓글 작성 //
      
-     // 관리자 댓글 작성 //
 
     </script>
 </body>

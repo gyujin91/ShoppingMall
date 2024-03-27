@@ -832,12 +832,63 @@ public class AdminController {
 			return "admin/allReviewList";
 		}
 	}
+	
+	// 관리자 댓글 
+	@RequestMapping("insertReply.do")
+	public String insertReply(Model model, HttpSession session, @RequestParam int rno, ReviewDTO dto) throws Exception {
+		try {
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
+				// 회원들의 리뷰 목록
+				List<ReviewDTO> reviewList = reviewService.reviewList();
+				// 회원들의 리뷰 목록이 비어 있지 않다면 관리자 댓글 달기
+				if(reviewList != null && !reviewList.isEmpty()) {
+					// 댓글을 달 리뷰 선택
+					ReviewDTO selectedReview = reviewService.getReviewByRno(rno);
+					
+					Date currentTime = new Date();
+					ReviewDTO replyDTO = new ReviewDTO();
+					replyDTO.setRno(selectedReview.getRno());	// 리뷰 번호
+					replyDTO.setReply(dto.getReply());	// 관리자 댓글
+					replyDTO.setReply_id((String) loginMap.get("MEM_ID"));	// 관리자 아이디
+					replyDTO.setReply_name((String) loginMap.get("MEM_NAME"));	// 관리자 이름
+					replyDTO.setReply_regdate(currentTime);
+					
+					adminService.insertReply(replyDTO);	// 댓글 업데이트					
+				}
+				return "redirect:/review/reviewList.do";
+			} else {
+				System.out.println("관리자 로그인 후 이용 가능 합니다.");
+				model.addAttribute("adminChk", "fail");
+				return "review/reviewList"; 
+			}
+		} catch(Exception e) {
+			logger.error("에러 내용 : ", e);
+			model.addAttribute("msg", "관리자 댓글을 작성 중 에러가 발생 했습니다.");
+			return "review/reviewList";
+		}
+	
+	}
 	/* -------------------------------------------------------- 리뷰 -------------------------------------------------------- */
+	/* -------------------------------------------------------- 매출 -------------------------------------------------------- */
+	// 월 별 매출
+	@RequestMapping("sales.do")
+	public String sales() throws Exception {
+		return "admin/sales";
+	}
+	/* -------------------------------------------------------- 매출 -------------------------------------------------------- */
+	/* -------------------------------------------------------- 조회수 -------------------------------------------------------- */
 	// 조회수
 	@RequestMapping("views.do")
 	public String views() throws Exception {
 		return "admin/views";
 	}
-	
+	/* -------------------------------------------------------- 조회수 -------------------------------------------------------- */
 	
 }

@@ -78,6 +78,23 @@ public class AdminServiceImpl implements AdminService{
 		adminDao.insertReply(dto);
 	}
 
+	@Override
+	public List<Map<String, Object>> monthAmount(Map<String, Object> map) throws Exception {
+		return adminDao.monthAmount(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> monthSales(Map<String, Object> map) throws Exception {
+		return adminDao.monthSales(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> totalSales() throws Exception {
+		return adminDao.totalSales();
+	}
+
+	
+
 	
 	
 	

@@ -367,7 +367,7 @@
                 </a>
                 <a href="${path }/admin/sales.do">
                     <div class="sales">
-                        <h3>9,999</h3>
+                        <%-- <h3>${totalSales }</h3> --%>
                         <p style="color: gray; font-size: 18px;">매출</p>
                         <i class="xi-won"></i>
                     </div>

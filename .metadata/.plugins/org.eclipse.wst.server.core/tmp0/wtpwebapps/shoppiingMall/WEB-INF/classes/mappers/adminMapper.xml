@@ -284,4 +284,93 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    REPLY_UPDATE = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
 		WHERE RNO = #{rno}
 	</update>
+	
+	<!-- 월 별 매출액 -->
+    <select id="monthAmount" resultType="map">
+       <![CDATA[
+        SELECT 
+		    MONTH,
+		    COALESCE(TOTAL_AMOUNT, 0) AS TOTAL_AMOUNT
+		FROM (
+		    SELECT 
+		        DATE_FORMAT(o.ORDER_DATE, '%Y-%m') AS MONTH,
+		        SUM(o.price * o.quantity) AS TOTAL_AMOUNT
+		    FROM 
+		        `transaction` o
+		    JOIN 
+		        product p ON o.PROD_NO = p.PROD_NO
+		    WHERE 
+		        o.ORDER_STATE = 'orderCompleted'
+		    GROUP BY 
+		        DATE_FORMAT(o.ORDER_DATE, '%Y-%m')
+		    UNION ALL
+		    SELECT 
+		        DATE_FORMAT(DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL seq.seq - 1 MONTH), '%Y-%m') AS MONTH,
+		        NULL AS TOTAL_AMOUNT
+		    FROM 
+		        (SELECT 1 AS seq UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11) AS seq
+		    WHERE
+		        DATE_FORMAT(DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL seq.seq - 1 MONTH), '%Y-%m') NOT IN (
+		            SELECT DATE_FORMAT(o.ORDER_DATE, '%Y-%m')
+		            FROM `transaction` o
+		            WHERE o.ORDER_STATE = 'orderCompleted'
+		            GROUP BY DATE_FORMAT(o.ORDER_DATE, '%Y-%m')
+		        )
+		) AS subquery
+		ORDER BY 
+		    MONTH
+       ]]>
+    </select>
+
+	<!-- 월 별 판매량 -->
+	<select id="monthSales" resultType="map">	
+		<![CDATA[	
+	    SELECT 
+		    MONTH,
+		    COALESCE(TOTAL_SALES, 0) AS TOTAL_SALES
+		FROM (
+		    SELECT 
+		        DATE_FORMAT(ORDER_DATE, '%Y-%m') AS MONTH,
+		        SUM(quantity) AS TOTAL_SALES
+		    FROM 
+		        `transaction`
+		    WHERE 
+		        ORDER_STATE = 'orderCompleted'
+		    GROUP BY 
+		        DATE_FORMAT(ORDER_DATE, '%Y-%m')
+		    UNION ALL
+		    SELECT 
+		        DATE_FORMAT(DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL seq.seq - 1 MONTH), '%Y-%m') AS MONTH,
+		        NULL AS TOTAL_SALES
+		    FROM 
+		        (SELECT 1 AS seq UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11) AS seq
+		    WHERE
+		        DATE_FORMAT(DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL seq.seq - 1 MONTH), '%Y-%m') NOT IN (
+		            SELECT DATE_FORMAT(ORDER_DATE, '%Y-%m')
+		            FROM `transaction`
+		            WHERE ORDER_STATE = 'orderCompleted'
+		            GROUP BY DATE_FORMAT(ORDER_DATE, '%Y-%m')
+		        )
+		) AS subquery
+		ORDER BY MONTH	
+             ]]>   
+	</select>
+	
+	<!--  연 매출액 -->
+	<select id="totalSales" parameterType="int" resultType="java.util.Map">
+    <![CDATA[
+	    SELECT 
+	        YEAR(ORDER_DATE) AS year,
+	        SUM(PRICE * QUANTITY) AS totalSales
+	    FROM 
+	        `TRANSACTION`
+	    WHERE 
+	        ORDER_STATE = 'ORDERCOMPLETED'
+	    GROUP BY 
+	        YEAR(ORDER_DATE)
+	    ]]>
+	</select>
+
+
+	
 </mapper> 

@@ -146,7 +146,7 @@
         			<div>리뷰가 없습니다.</div>
         		</c:when>
         		<c:otherwise>
-        			<c:forEach items="${reviewList }" var="list">
+        			<c:forEach items="${reviewList }" var="list" varStatus="status">
         				<tr>
 			                <th><a href="${path }/product/productDetail.do?prod_no=${list.prod_no}"><img src="${path }/${list.prod_image}" alt="상품 이미지"></a></th>
 			                <td>
@@ -154,7 +154,7 @@
 			                    <span>${list.review_title }</span>
 			                    <span>${list.review_content }</span>
 			                    <ul>
-			                        <li style="font-weight: bold;">${maskedName }</li>
+			                        <li style="font-weight: bold;">${maskedNames[status.index] }</li>
 			                        <li><fmt:formatDate pattern="yyyy-MM-dd" value="${list.review_regdate }"/></li>
 			                        <!-- 리뷰를 남긴 해당 사용자만 수정, 삭제 버튼이 보이게 -->
 			                        <c:if test="${list.mem_id eq sessionScope.loginMap.MEM_ID }">

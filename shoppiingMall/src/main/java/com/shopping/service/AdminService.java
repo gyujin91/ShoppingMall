@@ -45,4 +45,13 @@ public interface AdminService {
 	
 	// 관리자 댓글
 	public void insertReply(ReviewDTO dto) throws Exception;
+	
+	// 월 별 매출액
+	public List<Map<String, Object>> monthAmount(Map<String, Object> map) throws Exception;
+	
+	// 월 별 판매량
+	public List<Map<String, Object>> monthSales(Map<String, Object> map) throws Exception;
+	
+	// 총 매출 액
+	public List<Map<String, Object>> totalSales() throws Exception;
 }

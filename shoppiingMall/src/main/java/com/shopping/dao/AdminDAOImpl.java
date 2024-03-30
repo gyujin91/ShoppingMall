@@ -78,8 +78,23 @@ public class AdminDAOImpl implements AdminDAO{
 		sqlSession.update("admin.insertReply", dto);
 	}
 
+	@Override
+	public List<Map<String, Object>> monthAmount(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList("admin.monthAmount", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> monthSales(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList("admin.monthSales", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> totalSales() throws Exception {
+		return sqlSession.selectList("admin.totalSales");
+	}
+
 	
-	
+
 	
 	
 }

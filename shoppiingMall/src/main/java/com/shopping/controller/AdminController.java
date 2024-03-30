@@ -1,6 +1,7 @@
 package com.shopping.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.shopping.dto.MemberDTO;
 import com.shopping.dto.NoticeDTO;
 import com.shopping.dto.OrderDTO;
@@ -60,7 +66,7 @@ public class AdminController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
-	// 관리자 대쉬보드 회원 목록
+	// 관리자 대쉬보드  정보 조회
 	@RequestMapping("admin.do")
 	public String memberList(Model model, HttpSession session) throws Exception {
 		try {
@@ -82,9 +88,11 @@ public class AdminController {
 				List<MemberDTO> memberList = adminService.memberList();
 				List<OrderDTO> orderList = adminService.orderList();
 				List<Map<String, Object>> userTotalPrice = adminService.userTotalPrice();
-				int pTotalCnt = productService.productTotalCnt();
-				int oTotalCnt = orderService.orderTotalCnt();
-				int rTotalCnt = reviewService.reviewTotalCnt();
+				int pTotalCnt = productService.productTotalCnt();	// 총 상품 건 수
+				int oTotalCnt = orderService.orderTotalCnt();	// 총 주문 건 수
+				int rTotalCnt = reviewService.reviewTotalCnt();	// 총 리뷰 건 수
+				List<Map<String, Object>> totalSales = adminService.totalSales();	// 총 매출액
+				
 				
 				model.addAttribute("memberList", memberList);
 				model.addAttribute("orderList", orderList);
@@ -92,6 +100,7 @@ public class AdminController {
 				model.addAttribute("pTotalCnt", pTotalCnt);
 				model.addAttribute("oTotalCnt", oTotalCnt);
 				model.addAttribute("rTotalCnt", rTotalCnt);
+				//model.addAttribute("totalSales", totalSales);
 				
 				return "admin/admin";
 			} else {
@@ -788,36 +797,36 @@ public class AdminController {
 			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {		
 				
 				List<ReviewDTO> selectReviewList = adminService.selectReviewList();	// 모든 리뷰 목록
+				List<String> maskedNames = new ArrayList<String>();
 				int rTotalCnt = reviewService.reviewTotalCnt();	// 리뷰 총 건 수
 				
 				for(ReviewDTO rDTO : selectReviewList) {
 					
 					String mem_name = rDTO.getMem_name();
+				    StringBuilder maskedName = new StringBuilder();
 					
 					// 이름 마스킹
 					if (mem_name.length() > 2) {
 					    // 이름이 세 글자 이상일 때는 첫 번째 글자와 마지막 글자를 제외하고 마스킹 처리
-					    StringBuilder maskedName = new StringBuilder();
 					    maskedName.append(mem_name.charAt(0)); // 첫 번째 글자는 그대로 유지
 					    for (int i = 1; i < mem_name.length() - 1; i++) {
 					        maskedName.append("*");
 					    }
 					    maskedName.append(mem_name.charAt(mem_name.length() - 1)); // 마지막 글자는 그대로 유지
 					    System.out.println(maskedName);
-					    model.addAttribute("maskedName", maskedName);
 					} else if (mem_name.length() == 2) {
 					    // 이름이 두 글자일 때는 두 번째 글자만 마스킹 처리
-					    StringBuilder maskedName = new StringBuilder();
 					    maskedName.append(mem_name.charAt(0)); // 첫 번째 글자는 그대로 유지
 					    maskedName.append("*"); // 두 번째 글자를 마스킹 처리
 					    System.out.println(maskedName);
-					    model.addAttribute("maskedName", maskedName);
 					} else {
 					    System.out.println("이름은 한 글자가 될 수 없습니다.");
 					}
+					maskedNames.add(maskedName.toString());
 				}
 				
 				model.addAttribute("selectReviewList", selectReviewList);
+				model.addAttribute("maskedNames", maskedNames);
 				model.addAttribute("rTotalCnt", rTotalCnt);
 				return "admin/allReviewList";
 			} else {
@@ -877,10 +886,59 @@ public class AdminController {
 	}
 	/* -------------------------------------------------------- 리뷰 -------------------------------------------------------- */
 	/* -------------------------------------------------------- 매출 -------------------------------------------------------- */
-	// 월 별 매출
+	// 월 별 매출액, 판매량
 	@RequestMapping("sales.do")
-	public String sales() throws Exception {
-		return "admin/sales";
+	public String sales(Model model, HttpSession session, Map<String, Object> map) throws Exception {
+		try {
+			@SuppressWarnings("unchecked")
+			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
+			
+			String code = loginMap.get("CODE").toString();	// 회원 코드
+			String useyn = loginMap.get("USEYN").toString();	// 사용 여부
+			
+			// 세션이 있고 코드가 관리자 코드("1")이고 사용여부가 "Y" 일 경우
+			if(loginMap != null && "1".equals(code) && "Y".equals(useyn)) {
+				// 월 별 매출액
+				List<Map<String, Object>> monthAmount = adminService.monthAmount(map);
+				// 월 별 판매량
+				List<Map<String, Object>> monthSales = adminService.monthSales(map);
+				
+				Gson gson = new Gson();
+				String monthAmountJson = gson.toJson(monthAmount);
+				String monthSalesJson = gson.toJson(monthSales);
+//				
+				model.addAttribute("monthAmountJson", monthAmountJson);
+				model.addAttribute("monthSalesJson", monthSalesJson);
+				// Gson 라이브러리를 사용하여 JSON 문자열을 JSON 객체로 변환
+				// Gson 라이브러리를 사용하여 JSON 문자열을 JSON 객체로 변환
+				JsonArray monthAmountArray = JsonParser.parseString(monthAmountJson).getAsJsonArray();
+				JsonArray monthSalesArray = JsonParser.parseString(monthSalesJson).getAsJsonArray();
+				
+				List<JsonObject> monthAmountList = new ArrayList<>();
+				List<JsonObject> monthSalesList = new ArrayList<>();
+
+				for (JsonElement element : monthAmountArray) {
+				    monthAmountList.add(element.getAsJsonObject());
+				}
+
+				for (JsonElement element : monthSalesArray) {
+				    monthSalesList.add(element.getAsJsonObject());
+				}
+
+				model.addAttribute("monthAmountArray", monthAmountArray);
+				model.addAttribute("monthSalesArray", monthSalesArray);
+
+				return "admin/sales";
+			} else {
+				// 로그인을 하지 않았을 경우
+				model.addAttribute("loginChk", "fail");
+				return "admin/sales";
+			}
+		} catch(Exception e) {
+			logger.error("에러 내용 : ", e);
+			model.addAttribute("msg", "error");
+			return "admin/sales";
+		}
 	}
 	/* -------------------------------------------------------- 매출 -------------------------------------------------------- */
 	/* -------------------------------------------------------- 조회수 -------------------------------------------------------- */

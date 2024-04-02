@@ -52,6 +52,9 @@ public interface AdminDAO {
 	// 월 별 판매량
 	public List<Map<String, Object>> monthSales(Map<String, Object> map) throws Exception;
 	
-	// 총 매출 액
-	public List<Map<String, Object>> totalSales() throws Exception;
+	// 현재 년도 총 매출액
+	public int totalSales() throws Exception;
+	
+	// 누적 매출 액
+	public List<Map<String, Object>> cumulativeSales() throws Exception;
 }

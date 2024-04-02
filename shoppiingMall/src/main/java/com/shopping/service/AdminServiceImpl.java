@@ -87,10 +87,15 @@ public class AdminServiceImpl implements AdminService{
 	public List<Map<String, Object>> monthSales(Map<String, Object> map) throws Exception {
 		return adminDao.monthSales(map);
 	}
+	
+	@Override
+	public int totalSales() throws Exception {
+		return adminDao.totalSales();
+	}
 
 	@Override
-	public List<Map<String, Object>> totalSales() throws Exception {
-		return adminDao.totalSales();
+	public List<Map<String, Object>> cumulativeSales() throws Exception {
+		return adminDao.cumulativeSales();
 	}
 
 	

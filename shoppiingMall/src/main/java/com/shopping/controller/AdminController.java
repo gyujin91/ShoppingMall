@@ -91,7 +91,8 @@ public class AdminController {
 				int pTotalCnt = productService.productTotalCnt();	// 총 상품 건 수
 				int oTotalCnt = orderService.orderTotalCnt();	// 총 주문 건 수
 				int rTotalCnt = reviewService.reviewTotalCnt();	// 총 리뷰 건 수
-				List<Map<String, Object>> totalSales = adminService.totalSales();	// 총 매출액
+				int totalSales = adminService.totalSales();	// 현재 년도 총 매출액
+				// List<Map<String, Object>> cumulativeSales = adminService.cumulativeSales();	// 누적 매출액
 				
 				
 				model.addAttribute("memberList", memberList);
@@ -100,7 +101,8 @@ public class AdminController {
 				model.addAttribute("pTotalCnt", pTotalCnt);
 				model.addAttribute("oTotalCnt", oTotalCnt);
 				model.addAttribute("rTotalCnt", rTotalCnt);
-				//model.addAttribute("totalSales", totalSales);
+				model.addAttribute("totalSales", totalSales);
+				// model.addAttribute("cumulativeSales", cumulativeSales);
 				
 				return "admin/admin";
 			} else {
@@ -282,7 +284,8 @@ public class AdminController {
 					file.transferTo(new File(filePath));	// 해당 객체 생성 후 해당 경로에 파일 저장
 					
 					// 데이터베이스에 저장할 파일 경로 설정
-					String dbFilePath = "/resources/img/" + fileName;
+					// String dbFilePath = "/resources/img/" + fileName;
+					String dbFilePath = "/resources/img/" + fileName + "?timestamp=" + System.currentTimeMillis();  // 이미지 URL에 쿼리 매개변수 추가
 					
 					System.out.println("파일용량(byte) ::" + size);
 					System.out.println("원본 파일명 ::" + fileName);
@@ -890,6 +893,12 @@ public class AdminController {
 	@RequestMapping("sales.do")
 	public String sales(Model model, HttpSession session, Map<String, Object> map) throws Exception {
 		try {
+			if(session.getAttribute("loginMap") == null) {
+				System.out.println("세션 만료");
+				model.addAttribute("session", "exp");
+				return "admin/insertNoticeForm";
+			}
+			
 			@SuppressWarnings("unchecked")
 			Map<String, Object> loginMap = (Map<String, Object>) session.getAttribute("loginMap");
 			
@@ -909,7 +918,7 @@ public class AdminController {
 //				
 				model.addAttribute("monthAmountJson", monthAmountJson);
 				model.addAttribute("monthSalesJson", monthSalesJson);
-				// Gson 라이브러리를 사용하여 JSON 문자열을 JSON 객체로 변환
+
 				// Gson 라이브러리를 사용하여 JSON 문자열을 JSON 객체로 변환
 				JsonArray monthAmountArray = JsonParser.parseString(monthAmountJson).getAsJsonArray();
 				JsonArray monthSalesArray = JsonParser.parseString(monthSalesJson).getAsJsonArray();
@@ -931,6 +940,7 @@ public class AdminController {
 				return "admin/sales";
 			} else {
 				// 로그인을 하지 않았을 경우
+				System.out.println("관리자 로그인 후 이용 가능");
 				model.addAttribute("loginChk", "fail");
 				return "admin/sales";
 			}

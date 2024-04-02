@@ -87,10 +87,15 @@ public class AdminDAOImpl implements AdminDAO{
 	public List<Map<String, Object>> monthSales(Map<String, Object> map) throws Exception {
 		return sqlSession.selectList("admin.monthSales", map);
 	}
+	
+	@Override
+	public int totalSales() throws Exception {
+		return sqlSession.selectOne("admin.totalSales");
+	}
 
 	@Override
-	public List<Map<String, Object>> totalSales() throws Exception {
-		return sqlSession.selectList("admin.totalSales");
+	public List<Map<String, Object>> cumulativeSales() throws Exception {
+		return sqlSession.selectList("admin.cumulativeSales");
 	}
 
 	

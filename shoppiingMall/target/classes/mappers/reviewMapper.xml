@@ -51,6 +51,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    MEMBER M ON R.MEM_ID = M.MEM_ID
 		WHERE 
 		    R.USEYN = 'Y'
+ 		ORDER BY 
+		    R.REVIEW_REGDATE DESC
 	</select>
 
 	<!-- 리뷰 등록 -->

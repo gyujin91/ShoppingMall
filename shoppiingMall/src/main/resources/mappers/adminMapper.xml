@@ -356,19 +356,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              ]]>   
 	</select>
 	
-	<!--  연 매출액 -->
-	<select id="totalSales" parameterType="int" resultType="java.util.Map">
+	<!-- 현재 년도 총 매출액 -->
+	<select id="totalSales" resultType="int">
     <![CDATA[
 	    SELECT 
-	        YEAR(ORDER_DATE) AS year,
 	        SUM(PRICE * QUANTITY) AS totalSales
 	    FROM 
 	        `TRANSACTION`
 	    WHERE 
 	        ORDER_STATE = 'ORDERCOMPLETED'
-	    GROUP BY 
-	        YEAR(ORDER_DATE)
 	    ]]>
+	</select>
+	
+	<!-- 누적 매출액 -->
+	<select id="cumulativeSales" parameterType="int" resultType="java.util.Map">
+    <![CDATA[
+	      SELECT 
+		    YEAR(ORDER_DATE) AS year,
+		    SUM(PRICE * QUANTITY) AS cumulativeSales
+		FROM 
+		    `TRANSACTION`
+		WHERE 
+		    ORDER_STATE = 'completed'
+		    AND YEAR(ORDER_DATE) <= YEAR(CURDATE())
+		GROUP BY 
+		    YEAR(ORDER_DATE)
+		]]>    
 	</select>
 
 

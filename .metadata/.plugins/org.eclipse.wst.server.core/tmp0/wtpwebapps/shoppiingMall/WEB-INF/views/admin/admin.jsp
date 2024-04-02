@@ -367,7 +367,8 @@
                 </a>
                 <a href="${path }/admin/sales.do">
                     <div class="sales">
-                        <%-- <h3>${totalSales }</h3> --%>
+                        <h3><fmt:formatNumber type="number" maxFractionDigits="3" value="${totalSales}" />
+                        <em style="font-size: 0.6em">원</em></h3>
                         <p style="color: gray; font-size: 18px;">매출</p>
                         <i class="xi-won"></i>
                     </div>

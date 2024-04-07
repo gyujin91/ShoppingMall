@@ -28,7 +28,10 @@ public interface OrderDAO {
 	public void deleteOrder(int order_no) throws Exception;
 	
 	// 주문 취소 후 변경 된 주문 금액
-	public Integer updatePrice(@Param("mem_id") String mem_id, @Param("order_state") String order_state) throws Exception;
+	public Integer updateTotalPrice(String mem_id) throws Exception;
+	
+	// 모든 주문이 취소 됐을 경우 최종 금액
+	public Integer resultTotalPrice(String mem_id) throws Exception;
 	
 	// 리뷰 화면에서 주문 정보 조회
 	public List<OrderDTO> completedOrderList(String mem_id) throws Exception;

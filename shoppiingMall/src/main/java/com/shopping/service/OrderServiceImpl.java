@@ -48,8 +48,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Integer updatePrice(String mem_id, String order_state) throws Exception {
-		return orderDao.updatePrice(mem_id, order_state);
+	public Integer updateTotalPrice(String mem_id) throws Exception {
+		return orderDao.updateTotalPrice(mem_id);
+	}
+	
+	@Override
+	public Integer resultTotalPrice(String mem_id) throws Exception {
+		return orderDao.resultTotalPrice(mem_id);
 	}
 
 	@Override

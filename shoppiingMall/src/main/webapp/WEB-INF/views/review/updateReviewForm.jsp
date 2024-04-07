@@ -177,20 +177,30 @@
 	    var previousProdNo = '${rDTO.prod_no}'; // 이전에 남긴 리뷰의 상품 번호
 
 	 	// 페이지 로드 시 실행되는 함수
-	     $(document).ready(function() {
+	    $(document).ready(function() {
 	        // 이전에 남긴 리뷰의 체크박스를 찾아서 비활성화
 	        $("input[type='checkbox'][value='" + previousProdNo + "']").prop('disabled', true);
-	    });
-	    
-
-	    // 다른 체크박스를 클릭할 때 실행되는 함수
-	    function handleCheckboxChange(checkbox) {
-	        // 이전에 남긴 리뷰의 체크박스를 찾아서 다시 활성화하지 않도록 비활성화
-	        if (checkbox.value === previousProdNo) {
-	            checkbox.checked = true;
+	        
+	        // completedOrderList의 주문 정보가 한 건일 경우
+	        if (${completedOrderList.size() == 1}) {
+	            // 이전에 남긴 리뷰의 체크박스를 다시 활성화
+	            $("input[type='checkbox'][value='" + previousProdNo + "']").prop('disabled', false);
 	        }
-	    }	
-	
+
+	        // 다른 체크박스를 클릭할 때 실행되는 함수
+	        function handleCheckboxChange(checkbox) {
+	            // 이전에 남긴 리뷰의 체크박스를 찾아서 다시 활성화하지 않도록 비활성화
+	            if (checkbox.value === previousProdNo) {
+	                checkbox.checked = true;
+	            }
+	        }
+	    });
+
+	    
+	 
+
+		
+	    // 리뷰 수정
 	    function updateReview(rno) {
 	    	var reviewRno = $("#rno").val();
 	        var reviewTitle = $("#review_title").val();	// 리뷰 제목

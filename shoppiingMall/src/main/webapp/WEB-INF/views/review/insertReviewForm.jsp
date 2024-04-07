@@ -180,7 +180,8 @@
 	            }
 	        });
 	    }
-	
+		
+	    // 리뷰 등록
 	    function insertReview() {
 	        var reviewTitle = $("#review_title").val();	// 리뷰 제목
 	        var reviewContent = $("#review_content").val();	// 리뷰 내용

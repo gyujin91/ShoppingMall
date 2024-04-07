@@ -52,34 +52,44 @@
             padding-bottom: 10px;
             text-align: left;
         }
+        .content .basket .table1 th:nth-child(2)
+        {
+        	text-align: center;
+        }
         .content .basket .table1 th:nth-child(4)
         {
-        	padding-left: 10px;
-        }.content .basket .table1 th:nth-child(5)
+        	padding-left: 25px;
+        }
+        .content .basket .table1 th:nth-child(5)
         {
         	padding-left: 15px;
         }
-        .content .basket .table1 td:nth-child(1)
+        /* .content .basket .table1 td:nth-child(1)
         {
            width: 10%;
            text-align: left;
-        }
-        .content .basket .table1 td:nth-child(2)
+        } */
+        .content .basket .table1 td:nth-child(1)
         {
             width: 30%;
             position: relative;
             text-align: left;
         }
-        .content .basket .table1 td:nth-child(2) p
+        .content .basket .table1 td:nth-child(1) p
         {
             position: absolute;
             top: 15%;
             left: 30%;
         }
+        .content .basket .table1 td:nth-child(2)
+        {
+        	width: 10%;
+            padding-left: 5px;
+        }
         .content .basket .table1 td:nth-child(3)
         {
         	width: 10%;
-            padding-left: 10px;
+            padding-left: 15px;
         }
         .content .basket .table1 td:nth-child(4)
         {
@@ -93,6 +103,10 @@
             padding-left: 5px;
         }
         .content .basket .table1 td:nth-child(5)
+        {
+           padding-left: 15px;
+        }
+        .content .basket .table1 td:nth-child(6)
         {
            padding-left: 15px;
         }
@@ -237,7 +251,7 @@
             <table class="table1">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" name="allCheck" onclick="allCheckFunc(this)"></th>
+                        <!-- <th><input type="checkbox" name="allCheck" onclick="allCheck()"></th> -->
                         <th>item</th>
                         <th>수량</th>
                         <th>사이즈</th>
@@ -255,7 +269,7 @@
                     	<c:otherwise>
                     		<c:forEach items="${cartList }" var="list">
 	                    		<tr>
-			                        <td><input type="checkbox" name="selectCheck" onclick="selectCheck()"></td>
+			                        <!-- <td><input type="checkbox" name="selectCheck" onclick="selectCheck()"></td> -->
 			                        <td><img src="${path }/${list.prod_image}" alt="상품 이미지"><p>${list.prod_name }</p></td>
 			                        <td>${list.quantity }</td>
 			                        <td>${list.size }</td>
@@ -272,7 +286,7 @@
                 </tbody>
             </table>
             <div class="delete">
-                <button type="button">선택상품 삭제</button>
+                <!-- <button type="button">선택상품 삭제</button> -->
                 <strong>제품별 배송비 정책에 따라 배송비가 별도 부과될 수 있습니다.</strong>
             </div>     
             <div class="total">         
@@ -317,28 +331,23 @@
     <%@ include file="../include/footer.jsp" %>
     
     <script type="text/javascript">
-    $(document).ready(function() {
-        // 체크박스 선택, 삭제
-        function selectCheck() {
-            const checkboxes = document.querySelectorAll('input[name="selectCheck"]');
-            const checked = document.querySelectorAll('input[name="selectCheck"]:checked');
-            const allCheck = document.querySelector('input[name="allCheck"]');
-
-            if (checkboxes.length === checked.length) {
-                allCheck.checked = true;
-            } else {
-                allCheck.checked = false;
-            }
-        }
-
-        //체크 박스 전체 선택, 삭제
-        function allCheckFunc(allCheck) {
-            const checkboxes = document.getElementsByName('selectCheck');
-
-            for (let i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = allCheck.checked;
-            }
-        }
+    	
+    	$(document).ready(function() {
+    		
+   		// 모든 체크 박스 선택, 해제
+   		function allCheckFunc() {
+   		    var checkboxes = document.querySelectorAll('input[name="selectCheck"]');
+   		    var allCheckbox = document.querySelector('input[name="allCheck"]');
+   		    
+   		    // 체크 박스의 상태에 따라 전체 선택 체크 박스 상태 변경
+   		    checkboxes.forEach(function(checkbox) {
+   		        checkbox.checked = !checkbox.checked;
+   		    });
+   		    
+   		    // 전체 선택 체크 박스 상태 업데이트
+   		    allCheckbox.checked = checkboxes.length > 0 && checkboxes.length === document.querySelectorAll('input[name="selectCheck"]:checked').length;
+   		}
+    		
 
         // 상품 단건 삭제
         $(document).on("click", ".delBtn", function() {

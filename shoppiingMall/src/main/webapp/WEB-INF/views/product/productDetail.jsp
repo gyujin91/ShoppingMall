@@ -201,7 +201,7 @@
 	            <div class="btn_group">
 	                <button type="button" class="xicon" id="heart"><i class="xi-heart-o"></i></button>
 	                <button type="button" class="xicon" id="cart"><i class="xi-cart-o"></i></button>
-	                <button type="button" class="buy">바로구매</button>
+	                <button type="button" class="buy" id="buy">바로구매</button>
 	            </div>
 	        </div>
     	</div>
@@ -253,19 +253,6 @@
  	// 초기 실행
  	updateValue();
  	// ------------------------------------------------------------ //	
- 	
-   	/* var loginChk = '${loginChk}';
-	
-   	$("#cart").click(function() {
-        if(msg) {
-            alert(msg);
-            window.location.href = '${path}/member/loginForm.do'; // 리다이렉트 
-        } else if(!msg) {
-            alert("장바구니에 상품을 담았습니다.");
-            $("#frm").attr("action", "/myapp/cart/addToCart.do").attr("method", "post").submit();
-        }
-       
-    }); */
 
     var loginMap = '${sessionScope.loginMap}';
     
@@ -286,12 +273,44 @@
        		alert("장바구니에 상품을 담았습니다.");
     	    $("#frm").attr("action", "/myapp/cart/addToCart.do").attr("method", "post").submit();
        	});	
+    	
+    	$(".buy").click(function() {
+            var selectedQuantity = $("#quantitySelect").val();
+            var selectedSize = $("#sizeSelect").val();
+
+            if(selectedSize === 'option') {
+                alert("옵션을 선택 해주세요.");
+                return;
+            }
+
+            // 폼 데이터 설정
+            $("#quantity").val(selectedQuantity);
+            $("#size").val(selectedSize);
+
+            // 주문 화면으로 데이터 전송 및 리다이렉트
+            $.ajax({
+                url: '/myapp/cart/addToCart.do',
+                type: 'POST',
+                data: $("#frm").serialize(), // 폼 데이터 직렬화하여 전송
+                success: function(response) {
+                    // 장바구니에 상품을 추가한 후 주문 페이지로 리다이렉트
+                    alert("주문 페이지로 이동합니다.");
+                    window.location.href = '${path}/order/orderForm.do';
+                },
+                error: function(xhr, status, error) {
+                    alert("주문 페이졸 이동 중 에러가 발생 했습니다. \n다시 시도해주세요.");
+                    console.error(xhr.responseText);
+                }
+            });
+        });
     } else {
     	$("#cart").click(function() {
     		alert("로그인 후 이용 가능합니다.");
             window.location.href = '${path}/member/loginForm.do'; // 리다이렉트 
     	});
     }
+    
+    
  
  	
 	</script>

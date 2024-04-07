@@ -49,11 +49,13 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public Integer updatePrice(String mem_id, String order_state) throws Exception {
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("mem_id", mem_id);
-		params.put("order_state", order_state);
-		return sqlSession.selectOne("order.updatePrice", params);
+	public Integer updateTotalPrice(String mem_id) throws Exception {
+		return sqlSession.selectOne("order.updateTotalPrice", mem_id);
+	}
+
+	@Override
+	public Integer resultTotalPrice(String mem_id) throws Exception {
+		return sqlSession.selectOne("order.resultTotalPrice", mem_id);
 	}
 
 	@Override

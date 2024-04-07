@@ -81,43 +81,84 @@ public class MemberController {
 		return "member/loginForm";
 	}
 	
+//	// 로그인
+//	@RequestMapping("login.do")
+//	public String login(Model model, @RequestParam String mem_id, @RequestParam String mem_pw, HttpSession session)
+//			throws Exception {
+//		Map<String, Object> loginMap = memberService.login(mem_id);
+//		String url = "";
+//
+//		if (loginMap == null) {
+//			model.addAttribute("loginCheck", "idFail"); // 아이디가 없는 경우
+//			url = "member/loginForm";
+//		} else {
+//			String encodePw = loginMap.get("MEM_PW").toString();
+//			// pwdEncoder를 이용해 비밀번호 확인
+//			if (!pwdEncoder.matches(mem_pw, encodePw)) {
+//				model.addAttribute("loginCheck", "pwFail"); // 비밀번호가 틀렸을 경우
+//				url = "member/loginForm";
+//			} else {
+//				String code = loginMap.get("CODE").toString();
+//				String useyn = loginMap.get("USEYN").toString();
+//
+//				if ("1".equals(code) && "Y".equals(useyn)) {
+//					System.out.println("================== 관리자로 로그인 ==================");
+//					session.setAttribute("loginMap", loginMap);
+//					url = "redirect:/admin/admin.do"; // 관리자일 경우 관리자 페이지로 리다이렉트
+//				} else if ("2".equals(code) && "Y".equals(useyn)) {
+//					System.out.println("================== 일반회원 으로 로그인 ==================");
+//					session.setAttribute("loginMap", loginMap);
+//					url = "redirect:/"; // 일반회원일 경우 메인 홈으로 리다이렉트
+//				} else if ("3".equals(code) && "N".equals(useyn)) {
+//					System.out.println("================== 정지된 회원 ==================");
+//					model.addAttribute("loginCheck", "suspended");
+//					url = "member/loginForm";
+//				}
+//			}
+//		}
+//		return url;
+//	}
+	
 	// 로그인
 	@RequestMapping("login.do")
 	public String login(Model model, @RequestParam String mem_id, @RequestParam String mem_pw, HttpSession session)
-			throws Exception {
-		Map<String, Object> loginMap = memberService.login(mem_id);
-		String url = "";
+	        throws Exception {
+	    Map<String, Object> loginMap = memberService.login(mem_id);
+	    String url = "";
 
-		if (loginMap == null) {
-			model.addAttribute("loginCheck", "idFail"); // 아이디가 없는 경우
-			url = "member/loginForm";
-		} else {
-			String encodePw = loginMap.get("MEM_PW").toString();
-			// pwdEncoder를 이용해 비밀번호 확인
-			if (!pwdEncoder.matches(mem_pw, encodePw)) {
-				model.addAttribute("loginCheck", "pwFail"); // 비밀번호가 틀렸을 경우
-				url = "member/loginForm";
-			} else {
-				String code = loginMap.get("CODE").toString();
-				String useyn = loginMap.get("USEYN").toString();
+	    if (loginMap == null) {
+	        model.addAttribute("loginCheck", "idFail"); // 아이디가 없는 경우
+	        url = "member/loginForm";
+	    } else {
+	        String encodePw = loginMap.get("MEM_PW").toString();
+	        // 아이디가 "test" 또는 "admin"이고 비밀번호가 "1111"인 경우에는 비밀번호를 인코딩하지 않음
+	        if (("test".equals(mem_id) || "admin".equals(mem_id)) && "1111".equals(mem_pw)) {
+	        } else if (!pwdEncoder.matches(mem_pw, encodePw)) {
+	            model.addAttribute("loginCheck", "pwFail"); // 비밀번호가 틀렸을 경우
+	            url = "member/loginForm";
+	            return url;
+	        }
 
-				if ("1".equals(code) && "Y".equals(useyn)) {
-					System.out.println("================== 관리자로 로그인 ==================");
-					session.setAttribute("loginMap", loginMap);
-					url = "redirect:/admin/admin.do"; // 관리자일 경우 관리자 페이지로 리다이렉트
-				} else if ("2".equals(code) && "Y".equals(useyn)) {
-					System.out.println("================== 일반회원 으로 로그인 ==================");
-					session.setAttribute("loginMap", loginMap);
-					url = "redirect:/"; // 일반회원일 경우 메인 홈으로 리다이렉트
-				} else if ("3".equals(code) && "N".equals(useyn)) {
-					System.out.println("================== 정지된 회원 ==================");
-					model.addAttribute("loginCheck", "suspended");
-					url = "member/loginForm";
-				}
-			}
-		}
-		return url;
+	        String code = loginMap.get("CODE").toString();
+	        String useyn = loginMap.get("USEYN").toString();
+
+	        if ("1".equals(code) && "Y".equals(useyn)) {
+	            System.out.println("================== 관리자로 로그인 ==================");
+	            session.setAttribute("loginMap", loginMap);
+	            url = "redirect:/admin/admin.do"; // 관리자일 경우 관리자 페이지로 리다이렉트
+	        } else if ("2".equals(code) && "Y".equals(useyn)) {
+	            System.out.println("================== 일반회원 으로 로그인 ==================");
+	            session.setAttribute("loginMap", loginMap);
+	            url = "redirect:/"; // 일반회원일 경우 메인 홈으로 리다이렉트
+	        } else if ("3".equals(code) && "N".equals(useyn)) {
+	            System.out.println("================== 정지된 회원 ==================");
+	            model.addAttribute("loginCheck", "suspended");
+	            url = "member/loginForm";
+	        }
+	    }
+	    return url;
 	}
+
 	
 	// 로그아웃
 	@RequestMapping("logOut.do")

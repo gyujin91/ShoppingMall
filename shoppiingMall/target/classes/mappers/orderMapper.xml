@@ -124,13 +124,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 주문 취소 후 변경된 주문 금액 -->
-	<select id="updatePrice" resultType="Integer" parameterType="map" >
+	<select id="updateTotalPrice" resultType="Integer" parameterType="map" >
 		<![CDATA[ 
 		SELECT 
 			SUM(PRICE * QUANTITY) AS UPDATE_PRICE
 		FROM TRANSACTION T
 			LEFT JOIN PAYMENT P ON T.ORDER_NO = P.ORDER_NO
-		WHERE ORDER_STATE != 'orderCancel' AND MEM_ID = #{mem_id};
+		WHERE ORDER_STATE != 'orderCancel' AND T.MEM_ID = #{mem_id}
+		]]>
+	</select>
+	
+	<!-- 모든 주문이 취소 됐을 경우 최종 금액 -->
+	<select id="resultTotalPrice" resultType="Integer" parameterType="map" >
+		<![CDATA[ 
+		SELECT 
+			SUM(PRICE * QUANTITY) AS UPDATE_PRICE
+		FROM TRANSACTION T
+			LEFT JOIN PAYMENT P ON T.ORDER_NO = P.ORDER_NO
+		WHERE ORDER_STATE  = 'orderCompleted' AND T.MEM_ID = #{mem_id}
 		]]>
 	</select>
 	

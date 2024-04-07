@@ -415,7 +415,7 @@
 	                            </td>
 	                            <td rowspan="1">${list.deliveryFee }</td>
 	                            <c:if test="${list.order_state eq '주문 완료' }"><td><strong  class="order_state">${list.order_state }</strong></td></c:if>
-	                            <c:if test="${list.order_state eq '주문 취소' }"><td><strong  class="order_state">${list.order_state }</strong></td></c:if>
+	                            <c:if test="${list.order_state eq '주문 취소' }"><td><strong  class="order_state" style="color:red;">${list.order_state }</strong></td></c:if>
 	                            <td><button class="delete" data-order-no="${list.order_no}" data-order-state="${list.order_state}">주문 취소</button></td>	                        
 	                        </tr>
                         </c:forEach>
@@ -460,16 +460,40 @@
             </div>
             <div class="paymentDetail">
                 <div class="payment">
-			                    주문금액<strong><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</strong>
-			                    할인금액<strong>0원</strong>
-			                    총 주문금액 <strong><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</strong>
+                	<c:choose>
+                		<c:when test="${updateTotalPrice ne null}">
+	                		주문금액<strong class="updateTotalPrice"><fmt:formatNumber pattern="###,###,###" value="${updateTotalPrice}"/>원</strong>
+				                           할인금액<strong>0원</strong>
+				                           총 주문금액 <strong class="updateTotalPrice"><fmt:formatNumber pattern="###,###,###" value="${updateTotalPrice}"/>원</strong>
+	                	</c:when>
+	                	<c:when test="${resultTotalPrice ne null }">
+	                		주문금액<strong class="updateTotalPrice"><fmt:formatNumber pattern="###,###,###" value="${resultTotalPrice}"/>원</strong>
+				                           할인금액<strong>0원</strong>
+				                           총 주문금액 <strong class="updateTotalPrice"><fmt:formatNumber pattern="###,###,###" value="${resultTotalPrice}"/>원</strong>
+	                	</c:when>
+	                	<c:otherwise>
+	                		주문금액<strong><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</strong>
+				                           할인금액<strong>0원</strong>
+				                           총 주문금액 <strong><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</strong>
+	                	</c:otherwise>
+                	</c:choose>			                    
                 </div>
                 <div class="divGrp">
                     <div class="div1">
                         <table>
                             <tr>
                                 <th>상품금액</th>
-                                <td><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</td>
+                                <c:choose>
+                                	<c:when test="${updateTotalPrice ne null}">
+                                		<td class="updateTotalPrice"><fmt:formatNumber pattern="###,###,###" value="${updateTotalPrice}"/>원</td>
+                                	</c:when>
+                                	<c:when test="${resultTotalPrice ne null}">
+								        <td class="resultTotalPrice"><fmt:formatNumber pattern="###,###,###" value="${resultTotalPrice}"/>원</td>
+								    </c:when>
+                                	<c:otherwise>
+                                		<td><fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</td>
+                                	</c:otherwise>
+                                </c:choose>
                             </tr>
                             <tr>
                                 <th>배송비</th>
@@ -495,8 +519,18 @@
                     </div>           
 			        <div class="div3">
 			            <strong>무통장입금</strong>
-			            <p class="p1">입금 금액: <fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</p>
-			            <button type="button">영수증 조회</button>
+			            <c:choose>
+			            	<c:when test="${updateTotalPrice ne null }">
+			            		<p class="p1 updateTotalPrice">입금 금액: <fmt:formatNumber pattern="###,###,###" value="${updateTotalPrice}"/>원</p>
+			            	</c:when>
+			            	<c:when test="${resultTotalPrice ne null }">
+			            		<p class="p1 resultTotalPrice">입금 금액: <fmt:formatNumber pattern="###,###,###" value="${resultTotalPrice}"/>원</p>
+			            	</c:when>
+			            	<c:otherwise>
+			            		<p class="p1">입금 금액: <fmt:formatNumber pattern="###,###,###" value="${totalPrice}"/>원</p>
+			            	</c:otherwise>
+			            </c:choose>
+			            <button type="button" onclick="location.href='${path}/review/reviewList.do'">리뷰 작성하기</button>
 			        </div>
 			        <%-- <div class="div3">
 			            <strong>${orderList.payment_method }</strong>
@@ -520,12 +554,16 @@
 	        window.location.href = '${path}/member/loginForm.do'; // 리다이렉트
 	    }
 	    
-	    var totalPrice = '${totalPrice}';
+	    var totalPrice = '${totalPrice}';	// 가격 * 수량 금액
+	    var resultTotalPrice = '${resultTotalPrice}'; //모든 주문이 취소 됐을 경우 최종 금액
 	    
 	    if (totalPrice == 0) {
 	        // 주문 내역이 없는 경우 home으로 리다이렉트
 	        alert("주문 내역이 없습니다.");
-	        window.location.href = "${path}/"; //   
+	        window.location.href = "${path}/"; //   홈 화면으로 이동
+	    } else if(resultTotalPrice == 0) {
+	    	alert("모든 주문 상품을 취소 하였습니다. \n상품을 주문 해주세요.");
+	    	window.location.href = "${path}/"; //   홈 화면으로 이동
 	    }
 	    
 	 	// 주문 취소 
@@ -548,11 +586,14 @@
 		                success: function(data) {
 		                    alert("주문을 성공적으로 취소 했습니다.");
 		                    // 클릭한 버튼이 속한 행(tr) 내의 .order_state 텍스트 변경
-		                    $(this).closest("tr").find(".order_state").text("주문 취소"); 	
+		                    $(this).closest("tr").find(".order_state").text("주문 취소"); 
+		                    $(this).closest("tr").find(".order_state").css("color", "red");
+		                    		                    
 		                }.bind(this), 
 		                error: function(xhr, status, error) {
 		                	alert("주문을 성공적으로 취소 했습니다.");
 		                    $(this).closest("tr").find(".order_state").text("주문 취소");
+		                    $(this).closest("tr").find(".order_state").css("color", "red");		                   
 		                    
 		                    if (xhr.status === 404) {
 			                    alert("요청하신 페이지를 찾을 수 없습니다.");

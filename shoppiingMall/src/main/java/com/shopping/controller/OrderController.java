@@ -169,6 +169,13 @@ public class OrderController {
 			List<OrderDTO> orderList = orderService.orderList(member_id);	// 주문 목록
 			Integer totalPrice = orderService.totalPrice(member_id);	// 합계(가격 * 수량)
 			Date firstOrderDate = orderService.getFirstOrderDate(member_id);	// 주문날짜 중 첫번쨰 날짜만 조회
+			Integer updateTotalPrice = orderService.updateTotalPrice(member_id);	// 주문 취소 후 변경 된 주문 금액
+			Integer resultTotalPrice = orderService.resultTotalPrice(member_id); // 모든 주문이 취소 됐을 경우 최종 금액
+			
+			// 모든 주문이 취소 됐을 경우 최종 금액을 0원으로 초기화
+			if(resultTotalPrice == null) {
+				resultTotalPrice = 0;
+			}
 			
 			// 분할 된 주소 합치기
 			StringBuilder addressBuilder = new StringBuilder();
@@ -182,6 +189,8 @@ public class OrderController {
 			model.addAttribute("totalPrice", totalPrice);
 			model.addAttribute("firstOrderDate", firstOrderDate);
 			model.addAttribute("address", address);
+			model.addAttribute("updateTotalPrice", updateTotalPrice);
+			model.addAttribute("resultTotalPrice", resultTotalPrice);
 			
 			// 전화 번호 마스킹
 			if (memberDTO != null) {

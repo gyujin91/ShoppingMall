@@ -532,13 +532,6 @@
 			            </c:choose>
 			            <button type="button" onclick="location.href='${path}/review/reviewList.do'">리뷰 작성하기</button>
 			        </div>
-			        <%-- <div class="div3">
-			            <strong>${orderList.payment_method }</strong>
-			            <p class="p1">BC카드(****-****-****-1234</p> <!-- 마스킹 처리-->
-			            <p class="p1">${orderList.PAYMENT_METHOD} (${fn:substring(orderList.PAYMENT_STATE, 0, 4)}-****-****-****)</p>
-			            <button type="button">영수증 조회</button>
-			            <p class="p2">???? 포인트 적립예정</p>
-			        </div>	 --%>				    
                 </div>
             </div>
         </div>

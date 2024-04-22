@@ -3,6 +3,30 @@
 
 ✔ 여성 의류 쇼핑몰 홈페이지  <br>
 
+✔ 물건을 온라인으로 쉽게 살 수 있는 편리하고 사용자 친화적인 플랫폼을 제공하기 위해 설계된 웹 애플리케이션인 DAEBU ShoppingMall입니다. [Java/spring]로 구축되어 있으며 고객 및 관리자 모두에게 원활한 쇼핑 경험을 제공합니다.
+
+<br><br>
+먼저 프로젝트를 클론합니다
+```
+git clone https://github.com/gyujin91/ShoppingMall.git
+```
+
+프로젝트 디렉토리로 이동합니다
+```
+cd ShoppingMall
+```
+
+필요한 의존성 패키지를 설치합니다. 일반적으로 Maven이나 Gradle과 같은 의존성 관리 도구를 사용합니다
+## Maven을 사용하는 경우:
+```
+mvn clean install
+```
+
+## Gradle을 사용하는 경우:
+```
+gradle build
+```
+
 
 <br><br>
 # 프로젝트 정보
@@ -15,8 +39,14 @@ Language | ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&
 Framework | ![spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 DB | ![mySql](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 
+<br><br>
 
-✔ 디렉토리 구조
+<h3>특징</h3>
+___
+- asdfasdf    <br>
+- asdfasdf    <br><br>
+___
+✔ 디렉토리 구조    <br>
 <br><br>
 
 ```

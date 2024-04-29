@@ -175,7 +175,6 @@
         <div class="btnGroup">
             <button type="button" onclick="location.href='${path}/admin/allNoticeList.do'">NOTICE</button>
             <button type="button" onclick="location.href='${path}/admin/selectReviewList.do'">REVIEW</button>
-            <button type="button" id="insert" onclick="checkLogin()">리뷰 작성</button>   
             <input type="hidden" name="mem_id" id="mem_id" value="${sessionScope.loginMap.MEM_ID }">       
         </div>
         <table>

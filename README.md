@@ -112,9 +112,9 @@ gradle build
     <th>로그인</th>
   </tr>
   <tr>
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/4fe22332-7474-47f0-a1ca-6f46af9c47c5", height="400px", width="300px"></td>
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/1d314141-c4bf-4e8b-96be-a3f2f53ceff5", height="400px", width="300px"></td>
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d65f57bb-2a74-449c-afcf-c2439e232d14", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/4fe22332-7474-47f0-a1ca-6f46af9c47c5", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/1d314141-c4bf-4e8b-96be-a3f2f53ceff5", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d65f57bb-2a74-449c-afcf-c2439e232d14", height="400px", width="300px"></td>
   </tr>
   <tr>
     <th>카테고리 별 상품 조회</th>
@@ -122,20 +122,30 @@ gradle build
     <th>장바구니</th>
   </tr>
   <tr>
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/3ae04547-b2dd-454a-8e0e-035e15967cce", height="400px", width="300px"></td>
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d9444a8c-5575-473f-acb1-439091161a4e", height="400px", width="300px"></td>
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/3064dfac-3bbe-4710-9b3d-3654cad41897", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/3ae04547-b2dd-454a-8e0e-035e15967cce", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d9444a8c-5575-473f-acb1-439091161a4e", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/3064dfac-3bbe-4710-9b3d-3654cad41897", height="400px", width="300px"></td>
   </tr>
   <tr>
     <th>주문/결제 페이지</th>
     <th>주문 상세 내역</th>
-    <th>리뷰 등록 페이지</th>
+    <th>리뷰 목록</th>
   </tr>
   <tr>
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/a6ec57e9-af77-43c4-a34c-63690e3e6f01", height="400px", width="300px"></td>
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/01b60c2e-ab46-48f8-95d0-8509c71bf1e7", height="400px", width="300px"></td>      
-      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/78f09458-ad5a-40ec-ae1c-a708231d0f73", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/a6ec57e9-af77-43c4-a34c-63690e3e6f01", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/01b60c2e-ab46-48f8-95d0-8509c71bf1e7", height="400px", width="300px"></td>      
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/911b73ba-da9c-4a04-8732-472952306fc4", height="400px", width="300px"></td>
   </tr>
+  <tr>
+    <th>리뷰 등록 페이지</th>
+    <th>게시판 목록</th>
+    <th>게시판 상세보기</th>    
+  </tr>
+  <tr>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/78f09458-ad5a-40ec-ae1c-a708231d0f73", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/e02ad6b2-91d8-4301-ba9b-e3115e38dfa7", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/12919e6c-36dd-4852-a2ad-22e4922a347b", height="400px", width="300px"></td>      
+  </tr>  
 </table>
 
 

@@ -31,22 +31,68 @@ gradle build
 
 <br><br>
 # 프로젝트 정보
+
+✔ 개발 기간
+* 2024.01.01 ~ 2024.03.31(**1인**) <br>
+
 ✔ Stacks  <br>
-
 <!-- Table -->
-|-|-|
-|:--:|:--:|
-Language | ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-Framework | ![spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
-DB | ![mySql](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
-Configuration Management | ![git](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 
-<br><br>
-   
+## Backend
+<table style="border: 2px;">
+  <tr>
+    <th>Language</th>
+    <td colspan="2">Java</td>
+  </tr>
+  <tr>
+    <th>Framework</th>
+    <td colspan="2">Spring Framework</td>
+  </tr>
+  <tr>
+    <th>Modules</th>
+    <td>Spring MVC</td>
+    <td>Spring Security</td>
+  </tr>
+  <tr>
+    <th>Database</th>
+    <td colspan="2">Mysql</td>
+  </tr>
+</table>
+<br>
+
+## Frontend  
+<table style="border: 2px;">
+  <tr>
+    <th>JavaScript Libararies</th>
+    <td>jQuery</td>
+    <td>Chart.js</td>
+    <td>Bootstrap</td>
+  </tr> 
+</table>
+<br>
+
+## Others
+<table style="border: 2px;">
+  <tr>
+    <th colspan="2">Development Tools</th>
+  </tr>
+  <tr>
+    <th>IDE</th>
+    <td>Eclipse</td>
+  </tr>
+  <tr>
+    <th>Build Tool</th>
+    <td>Maven</td>
+  </tr>
+  <tr>
+    <th>Configuration Management</th>
+    <td>Git</td>
+  </tr>
+</table>
+
 ## 주요 기능
-<br><br>
 ✔ 사용자  
-* 상품을 카테고리 별로 찾아보고 장바구니에 상품을 추가하여 결제 페이지로 이동 및 주문 후 리뷰를 작성 합니다.
+* 상품을 카테고리 별로 찾아보고 장바구니에 상품을 추가하여 주문 페이지로 이동 및 주문 후 리뷰를 작성 합니다.
 <br>
 
 ✔ 관리자
@@ -54,6 +100,5 @@ Configuration Management | ![git](https://img.shields.io/badge/GitHub-100000?sty
 *  관리자 패널에 로그인하여 상품을 관리하고 주문 내역 및 월 별 매출액, 판매량 을 확인 하고 사용자의 리뷰에 답글 을 남깁니다.
 
 <br><br>
-## 개발 기간
-* 2024.01.01 ~ 2024.03.31(**1인**)
+
 

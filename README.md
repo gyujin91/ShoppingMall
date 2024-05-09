@@ -162,7 +162,7 @@ gradle build
       <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/68f2e7bb-f0e8-456a-9180-220ad97f8178", height="400px", width="300px"></td>
   </tr>
   <tr>
-    <th>관리자 리뷰 답글 등록, 수정</th>
+    <th>관리자 리뷰 답글 등록, 수정, 삭제</th>
     <th>총 상품 목록</th>
     <th>관리자 상품 등록</th>
   </tr>
@@ -171,7 +171,16 @@ gradle build
       <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/dc0e472e-7dc4-4ed6-872c-2135d2adf009", height="400px", width="300px"></td>
       <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/edbc4080-1f98-40e1-a7a7-fe97bff649c4", height="400px", width="300px"></td>
   </tr>
-    
+  <tr>
+    <th>관리자 상품 수정, 삭제</th>
+    <th>총 회원 목록</th>
+    <th>카카오맵</th>
+  </tr>
+  <tr>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/814020ab-6753-4e91-96db-1fb8040ede8e", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/ac5fa2a4-f8d8-4f49-aeec-fdd76f790bcb", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/ba27a2dd-13b0-4563-8ddb-119a171cdf3f", height="400px", width="300px"></td>
+  </tr>  
 </table>
 
 

@@ -107,8 +107,14 @@ gradle build
 <table>
   <tr>
     <th>메인 페이지</th>
-    <td>
-      <img src="./image.png", height="100x", width="100px">
-    </td>
+    <th>회원가입</th>
+    <th>로그인</th>
+  </tr>
+  <tr>
+      <td><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/4fe22332-7474-47f0-a1ca-6f46af9c47c5", height="400px", width="300px"></td>
+      <td><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/1d314141-c4bf-4e8b-96be-a3f2f53ceff5", height="400px", width="300px"></td>
+      <td><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d65f57bb-2a74-449c-afcf-c2439e232d14", height="400px", width="300px"></td>
   </tr>
 </table>
+
+<img src="", height="100px", width="100px">

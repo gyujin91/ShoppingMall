@@ -8,7 +8,7 @@
 ### 배포 주소
 <a href="http://54.180.49.196:8080/myApp/" target="_blank">http://54.180.49.196:8080/myApp/</a>
 <br>
-[새 탭에서 열기]([https://www.google.com/](http://54.180.49.196:8080/myApp/)){:target="_blank"}
+[http://54.180.49.196:8080/myApp/]([https://www.google.com/](http://54.180.49.196:8080/myApp/){:target="_blank"}
 
 <br><br>
 ### 시작 가이드

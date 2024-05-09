@@ -162,7 +162,7 @@ gradle build
       <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/68f2e7bb-f0e8-456a-9180-220ad97f8178", height="400px", width="300px"></td>
   </tr>
   <tr>
-    <th>관리자 리뷰 답글</th>
+    <th>관리자 리뷰 답글 등록, 수정</th>
     <th>총 상품 목록</th>
     <th>관리자 상품 등록</th>
   </tr>

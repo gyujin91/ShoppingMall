@@ -5,6 +5,9 @@
 
 ✔ 물건을 온라인으로 쉽게 살 수 있는 편리하고 사용자 친화적인 플랫폼을 제공하기 위해 설계된 웹 애플리케이션인 DAEBU ShoppingMall입니다. [Java/spring]로 구축되어 있으며 고객 및 관리자 모두에게 원활한 쇼핑 경험을 제공합니다.
 
+### 배포 주소
+<a href="http://54.180.49.196:8080/myApp/" target="_blank">http://54.180.49.196:8080/myApp/</a>
+
 <br><br>
 ### 시작 가이드
 먼저 프로젝트를 클론합니다
@@ -183,5 +186,109 @@ gradle build
   </tr>  
 </table>
 
+<hr>
 
+# 아키텍쳐
+✔ 디렉토리 구조
 
+<pre>
+├── .gitignore
+├── README.md
+├── ShoppingMall.iml
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── shoppingmall
+│   │   │           ├── ShoppingMallApplication.java
+│   │   │           ├── config
+│   │   │           │   ├── AppConfig.java
+│   │   │           │   └── WebMvcConfig.java
+│   │   │           ├── controller
+│   │   │           │   ├── AdminController.java
+│   │   │           │   ├── BoardController.java
+│   │   │           │   ├── CartController.java
+│   │   │           │   ├── HomeController.java
+│   │   │           │   ├── MemberController.java
+│   │   │           │   ├── OrderController.java
+│   │   │           │   ├── ProductController.java
+│   │   │           │   └── ReviewController.java
+│   │   │           ├── dao
+│   │   │           │   ├── BoardDao.java
+│   │   │           │   ├── CartDao.java
+│   │   │           │   ├── MemberDao.java
+│   │   │           │   ├── OrderDao.java
+│   │   │           │   ├── ProductDao.java
+│   │   │           │   └── ReviewDao.java
+│   │   │           ├── entity
+│   │   │           │   ├── Board.java
+│   │   │           │   ├── Cart.java
+│   │   │           │   ├── Member.java
+│   │   │           │   ├── Order.java
+│   │   │           │   ├── Product.java
+│   │   │           │   └── Review.java
+│   │   │           ├── interceptor
+│   │   │           │   └── AuthenticationInterceptor.java
+│   │   │           ├── service
+│   │   │           │   ├── BoardService.java
+│   │   │           │   ├── CartService.java
+│   │   │           │   ├── MemberService.java
+│   │   │           │   ├── OrderService.java
+│   │   │           │   ├── ProductService.java
+│   │   │           │   └── ReviewService.java
+│   │   │           └── util
+│   │   │               └── Pagination.java
+│   │   └── resources
+│   │       ├── application.properties
+│   │       ├── mapper
+│   │       │   ├── BoardMapper.xml
+│   │       │   ├── CartMapper.xml
+│   │       │   ├── MemberMapper.xml
+│   │       │   ├── OrderMapper.xml
+│   │       │   ├── ProductMapper.xml
+│   │       │   └── ReviewMapper.xml
+│   │       ├── static
+│   │       │   ├── css
+│   │       │   │   ├── style.css
+│   │       │   │   └── ...
+│   │       │   ├── images
+│   │       │   │   ├── product1.jpg
+│   │       │   │   └── ...
+│   │       │   └── js
+│   │       │       ├── cart.js
+│   │       │       └── ...
+│   │       └── templates
+│   │           ├── admin
+│   │           │   ├── adminMain.jsp
+│   │           │   └── ...
+│   │           ├── board
+│   │           │   ├── boardDetail.jsp
+│   │           │   └── ...
+│   │           ├── cart
+│   │           │   ├── cart.jsp
+│   │           │   └── ...
+│   │           ├── home.jsp
+│   │           ├── member
+│   │           │   ├── joinForm.jsp
+│   │           │   └── ...
+│   │           ├── order
+│   │           │   ├── order.jsp
+│   │           │   └── ...
+│   │           ├── product
+│   │           │   ├── productDetail.jsp
+│   │           │   └── ...
+│   │           └── review
+│   │               ├── reviewForm.jsp
+│   │               └── ...
+│   └── test
+│       └── java
+│           └── com
+│               └── shoppingmall
+│                   ├── controller
+│                   │   └── HomeControllerTests.java
+│                   └── service
+│                       └── BoardServiceTests.java
+└── target
+    └── ...
+</pre>

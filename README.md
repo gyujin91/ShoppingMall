@@ -105,6 +105,7 @@ gradle build
 # 화면 구성
 
 <table>
+  <tr><th colspan="3">사용자</th></tr>
   <tr>
     <th>메인 페이지</th>
     <th>회원가입</th>
@@ -125,6 +126,17 @@ gradle build
       <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d9444a8c-5575-473f-acb1-439091161a4e", height="400px", width="300px"></td>
       <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/3064dfac-3bbe-4710-9b3d-3654cad41897", height="400px", width="300px"></td>
   </tr>
+  <tr>
+    <th>주문/결제 페이지</th>
+    <th>주문 상세 내역</th>
+    <th>리뷰 등록 페이지</th>
+  </tr>
+  <tr>
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/a6ec57e9-af77-43c4-a34c-63690e3e6f01", height="400px", width="300px"></td>
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/01b60c2e-ab46-48f8-95d0-8509c71bf1e7", height="400px", width="300px"></td>      
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/78f09458-ad5a-40ec-ae1c-a708231d0f73", height="400px", width="300px"></td>
+  </tr>
 </table>
 
-<img src="", height="100px", width="100px">
+
+

@@ -111,9 +111,19 @@ gradle build
     <th>로그인</th>
   </tr>
   <tr>
-      <td><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/4fe22332-7474-47f0-a1ca-6f46af9c47c5", height="400px", width="300px"></td>
-      <td><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/1d314141-c4bf-4e8b-96be-a3f2f53ceff5", height="400px", width="300px"></td>
-      <td><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d65f57bb-2a74-449c-afcf-c2439e232d14", height="400px", width="300px"></td>
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/4fe22332-7474-47f0-a1ca-6f46af9c47c5", height="400px", width="300px"></td>
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/1d314141-c4bf-4e8b-96be-a3f2f53ceff5", height="400px", width="300px"></td>
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d65f57bb-2a74-449c-afcf-c2439e232d14", height="400px", width="300px"></td>
+  </tr>
+  <tr>
+    <th>카테고리 별 상품 조회</th>
+    <th>상품 상세 보기</th>
+    <th>장바구니</th>
+  </tr>
+  <tr>
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/3ae04547-b2dd-454a-8e0e-035e15967cce", height="400px", width="300px"></td>
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d9444a8c-5575-473f-acb1-439091161a4e", height="400px", width="300px"></td>
+      <td style="width: 100%;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/3064dfac-3bbe-4710-9b3d-3654cad41897", height="400px", width="300px"></td>
   </tr>
 </table>
 

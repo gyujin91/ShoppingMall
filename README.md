@@ -148,20 +148,29 @@ gradle build
   </tr>  
 </table>
 
-<br>
+<br><br>
 <table>
   <tr><th colspan="3">관리자</th></tr>
   <tr>
-    <th>메인 페이지</th>
-    <th>회원가입</th>
-    <th>로그인</th>
+    <th>관리자 패널</th>
+    <th>월별 판매량 및 매출표</th>
+    <th>총 주문 목록</th>
   </tr>
   <tr>
-      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/4fe22332-7474-47f0-a1ca-6f46af9c47c5", height="400px", width="300px"></td>
-      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/1d314141-c4bf-4e8b-96be-a3f2f53ceff5", height="400px", width="300px"></td>
-      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/d65f57bb-2a74-449c-afcf-c2439e232d14", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/6e6ea6b3-b2b7-464e-ae76-9c483b624635", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/245cc2ac-32bc-4338-9fd9-f674a9a1a4fb", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/68f2e7bb-f0e8-456a-9180-220ad97f8178", height="400px", width="300px"></td>
   </tr>
-  
+  <tr>
+    <th>관리자 리뷰 답글</th>
+    <th>총 상품 목록</th>
+    <th>관리자 상품 등록</th>
+  </tr>
+  <tr>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/5a850c22-b13e-4c3c-823b-dc0f973badcd", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/dc0e472e-7dc4-4ed6-872c-2135d2adf009", height="400px", width="300px"></td>
+      <td style="width: 100%; text-align: center;"><img src="https://github.com/gyujin91/ShoppingMall/assets/96001373/edbc4080-1f98-40e1-a7a7-fe97bff649c4", height="400px", width="300px"></td>
+  </tr>
     
 </table>
 

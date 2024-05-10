@@ -6,7 +6,8 @@
 ✔ 물건을 온라인으로 쉽게 살 수 있는 편리하고 사용자 친화적인 플랫폼을 제공하기 위해 설계된 웹 애플리케이션인 DAEBU ShoppingMall입니다. [Java/spring]로 구축되어 있으며 고객 및 관리자 모두에게 원활한 쇼핑 경험을 제공합니다.
 
 ### 배포 주소
-* aws EC2, RDS 배포
+✔ aws EC2, RDS 배포 <br>
+
 <a href="http://54.180.49.196:8080/myApp/" target="_blank">http://54.180.49.196:8080/myApp/</a>
 
 <br><br>

@@ -8,7 +8,7 @@
 ### 배포 주소
 ✔ aws EC2, RDS 배포 <br>
 
-<a href="http://54.180.49.196:8080/myApp/" target="_blank">http://54.180.49.196:8080/myApp/</a>
+<a href="http://daebu.o-r.kr:8080/myApp/" target="_blank">http://54.180.49.196:8080/myApp/</a>
 
 <br><br>
 ### 시작 가이드

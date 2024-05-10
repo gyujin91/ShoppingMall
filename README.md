@@ -10,6 +10,10 @@
 
 <a href="http://daebu.o-r.kr:8080/myApp/" target="_blank">http://54.180.49.196:8080/myApp/</a>
 
+<a href="http://daebu.o-r.kr:8080/myApp/" target="_blank">http://54.180.49.196:8080/myApp/</a>
+
+http://daebu.o-r.kr:8080/myApp/
+
 <br><br>
 ### 시작 가이드
 먼저 프로젝트를 클론합니다

@@ -9,6 +9,7 @@
 ✔ aws EC2, RDS 배포 <br>
 
 <a href="http://54.180.49.196:8080/myApp" target="_blank">http://daebu.o-r.kr:8080/myApp/</a>
+* 테스트 계정(ID:**test**, PW:**1111**), 관리자 계정(ID:**admin**, PW:**1111**)
 
 <br><br>
 ### 시작 가이드

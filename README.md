@@ -161,6 +161,8 @@ gradle build
 * PG사 결제 API 연동(테스트 모드) <br>
 * AWS SDK를 사용하여 파일을 S3 버킷을 통해 저장 및 관리 할 수 있도록 구현 <br>
 * 페이징 처리<br>
+* CI/CD 파이프라인 구축, jenkins로 빌드 자동화<br>
+
 <br>
 <hr>
 

@@ -10,6 +10,14 @@
  	<typeAliases>
  		<package name="com.shopping.myapp" />
  		<package name="com.shopping.*" />
+ 		<!-- <typeAlias type="com.shopping.dto.CartDTO" alias="CartDTO"/>
+ 		<typeAlias type="com.shopping.dto.CategoryDTO" alias="CategoryDTO"/>
+ 		<typeAlias type="com.shopping.dto.MemberDTO" alias="MemberDTO"/>
+ 		<typeAlias type="com.shopping.dto.NoticeDTO" alias="NoticeDTO"/>
+ 		<typeAlias type="com.shopping.dto.OrderDTO" alias="OrderDTO"/>
+ 		<typeAlias type="com.shopping.dto.PaymentDTO" alias="PaymentDTO"/>
+ 		<typeAlias type="com.shopping.dto.ProductDTO" alias="ProductDTO"/>
+ 		<typeAlias type="com.shopping.dto.ReviewDTO" alias="ReviewDTO"/> -->
  	</typeAliases>
  	
  </configuration>
